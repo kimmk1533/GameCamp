@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 최종 수정 09-26
+//오브젝트 풀링 스크립트.
+// 최종 수정 2021_01_05.
 public class MemoryPool : System.IDisposable
 {
     private Queue<GameObject> queue = new Queue<GameObject>();      // 생성한 오브젝트들을 담을 실제 풀
@@ -10,7 +11,7 @@ public class MemoryPool : System.IDisposable
     private int poolSize;               // 초기 풀 사이즈
     private Transform parent = null;    // 생성시 하이어아키 창에서 관리하기 쉽도록 parent 지정
 
-    public int preLoadedPoolSize = 1000;
+    public int preLoadedPoolSize = 10; //[2021_01_05] 1000 -> 10으로 수정(장르가 방탈출이라 사용하게 되더라도 많이 사용은 안할 것으로 추정해서 수정. 나중에 부족하면 100 정도로 수정하면 될듯).
 
     // 부모 지정을 하지 않고 생성하는 경우
     public MemoryPool(GameObject _original, int _poolSize)
@@ -61,7 +62,7 @@ public class MemoryPool : System.IDisposable
             queue.Enqueue(newItem);
         }
 
-        yield return new WaitForSeconds(0.1f);
+        yield return null;  //[2021_01_05] new WaitForSecond(0.1f) -> null로 수정.
     }
 
     // foreach 문을 위한 반복자

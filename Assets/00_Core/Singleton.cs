@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//싱글톤 스크립트.
 // https://202psj.tistory.com/1247 [알레폰드의 IT 이모저모]
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {

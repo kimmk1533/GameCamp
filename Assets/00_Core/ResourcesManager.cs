@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Resources 폴더 사용 시 스크립트.
+//(일단 Resources 폴더까진 사용 예정이 아니라 아직은 안쓰이지만 만약에 대비해 백업).
+
 [System.Serializable]
 public class ResourcesPath
 {

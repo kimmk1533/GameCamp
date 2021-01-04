@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//베지어 곡선 스크립트.
+
 [System.Serializable]
 public class BezierCurve
 {
