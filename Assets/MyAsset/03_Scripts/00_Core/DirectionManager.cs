@@ -15,11 +15,12 @@ public enum E_Direction
 
 public class DirectionManager : Singleton<DirectionManager>
 {
-    public E_Direction m_CurrentDir;
     public List<Image> m_DirImages;
+    public MyDictionary<E_Direction, Vector3> m_Positions = new MyDictionary<E_Direction, Vector3>();
 
     Camera m_Camera;
-    Dictionary<E_Direction, Vector3> m_Positions;
+    E_Direction m_CurrentDir;
+    //Dictionary<E_Direction, Vector3> m_Positions;
 
     public override void __Initialize()
     {
@@ -30,7 +31,8 @@ public class DirectionManager : Singleton<DirectionManager>
         m_CurrentDir = E_Direction.North;
 
         // 방향에 따른 위치들
-        m_Positions = new Dictionary<E_Direction, Vector3>();
+        m_Positions = new MyDictionary<E_Direction, Vector3>();
+        //m_Positions = new Dictionary<E_Direction, Vector3>();
 
         m_Positions.Add(E_Direction.North, new Vector3(-30f, 0f, -50f));
         m_Positions.Add(E_Direction.East, new Vector3(-10f, 0f, -50f));
