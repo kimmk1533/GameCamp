@@ -1,29 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class obj_click : MonoBehaviour
+public class Selectkeyhome : MonoBehaviour
 {
-
+    // Start is called before the first frame update
     GameObject target;
     [SerializeField]
-    Canvas UIcanvas=null;
+    GameObject item = null;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             CastRay();
         }
     }
-     
+
     void CastRay()
     {
         target = null;
@@ -34,13 +33,11 @@ public class obj_click : MonoBehaviour
         {
             target = hit.collider.gameObject;
             Debug.Log(this.gameObject.name);
-            UIcanvas.gameObject.SetActive(true);
+            item.SetActive(true);
         }
         else
         {
-            UIcanvas.gameObject.SetActive(false);
+            item.SetActive(false);
         }
     }
-
-
 }
