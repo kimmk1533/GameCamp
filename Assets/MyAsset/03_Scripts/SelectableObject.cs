@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectableObject : MonoBehaviour
 {
-    public Vector2 m_Position;
+    public Vector3 m_Position;
 
     Vector3 m_Pos;
     Camera m_Camera;
@@ -18,7 +18,7 @@ public class SelectableObject : MonoBehaviour
     {
         m_Camera = Camera.main;
         m_Pos = m_Position;
-        m_Pos.z = m_Camera.transform.position.z;
+        m_Pos.z += m_Camera.transform.position.z;
     }
 
     private void OnMouseUp()

@@ -16,28 +16,22 @@ public enum E_Direction
 public class DirectionManager : Singleton<DirectionManager>
 {
     public List<Image> m_DirImages;
-    public MyDictionary<E_Direction, Vector3> m_Positions = new MyDictionary<E_Direction, Vector3>();
+    public MyDictionary<E_Direction, Vector3> m_Positions;
 
     Camera m_Camera;
+    float m_StartZ;
     E_Direction m_CurrentDir;
-    //Dictionary<E_Direction, Vector3> m_Positions;
 
     public override void __Initialize()
     {
         // 이동시킬 카메라
         m_Camera = Camera.main;
 
+        // 카메라 초기 z값
+        m_StartZ = m_Camera.transform.position.z;
+
         // 현재 방향
         m_CurrentDir = E_Direction.North;
-
-        // 방향에 따른 위치들
-        m_Positions = new MyDictionary<E_Direction, Vector3>();
-        //m_Positions = new Dictionary<E_Direction, Vector3>();
-
-        m_Positions.Add(E_Direction.North, new Vector3(-30f, 0f, -50f));
-        m_Positions.Add(E_Direction.East, new Vector3(-10f, 0f, -50f));
-        m_Positions.Add(E_Direction.South, new Vector3(10f, 0f, -50f));
-        m_Positions.Add(E_Direction.West, new Vector3(30f, 0f, -50f));
 
         // 카메라 이동
         CameraMove();
@@ -45,7 +39,9 @@ public class DirectionManager : Singleton<DirectionManager>
 
     public void CameraMove()
     {
-        m_Camera.transform.position = m_Positions[m_CurrentDir];
+        Vector3 temp = m_Positions[m_CurrentDir];
+        temp.z += m_StartZ;
+        m_Camera.transform.position = temp;
         Debug.Log(m_CurrentDir);
     }
     public void TurnRight()

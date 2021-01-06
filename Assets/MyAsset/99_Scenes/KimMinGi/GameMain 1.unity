@@ -2746,7 +2746,15 @@ MonoBehaviour:
   - {fileID: 1411454689}
   - {fileID: 755804075}
   m_Positions:
-    m_Dictionary: []
+    m_Dictionary:
+    - key: 0
+      value: {x: -30, y: 0, z: 0}
+    - key: 1
+      value: {x: -10, y: 0, z: 0}
+    - key: 2
+      value: {x: 10, y: 0, z: 0}
+    - key: 3
+      value: {x: 30, y: 0, z: 0}
 --- !u!4 &1420126261
 Transform:
   m_ObjectHideFlags: 0
@@ -2805,7 +2813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56dfcaf22a6d47498b1e5ad0232432a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Position: {x: -30, y: -30}
+  m_Position: {x: -30, y: -30, z: 0}
 --- !u!61 &1437001837
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3125,7 +3133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56dfcaf22a6d47498b1e5ad0232432a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Position: {x: -10, y: -15}
+  m_Position: {x: -10, y: -15, z: 0}
 --- !u!61 &1803707334
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3384,7 +3392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a56dfcaf22a6d47498b1e5ad0232432a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Position: {x: -30, y: -15}
+  m_Position: {x: -30, y: -15, z: 0}
 --- !u!61 &1928657011
 BoxCollider2D:
   m_ObjectHideFlags: 0

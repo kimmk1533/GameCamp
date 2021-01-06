@@ -13,6 +13,7 @@ public class MyDictionary<TKey, TValue>
     [System.Serializable]
     public class MyData
     {
+        // 추후 이미 있는 키 값은 못넣게 수정해야함
         [ReadOnly(true)]
         public TKey key;
         public TValue value;
@@ -100,7 +101,7 @@ public class MyDictionary<TKey, TValue>
         return false;
     }
 
-    // try, catch, throw 추후 공부해서 수정
+    // try, catch, throw 공부해서 수정
     private bool CheckKey(TKey key)
     {
         foreach (var item in m_Dictionary)
