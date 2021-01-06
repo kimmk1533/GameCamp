@@ -9,11 +9,6 @@ public class obj_click : MonoBehaviour
     GameObject target;
     [SerializeField]
     GameObject boad = null;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

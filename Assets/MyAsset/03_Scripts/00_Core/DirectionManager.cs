@@ -64,7 +64,7 @@ public class DirectionManager : Singleton<DirectionManager>
             Vector2 itemPos = item.transform.position;
 
             Color temp = item.color;
-            temp.a = 1 - Mathf.Clamp01(Vector2.Distance(itemPos, mousePos));
+            temp.a = 1 - Mathf.Clamp01(Vector2.Distance(itemPos, mousePos)) * 0.5f;
             item.color = temp;
         }
     }

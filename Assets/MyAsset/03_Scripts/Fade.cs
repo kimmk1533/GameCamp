@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Fade : MonoBehaviour
 {
-    DirectionManager m_Direction;
-    Animator m_Animator;
-    bool m_IsFade;
+    static Animator m_Animator;
+    static bool m_IsFade;
+
+    DirectionManager M_Direction;
 
     public void Awake()
     {
@@ -14,7 +15,7 @@ public class Fade : MonoBehaviour
     }
     public void __Initialize()
     {
-        m_Direction = DirectionManager.Instance;
+        M_Direction = DirectionManager.Instance;
         m_Animator = GetComponent<Animator>();
         m_IsFade = false;
 
@@ -22,15 +23,11 @@ public class Fade : MonoBehaviour
         RightButtonClick += TurnRight;
     }
 
-    public void CameraMove()
-    {
-        m_Direction.CameraMove();
-    }
+    public delegate void Default();
 
-    public delegate void ButtonClick();
-
-    public ButtonClick LeftButtonClick;
-    public ButtonClick RightButtonClick;
+    public static Default LeftButtonClick;
+    public static Default RightButtonClick;
+    public static Default MoveCamera;
 
     void FadeStart()
     {
@@ -39,29 +36,51 @@ public class Fade : MonoBehaviour
     void FadeEnd()
     {
         m_IsFade = false;
+        MoveCamera = null;
     }
+
     void TurnLeft()
     {
-        m_Direction.TurnLeft();
-        m_Animator.SetTrigger("Fade");
+        M_Direction.TurnLeft();
+        DoFade();
     }
     void TurnRight()
     {
-        m_Direction.TurnRight();
-        m_Animator.SetTrigger("Fade");
+        M_Direction.TurnRight();
+        DoFade();
     }
-    public void OnLeftButtonClick()
+    void DirectionCameraMove()
     {
-        if (!m_IsFade)
+        M_Direction.CameraMove();
+    }
+
+    public void DoLeftButtonClick()
+    {
+        if (CanFade())
         {
+            MoveCamera += DirectionCameraMove; 
             LeftButtonClick?.Invoke();
         }
     }
-    public void OnRightButtonClick()
+    public void DoRightButtonClick()
     {
-        if (!m_IsFade)
+        if (CanFade())
         {
+            MoveCamera += DirectionCameraMove;
             RightButtonClick?.Invoke();
         }
+    }
+    public void DoCameraMove()
+    {
+        MoveCamera?.Invoke();
+    }
+
+    public static bool CanFade()
+    {
+        return !m_IsFade;
+    }
+    public static void DoFade()
+    {
+        m_Animator.SetTrigger("Fade");
     }
 }
