@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - close up
+  - InventorySlot
   layers:
   - Default
   - TransparentFX
@@ -39,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BackGround
+    uniqueID: 1665080917
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

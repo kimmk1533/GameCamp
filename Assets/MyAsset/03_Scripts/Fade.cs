@@ -27,7 +27,7 @@ public class Fade : MonoBehaviour
 
     public static Default LeftButtonClick;
     public static Default RightButtonClick;
-    public static Default MoveCamera;
+    public static Default FadeAction;
 
     void FadeStart()
     {
@@ -36,7 +36,7 @@ public class Fade : MonoBehaviour
     void FadeEnd()
     {
         m_IsFade = false;
-        MoveCamera = null;
+        FadeAction = null;
     }
 
     void TurnLeft()
@@ -58,7 +58,7 @@ public class Fade : MonoBehaviour
     {
         if (CanFade())
         {
-            MoveCamera += DirectionCameraMove; 
+            FadeAction += DirectionCameraMove; 
             LeftButtonClick?.Invoke();
         }
     }
@@ -66,13 +66,13 @@ public class Fade : MonoBehaviour
     {
         if (CanFade())
         {
-            MoveCamera += DirectionCameraMove;
+            FadeAction += DirectionCameraMove;
             RightButtonClick?.Invoke();
         }
     }
     public void DoCameraMove()
     {
-        MoveCamera?.Invoke();
+        FadeAction?.Invoke();
     }
 
     public static bool CanFade()
