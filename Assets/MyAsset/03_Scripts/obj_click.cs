@@ -8,7 +8,7 @@ public class obj_click : MonoBehaviour
 
     GameObject target;
     [SerializeField]
-    GameObject boad = null;
+    Canvas UIcanvas=null;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +23,7 @@ public class obj_click : MonoBehaviour
             CastRay();
         }
     }
-
+     
     void CastRay()
     {
         target = null;
@@ -34,11 +34,11 @@ public class obj_click : MonoBehaviour
         {
             target = hit.collider.gameObject;
             Debug.Log(this.gameObject.name);
-            boad.SetActive(true);
+            UIcanvas.gameObject.SetActive(true);
         }
         else
         {
-            boad.SetActive(false);
+            UIcanvas.gameObject.SetActive(false);
         }
     }
 
