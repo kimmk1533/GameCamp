@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2711485484101117939}
   - component: {fileID: 2711485484101117937}
-  - component: {fileID: 2711485484101117936}
   m_Layer: 0
   m_Name: obj_spr
   m_TagString: Untagged
@@ -71,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: -1
   m_Sprite: {fileID: 2208950624982138017, guid: a823df89c13fb0842a2f195838944f89, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -83,40 +82,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2711485484101117936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2711485484101117938}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 00000000
-  m_ShapePath:
-  - {x: -0.5, y: 0.06261909, z: -0.86602545}
-  - {x: -0.43160534, y: -0.0022177696, z: 0}
-  - {x: -0.30575657, y: -0.0022177696, z: 0}
-  - {x: -0.24822521, y: 0.06789839, z: 0}
-  - {x: -0.2446289, y: 0.25307715, z: 0}
-  - {x: 0.24798203, y: 0.25127923, z: 0}
-  - {x: 0.25157738, y: 0.06250489, z: 0}
-  - {x: 0.3306837, y: -0.004015565, z: 0}
-  - {x: 0.44215012, y: -0.004015565, z: 0}
-  - {x: 0.5, y: 0.06261909, z: -0.86602545}
-  - {x: 0.5046272, y: 1.0038357, z: -0.86602545}
-  - {x: -0.4964037, y: 1.0021038, z: -0.86602545}
-  m_ShapePathHash: -842098635
-  m_Mesh: {fileID: 0}
-  m_InstanceId: -52382
 --- !u!1 &2711485484104795295
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +126,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.5}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
