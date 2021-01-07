@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDB : Singleton<GameManager>
+public class ItemDB : Singleton<ItemDB>
 {
     public static ItemDB inst;
     public List<Item> itemDB = new List<Item>();

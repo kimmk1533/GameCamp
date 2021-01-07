@@ -74,7 +74,7 @@ public class MouseManager : Singleton<MouseManager>
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-        Vector3 cameraPos = GameManager.Instance.maincamera.transform.position; //카메라 좌표 변환.
+        Vector3 cameraPos = Camera.main.transform.position; //카메라 좌표 변환.
         if (hit.collider != null)   //콜라이더 충돌 시.
         {
             beingHit_obj = hit.collider.gameObject;
