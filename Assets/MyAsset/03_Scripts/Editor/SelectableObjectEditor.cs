@@ -2,31 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
 
 [CustomEditor(typeof(SelectableObject))]
 public class SelectableObjectEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        SelectableObject obj = (SelectableObject)target;
+        SelectableObject obj = target as SelectableObject;
 
-        obj.m_Type = (SelectableObject.E_Type)EditorGUILayout.EnumPopup("클릭됐을 때 할 행동", obj.m_Type);
+        obj.m_Enable = EditorGUILayout.Toggle("활성화", obj.m_Enable);
 
-        switch (obj.m_Type)
+        if (!obj.m_Enable)
+            return;
+
+        GUILayout.Space(5f);
+        obj.m_Type = (E_SelectableObjectType)EditorGUILayout.EnumFlagsField("클릭됐을 때 할 행동", obj.m_Type);
+
+        if (obj.m_Type == 0)
+            return;
+
+        if (obj.m_Type.HasFlag(E_SelectableObjectType.SetActive))
         {
-            case SelectableObject.E_Type.None:
-                break;
-            case SelectableObject.E_Type.SetActive:
-                GUILayout.Space(10f);
-                obj.m_Active = EditorGUILayout.Toggle("변경 할 상태", obj.m_Active);
-                GUILayout.Space(10f);
-                GUILayout.Label("[ 아무 값도 안넣을 경우 자기 자신 ]");
-                obj.m_Object = (GameObject)EditorGUILayout.ObjectField("변경 할 오브젝트", obj.m_Object, typeof(GameObject) , true);
-                break;
-            case SelectableObject.E_Type.MoveCamera:
-                GUILayout.Space(10f);
-                obj.m_Position = EditorGUILayout.Vector3Field("이동할 위치", obj.m_Position);
-                break;
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+            obj.m_Active = EditorGUILayout.Toggle("변경 할 상태", obj.m_Active);
+
+            GUILayout.Space(5f);
+            GUILayout.Label("[ 아무 값도 안넣을 경우 자기 자신 ]");
+            obj.m_Object = (GameObject)EditorGUILayout.ObjectField("변경 할 오브젝트", obj.m_Object, typeof(GameObject), true);
+        }
+        if (obj.m_Type.HasFlag(E_SelectableObjectType.MoveCamera))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+            obj.m_Position = EditorGUILayout.Vector3Field("이동할 위치", obj.m_Position);
+        }
+        if (obj.m_Type.HasFlag(E_SelectableObjectType.ChangeImage))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+            obj.m_IsOnce = EditorGUILayout.Toggle("한 번만 실행?", obj.m_IsOnce);
+
+            GUILayout.Space(5f);
+            obj.m_Image = (Sprite)EditorGUILayout.ObjectField("변경 될 이미지", obj.m_Image, typeof(Sprite), true);
+
+            GUILayout.Space(5f);
+            GUILayout.Label("[ 아무 값도 안넣을 경우 자기 자신 ]");
+            obj.m_Renderer = (SpriteRenderer)EditorGUILayout.ObjectField("변경 할 렌더러", obj.m_Renderer, typeof(SpriteRenderer), true);
         }
     }
 }
