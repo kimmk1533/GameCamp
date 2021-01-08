@@ -90,6 +90,7 @@ public class MouseManager : Singleton<MouseManager>
         //pc 마우스 기준.
         if (Input.GetMouseButtonDown(0))
         {
+            InventoryManager.Instance.MouseExitSlot();
             if (Raycast2DHitObj().collider != null)
             {
                 Instance.SetState(Mouse_State.MOUSE_DOWN);
