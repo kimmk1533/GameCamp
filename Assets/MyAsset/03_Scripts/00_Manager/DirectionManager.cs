@@ -58,7 +58,7 @@ public class DirectionManager : Singleton<DirectionManager>
 
     public void CameraMoveToDir()
     {
-        m_Camera.transform.position = m_StandardPos[GameManager.Instance.m_CurrentStage] + m_Positions[m_CurrentDir] + m_StandardVector;
+        m_Camera.transform.position = m_StandardPos[__GameManager.Instance.m_CurrentStage] + m_Positions[m_CurrentDir] + m_StandardVector;
     }
     public void TurnRight()
     {

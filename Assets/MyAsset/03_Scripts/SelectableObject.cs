@@ -53,7 +53,6 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
     #region ChangeSprite
     public bool m_IsOnce;
-    private bool m_Toggle;
     public Sprite m_Image;
     public SpriteRenderer m_Renderer;
     #endregion
@@ -141,18 +140,25 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     {
         if (m_Enable)
         {
+            Action();
+
             if (m_IsOnce)
             {
-                if (!m_Toggle)
-                {
-                    m_Toggle = true;
-                    Action();
-                }
+                gameObject.SetActive(false);
             }
-            else
-            {
-                Action();
-            }
+
+            //if (m_IsOnce)
+            //{
+            //    if (!m_Toggle)
+            //    {
+            //        m_Toggle = true;
+            //        Action();
+            //    }
+            //}
+            //else
+            //{
+            //    Action();
+            //}
         }
     }
     void Action()
@@ -253,6 +259,6 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     // 다음 스테이지로 넘어가는 함수
     public void NextStage()
     {
-        ++GameManager.Instance.m_CurrentStage;
+        ++__GameManager.Instance.m_CurrentStage;
     }
 }

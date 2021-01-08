@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : Singleton<GameManager>
+public class __GameManager : Singleton<__GameManager>
 {
     public int m_CurrentStage = 0;
 

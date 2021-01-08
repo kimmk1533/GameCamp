@@ -84,6 +84,11 @@ public class SelectableObjectEditor : Editor
             SerializedProperty m_Actives = this.serializedObject.FindProperty("m_Actives");
             SerializedProperty m_Objects = this.serializedObject.FindProperty("m_Objects");
 
+            ++EditorGUI.indentLevel;
+            GUILayout.Label("[ m_Actives랑 m_Objects 크기 일치해야함 ]");
+            GUILayout.Label("[ 첫 번째 오브젝트는 null값일 시 자기 자신이 됨 ]");
+            --EditorGUI.indentLevel;
+
             EditorGUILayout.PropertyField(m_Actives, true);
             EditorGUILayout.PropertyField(m_Objects, true);
 
