@@ -118,7 +118,9 @@ public class SelectableObjectEditor : Editor
                 GUILayout.Label("======================================");
                 GUILayout.Space(5f);
 
-                obj.m_Position = EditorGUILayout.Vector3Field("이동할 위치", obj.m_Position);
+                EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_Position"), new GUIContent("이동할 위치"));
+
+                //obj.m_Position = EditorGUILayout.Vector3Field("이동할 위치", obj.m_Position);
             }
         }
         if (obj.m_Type.HasFlag(E_SelectableObjectActionType.ChangeImage))
