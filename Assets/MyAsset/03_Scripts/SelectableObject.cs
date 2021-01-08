@@ -1,37 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
+public enum E_FadeType
+{
+    NoneFade,
+    Fade,
+}
 
 [System.Flags]
-public enum E_SelectableObjectType
+public enum E_SelectableObjectActionType
 {
     SetActive = 1 << 0,
     MoveCamera = 1 << 1,
     ChangeImage = 1 << 2,
 }
 
-[RequireComponent(typeof(Collider2D))]
-public class SelectableObject : MonoBehaviour
+public class SelectableObject : MonoBehaviour, IPointerClickHandler
 {
+    // 스크립트 활성화 여부
     public bool m_Enable;
 
-    public E_SelectableObjectType m_Type;
+    #region 클릭됐을 때 할 행동
 
-    // SetActive
-    public GameObject m_Object;
+    // Type
+    public E_FadeType m_FadeType;
+    public E_SelectableObjectActionType m_Type;
+
+    #region SetActive
     public bool m_Active;
+    public GameObject m_Object;
+    #endregion
 
-    // MoveCamera
+    #region MoveCamera
+    // 화살표 표시 여부
+    public bool m_LeftActive;
+    public bool m_RightActive;
+    public bool m_UpActive;
+    public bool m_DownActive;
+
+    // 현재 방향으로 이동
+    public bool m_DirectionMove;
+    // 이전 위치로 이동
+    public bool m_LastActive;
+    // 이동할 위치
     public Vector3 m_Position;
+    // 이전 위치
+    static Vector3 m_LastPos;
+    #endregion
 
-    // ChangeSprite
+    #region ChangeSprite
     public bool m_IsOnce;
     private bool m_Toggle;
     public Sprite m_Image;
     public SpriteRenderer m_Renderer;
+    #endregion
+
+    #endregion
 
     Vector3 m_Pos;
     Camera m_Camera;
+
+    DirectionManager M_Direction;
 
     private void Awake()
     {
@@ -50,8 +81,11 @@ public class SelectableObject : MonoBehaviour
         m_Camera = Camera.main;
         m_Pos = m_Position;
         m_Pos.z += m_Camera.transform.position.z;
+
+        M_Direction = DirectionManager.Instance;
     }
 
+    // 일반 오브젝트
     private void OnMouseUp()
     {
         if (m_Enable)
@@ -70,29 +104,93 @@ public class SelectableObject : MonoBehaviour
             }
         }
     }
+    // UI 오브젝트
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (m_Enable)
+        {
+            if (m_IsOnce)
+            {
+                if (!m_Toggle)
+                {
+                    m_Toggle = true;
+                    DoAction();
+                }
+            }
+            else
+            {
+                DoAction();
+            }
+        }
+    }
+
+    public void TurnLeft()
+    {
+        M_Direction.TurnLeft();
+        Fade.FadeAction += M_Direction.CameraMoveToDir;
+    }
+    public void TurnRight()
+    {
+        M_Direction.TurnRight();
+        Fade.FadeAction += M_Direction.CameraMoveToDir;
+    }
+    public void TurnBack()
+    {
+        m_Pos = m_LastPos;
+    }
 
     void DoAction()
     {
-        if (Fade.CanFade())
+        if (m_FadeType == E_FadeType.NoneFade)
         {
             switch (m_Type)
             {
                 default:
                     return;
 
-                case E_SelectableObjectType.SetActive:
-                    Fade.FadeAction += SetActive;
+                case E_SelectableObjectActionType.SetActive:
+                    SetActive();
                     break;
-                case E_SelectableObjectType.MoveCamera:
-                    Fade.FadeAction += CameraMove;
+                case E_SelectableObjectActionType.MoveCamera:
+                    CameraMove();
+                    UpdateActive();
                     break;
-                case E_SelectableObjectType.ChangeImage:
-                    Fade.FadeAction += ChangeImage;
+                case E_SelectableObjectActionType.ChangeImage:
+                    ChangeImage();
                     break;
             }
-
-            Fade.DoFade();
         }
+        else if (m_FadeType == E_FadeType.Fade)
+        {
+            if (Fade.CanFade())
+            {
+                switch (m_Type)
+                {
+                    default:
+                        return;
+
+                    case E_SelectableObjectActionType.SetActive:
+                        Fade.FadeAction += SetActive;
+                        break;
+                    case E_SelectableObjectActionType.MoveCamera:
+                        Fade.FadeAction += CameraMove;
+                        UpdateActive();
+                        break;
+                    case E_SelectableObjectActionType.ChangeImage:
+                        Fade.FadeAction += ChangeImage;
+                        break;
+                }
+
+                Fade.DoFade();
+            }
+        }
+    }
+    void UpdateActive()
+    {
+        M_Direction.m_LeftImage.gameObject.SetActive(m_LeftActive);
+        M_Direction.m_RightImage.gameObject.SetActive(m_RightActive);
+        M_Direction.m_UpImage.gameObject.SetActive(m_UpActive);
+        M_Direction.m_DownImage.gameObject.SetActive(m_DownActive);
     }
 
     void SetActive()
@@ -101,6 +199,15 @@ public class SelectableObject : MonoBehaviour
     }
     void CameraMove()
     {
+        if (m_LastActive)
+        {
+            m_Pos = m_LastPos;
+        }
+        else
+        {
+            m_LastPos = m_Camera.transform.position;
+        }
+
         m_Camera.transform.position = m_Pos;
     }
     void ChangeImage()

@@ -51,14 +51,14 @@ public class Fade : MonoBehaviour
     }
     void DirectionCameraMove()
     {
-        M_Direction.CameraMove();
+        M_Direction.CameraMoveToDir();
     }
 
     public void DoLeftButtonClick()
     {
         if (CanFade())
         {
-            FadeAction += DirectionCameraMove; 
+            FadeAction += DirectionCameraMove;
             LeftButtonClick?.Invoke();
         }
     }
