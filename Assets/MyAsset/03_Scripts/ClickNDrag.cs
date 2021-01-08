@@ -37,19 +37,16 @@ public class ClickNDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         copydragslot_img = _img;
     }
 
-    //public void OnMouseEnter()  //마우스가 위에 있을 시.
-    //{
-    //    InventoryManager.Instance.MouseEnterSlot(this.transform.parent.gameObject);
-    //}
-
-    //public void OnMouseOver()   //마우스가 위에서 벗어날 시.
-    //{
-    //    InventoryManager.Instance.MouseOverSlot(this.transform.parent.gameObject);
-    //}
-
-    public void OnMouseDown()
+    public void OnMouseOver()  //마우스가 위에 있을 시(실시간).
     {
-        
+        if (MouseManager.Instance.GetState() == Mouse_State.NULL)
+            InventoryManager.Instance.MouseOverSlot(this.transform.parent.gameObject);
+    }
+
+    public void OnMouseExit()   //마우스가 위에서 벗어날 시.
+    {
+        if (MouseManager.Instance.GetState() == Mouse_State.NULL)
+            InventoryManager.Instance.MouseExitSlot();
     }
 
     public void OnBeginDrag(PointerEventData eventData) //드래그 직전 함수.

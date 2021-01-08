@@ -18,6 +18,8 @@ public class InventoryManager : Singleton<InventoryManager>
     int slot_max = 0;
     int slot_size = 0;
 
+    public Transform ItemAddWindow; //아이템 설명 창.
+
     public override void __Initialize()
     {
         InitializeSettingSlot();
@@ -54,23 +56,25 @@ public class InventoryManager : Singleton<InventoryManager>
         inventory_state = before_state; //Moving State 해제.
     }
 
-    public void MouseEnterSlot(GameObject _hit)
-    {
-        int hit_index = _hit.transform.GetChild(0).GetComponent<ClickNDrag>().GetThisSlotIndex();
-        GetSlotItem(hit_index).LoadingItemToIndex();
-
-        if (hit_index != 0)
-        {
-            TextMeshPro hit_nametmp = _hit.transform.GetChild(1).GetChild(0).GetComponent<TextMeshPro>();
-            TextMeshPro hit_addtmp = _hit.transform.GetChild(1).GetChild(1).GetComponent<TextMeshPro>();
-            hit_nametmp.text = GetSlotItem(hit_index).name;
-            hit_addtmp.text = GetSlotItem(hit_index).add;
-            _hit.transform.GetChild(1).gameObject.SetActive(true);
-        }
-    }
     public void MouseOverSlot(GameObject _hit)
     {
-        _hit.transform.GetChild(1).gameObject.SetActive(false);
+        int hit_index = _hit.transform.GetChild(0).GetComponent<ClickNDrag>().GetThisSlotIndex();
+        
+        if (GetSlotItem(hit_index).index != 0)
+        {
+            RenewalItemLst();
+            Instance.ItemAddWindow.position = _hit.transform.GetChild(0).position;
+            TextMeshProUGUI hit_nametmp = Instance.ItemAddWindow.GetChild(0).GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI hit_addtmp = Instance.ItemAddWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
+            hit_nametmp.text = GetSlotItem(hit_index).name;
+            hit_addtmp.text = GetSlotItem(hit_index).add;
+            Instance.ItemAddWindow.gameObject.SetActive(true);
+        }
+    }
+    public void MouseExitSlot()
+    {
+        Instance.ItemAddWindow.position = Vector2.one * -9999;  //TextMeshPro가 Raycast Target 대상이라 마우스 조작에 방해되는데 켜고 끌 수가 없어서 좌표 값을 멀리 보내버림.
+        Instance.ItemAddWindow.gameObject.SetActive(false);
     }
 
     public void InventoryOpenButton()   //인벤토리 열기/닫기 버튼 클릭 시.
