@@ -21,6 +21,13 @@ public class SelectableObjectEditor : Editor
         GUILayout.Space(5f);
         obj.m_Type = (E_SelectableObjectActionType)EditorGUILayout.EnumFlagsField("클릭됐을 때 할 행동", obj.m_Type);
 
+        GUILayout.Space(5f);
+        this.serializedObject.Update();
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_StartEvent"), true);
+        GUILayout.Space(5f);
+        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_EndEvent"), true);
+        this.serializedObject.ApplyModifiedProperties();
+
         if (obj.m_Type == 0)
             return;
 

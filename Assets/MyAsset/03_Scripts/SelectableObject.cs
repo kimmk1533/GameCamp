@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public enum E_FadeType
@@ -59,6 +60,9 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
     #endregion
 
+    public UnityEvent m_StartEvent;
+    public UnityEvent m_EndEvent;
+
     Vector3 m_Pos;
     Camera m_Camera;
 
@@ -88,102 +92,121 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     // 일반 오브젝트
     private void OnMouseUp()
     {
-        if (m_Enable)
-        {
-            if (m_IsOnce)
-            {
-                if (!m_Toggle)
-                {
-                    m_Toggle = true;
-                    DoAction();
-                }
-            }
-            else
-            {
-                DoAction();
-            }
-        }
+        DoAction();
     }
     // UI 오브젝트
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (m_Enable)
-        {
-            if (m_IsOnce)
-            {
-                if (!m_Toggle)
-                {
-                    m_Toggle = true;
-                    DoAction();
-                }
-            }
-            else
-            {
-                DoAction();
-            }
-        }
+        DoAction();
     }
 
     public void TurnLeft()
     {
         M_Direction.TurnLeft();
-        Fade.FadeAction += M_Direction.CameraMoveToDir;
+
+        if (m_FadeType == E_FadeType.Fade)
+        {
+            Fade.FadeAction += M_Direction.CameraMoveToDir;
+        }
+        else if (m_FadeType == E_FadeType.NoneFade)
+        {
+            M_Direction.CameraMoveToDir();
+        }
     }
     public void TurnRight()
     {
         M_Direction.TurnRight();
-        Fade.FadeAction += M_Direction.CameraMoveToDir;
+
+        if (m_FadeType == E_FadeType.Fade)
+        {
+            Fade.FadeAction += M_Direction.CameraMoveToDir;
+        }
+        else if (m_FadeType == E_FadeType.NoneFade)
+        {
+            M_Direction.CameraMoveToDir();
+        }
     }
     public void TurnBack()
     {
         m_Pos = m_LastPos;
     }
 
-    void DoAction()
+    public void DoAction()
+    {
+        if (m_Enable)
+        {
+            if (m_IsOnce)
+            {
+                if (!m_Toggle)
+                {
+                    m_Toggle = true;
+                    Action();
+                }
+            }
+            else
+            {
+                Action();
+            }
+        }
+    }
+    void Action()
     {
         if (m_FadeType == E_FadeType.NoneFade)
         {
-            switch (m_Type)
-            {
-                default:
-                    return;
+            m_StartEvent?.Invoke();
 
-                case E_SelectableObjectActionType.SetActive:
-                    SetActive();
-                    break;
-                case E_SelectableObjectActionType.MoveCamera:
+            if (m_Type.HasFlag(E_SelectableObjectActionType.SetActive))
+            {
+                SetActive();
+            }
+            if (m_Type.HasFlag(E_SelectableObjectActionType.MoveCamera))
+            {
+                if (!m_DirectionMove)
+                {
                     CameraMove();
-                    UpdateActive();
-                    break;
-                case E_SelectableObjectActionType.ChangeImage:
-                    ChangeImage();
-                    break;
+                }
+                UpdateActive();
+            }
+            if (m_Type.HasFlag(E_SelectableObjectActionType.ChangeImage))
+            {
+                ChangeImage();
             }
         }
         else if (m_FadeType == E_FadeType.Fade)
         {
             if (Fade.CanFade())
             {
-                switch (m_Type)
-                {
-                    default:
-                        return;
+                m_StartEvent?.Invoke();
 
-                    case E_SelectableObjectActionType.SetActive:
-                        Fade.FadeAction += SetActive;
-                        break;
-                    case E_SelectableObjectActionType.MoveCamera:
+                if (m_Type.HasFlag(E_SelectableObjectActionType.SetActive))
+                {
+                    Fade.FadeAction += SetActive;
+                }
+                if (m_Type.HasFlag(E_SelectableObjectActionType.MoveCamera))
+                {
+                    TurnOffImage();
+                    Fade.FadeAction += UpdateActive;
+                    if (!m_DirectionMove)
+                    {
                         Fade.FadeAction += CameraMove;
-                        UpdateActive();
-                        break;
-                    case E_SelectableObjectActionType.ChangeImage:
-                        Fade.FadeAction += ChangeImage;
-                        break;
+                    }
+                }
+                if (m_Type.HasFlag(E_SelectableObjectActionType.ChangeImage))
+                {
+                    Fade.FadeAction += ChangeImage;
                 }
 
                 Fade.DoFade();
             }
         }
+    }
+
+    void TurnOffImage()
+    {
+        M_Direction.m_LeftImage.gameObject.SetActive(false);
+        M_Direction.m_RightImage.gameObject.SetActive(false);
+        M_Direction.m_UpImage.gameObject.SetActive(false);
+        M_Direction.m_DownImage.gameObject.SetActive(false);
     }
     void UpdateActive()
     {
@@ -202,6 +225,10 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
         if (m_LastActive)
         {
             m_Pos = m_LastPos;
+        }
+        else if (m_DirectionMove)
+        {
+
         }
         else
         {
