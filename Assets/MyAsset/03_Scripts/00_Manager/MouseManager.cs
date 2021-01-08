@@ -148,7 +148,11 @@ public class MouseManager : Singleton<MouseManager>
     void MouseUpEvent() //UI든 오브젝트든 상관없이 동일하게 실행 시 이용하는 함수.
     {
         //여기서 조진서가 만든 박스콜라이더 2d충돌 이벤트를 체크해 실행할 예정.
-        Debug.Log("UI나 오브젝트 클릭");
+
+       
+
+
+        Debug.Log("이벤트");
         Instance.state = Mouse_State.NULL;
     }
 
@@ -156,7 +160,53 @@ public class MouseManager : Singleton<MouseManager>
     //클릭 이후 이벤트 함수.
     void ObjectClickUp()  //오브젝트 마우스 업의 경우 실행되는 이벤트 관련은 여기 작성.
     {
-        Debug.Log("오브젝트 클릭 업");
+
+        if (Instance.beingHit_obj != null)
+        {
+            if (Instance.beingHit_obj.tag == "only sound")
+            {
+                AudioSource audio = Instance.beingHit_obj.GetComponent<AudioSource>();
+                audio.Play();
+            }
+
+            else if (Instance.beingHit_obj.tag == "Item")
+            {
+                if (Instance.beingHit_obj.name == "Selectable(Matches)")
+                {
+                    InventoryManager.Instance.PushSlotItem(2);
+                }
+                else if (Instance.beingHit_obj.name == "Selectable(Key)")
+                {
+                    InventoryManager.Instance.PushSlotItem(3);
+                    StageManager.Instance.stage_zero.havekey = true;
+                  
+                }
+            }
+
+            else if (Instance.beingHit_obj.tag == "term sound")
+            {
+                switch(Instance.beingHit_obj.name)
+                {
+                    case "Selectable":
+                        Instance.beingHit_obj.GetComponent<SelectableObject>().m_Enable = StageManager.Instance.stage_zero.havekey;
+                        
+                        if (Instance.beingHit_obj.GetComponent<SelectableObject>().m_Enable == true)
+                        {
+                            InventoryManager.Instance.PullSlotItem(3);
+                            AudioSource audio = Instance.beingHit_obj.GetComponent<AudioSource>();
+                            audio.Play();
+                            SelectableObject fade= Instance.beingHit_obj.GetComponent<SelectableObject>();
+                            fade.DoAction();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }    
+                
+            }
+        }
+        Debug.Log(Instance.beingHit_obj.name);
     }
     public void UIClickUp()
     {

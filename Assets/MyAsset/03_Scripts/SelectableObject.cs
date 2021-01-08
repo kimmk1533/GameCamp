@@ -30,6 +30,7 @@ public class SelectableObject : MonoBehaviour
     public Sprite m_Image;
     public SpriteRenderer m_Renderer;
 
+    public bool term = false;
     Vector3 m_Pos;
     Camera m_Camera;
 
@@ -45,7 +46,13 @@ public class SelectableObject : MonoBehaviour
         if (m_Renderer == null)
             m_Renderer = GetComponent<SpriteRenderer>();
 
-        m_Enable = true;
+       
+        if (this.gameObject.tag == "term")
+            m_Enable = term;
+        else if(this.gameObject.tag == "term sound")
+            m_Enable = term;
+        else
+            m_Enable = true;
 
         m_Camera = Camera.main;
         m_Pos = m_Position;
@@ -71,7 +78,7 @@ public class SelectableObject : MonoBehaviour
         }
     }
 
-    void DoAction()
+    public void DoAction()
     {
         if (Fade.CanFade())
         {

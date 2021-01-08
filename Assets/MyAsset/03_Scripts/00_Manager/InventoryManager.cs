@@ -106,6 +106,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public void SetSlotItem(int _slotindex, int _itemindex)
     {
         Slot_item[_slotindex].index = _itemindex;
+
         //Slot_item[_slotindex].LoadingItemToIndex();
     }
 
@@ -151,6 +152,7 @@ public class InventoryManager : Singleton<InventoryManager>
              return a1.CompareTo(b1);
         });
     }
+
     void RenewalItemLst()   //인벤토리 재정렬 설정.
     {
         SortItemLst();
