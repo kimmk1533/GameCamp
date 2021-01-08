@@ -155,6 +155,21 @@ public class MouseManager : Singleton<MouseManager>
     //클릭 이후 이벤트 함수.
     void ObjectClickUp()  //오브젝트 마우스 업의 경우 실행되는 이벤트 관련은 여기 작성.
     {
+
+        if(Instance.beingHit_obj.tag=="only sound")
+        {
+            AudioSource audio = Instance.beingHit_obj.GetComponent<AudioSource>();
+            audio.Play();
+        }
+        else if(Instance.beingHit_obj.tag == "Item")
+        {
+            if(Instance.beingHit_obj.name== "Selectable(Key)")
+                InventoryManager.Instance.PushSlotItem(3);
+            else if(Instance.beingHit_obj.name == "Selectable(Matches)")
+                InventoryManager.Instance.PushSlotItem(2);
+
+        }
+
         Debug.Log("오브젝트 클릭 업");
     }
     public void UIClickUp()
