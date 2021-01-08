@@ -10,8 +10,6 @@ public class ClickNDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     [SerializeField] int thisIndex; //슬롯의 고유 인덱스 번호(아이템 인덱스와는 별개).
     Image this_img;
     Image copydragslot_img;
-    Color32 defalut_color = new Color32(255, 255, 255, 255);
-    Color32 noAlpha_color = new Color32(255, 255, 255, 0);
 
     //get set
     public int GetThisSlotIndex()
@@ -21,6 +19,22 @@ public class ClickNDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void SetThisSlotIndex(int _index)
     {
         thisIndex = _index;
+    }
+    public Image GetThisImage()
+    {
+        return this_img;
+    }
+    public void SetThisImage(Image _img)
+    {
+        this_img = _img;
+    }
+    public Image GetCopyDragSlotImage()
+    {
+        return copydragslot_img;
+    }
+    public void SetCopyDragSlotImage(Image _img)
+    {
+        copydragslot_img = _img;
     }
 
     //public void OnMouseEnter()  //마우스가 위에 있을 시.
@@ -33,55 +47,53 @@ public class ClickNDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     //    InventoryManager.Instance.MouseOverSlot(this.transform.parent.gameObject);
     //}
 
-    public void OnBeginDrag(PointerEventData eventData) //클릭 다운.
+    public void OnMouseDown()
     {
-        if (InventoryManager.Instance.GetSlotItem(thisIndex).index != 0)
-        {
-            MouseManager.Instance.SetState(Mouse_State.MOUSE_DOWN);
-            MouseManager.Instance.SetBeingHitUIObj(gameObject);
-            MouseManager.Instance.SetBeingHitObj(MouseManager.Instance.CopyDragSlot_obj);
-            //Image 연결.
-            this_img = gameObject.GetComponent<Image>();
-            copydragslot_img = MouseManager.Instance.CopyDragSlot_obj.GetComponent<Image>();
-            //스프라이트 값 설정.
-            this_img.color = noAlpha_color;
-            this_img.sprite = InventoryManager.Instance.GetSlotItem(thisIndex).Image;
-            copydragslot_img.sprite = this_img.sprite;
-            copydragslot_img.color = defalut_color;
-        }
+        
     }
 
-    public void OnDrag(PointerEventData eventData)  //드래그.
+    public void OnBeginDrag(PointerEventData eventData) //드래그 직전 함수.
     {
         if (MouseManager.Instance.GetState() == Mouse_State.MOUSE_DOWN)
         {
             MouseManager.Instance.SetState(Mouse_State.MOUSE_DRAG);
         }
+    }
+
+    public void FollowDragSlot()
+    {
+        Vector2 pos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(MouseManager.Instance.canvas.transform as RectTransform, Input.mousePosition, MouseManager.Instance.canvas.worldCamera, out pos);
+        MouseManager.Instance.CopyDragSlot_obj.transform.position = MouseManager.Instance.canvas.transform.TransformPoint(pos);
+    }
+    public void OnDrag(PointerEventData eventData)  //드래그.
+    {
         if (MouseManager.Instance.GetState() == Mouse_State.MOUSE_DRAG)
         {
-            Vector2 pos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(MouseManager.Instance.canvas.transform as RectTransform, Input.mousePosition, MouseManager.Instance.canvas.worldCamera, out pos);
-            MouseManager.Instance.CopyDragSlot_obj.transform.position = MouseManager.Instance.canvas.transform.TransformPoint(pos);
+            FollowDragSlot();
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)   //드래그 해제.
     {
-        if (MouseManager.Instance.GetState() == Mouse_State.MOUSE_DRAG)
+        if (MouseManager.Instance.GetBeingHitUIObj() != null)
         {
+            //UI 마우스 드래그 업의 경우 실행되는 이벤트 관련은 여기 작성.
+            if (MouseManager.Instance.GetState() == Mouse_State.MOUSE_DRAG)
+            {
+                if (MouseManager.Instance.Raycast2DHitObj() == MouseManager.Instance.GetBeingHitUIObj().transform.parent)
+                {
+                    MouseManager.Instance.UIClickUp();
+                }
+                else
+                {
+                    MouseManager.Instance.UIDragUp();
+                }
+            }
+
             MouseManager.Instance.SetState(Mouse_State.MOUSE_UP);
             MouseManager.Instance.SetBeingHitObj(null);
             MouseManager.Instance.SetBeingHitUIObj(null);
-
-            //스프라이트 값 설정.
-            this_img.color = defalut_color;
-            copydragslot_img.sprite = null;
-            copydragslot_img.color = noAlpha_color;
-            MouseManager.Instance.CopyDragSlot_obj.transform.localPosition = Vector3.zero;
-
-            //UI 마우스 업의 경우 실행되는 이벤트 관련은 여기 작성.
-            //인벤토리 클릭과 드래그 구분은 충돌 체크를 해서 구별하면 될듯 함(어차피 오브젝트랑 상호작용을 하려면 기능을 만들어야하니).
-            Debug.Log("UI 클릭");
         }
     }
 }

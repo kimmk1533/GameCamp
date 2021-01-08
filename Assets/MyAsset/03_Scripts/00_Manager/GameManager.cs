@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class __GameManager : Singleton<__GameManager>
+public class GameManager : Singleton<GameManager>
 {
-    DirectionManager M_Direction;
-    MouseManager M_Mouse;
-    InventoryManager M_Inventory;
-
     protected override void Awake()
     {
         base.Awake();
+
+        maincamera = Camera.main;
 
         __Initialize();
     }
@@ -26,4 +24,14 @@ public class __GameManager : Singleton<__GameManager>
         M_Inventory = InventoryManager.Instance;
         M_Inventory.__Initialize();
     }
+
+    DirectionManager M_Direction;
+    MouseManager M_Mouse;
+    InventoryManager M_Inventory;
+
+    ////접근 가능 매니저 스크립트.
+    //public MouseManager mouseM;
+
+    //전역 변수.
+    public Camera maincamera;
 }
