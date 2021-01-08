@@ -30,8 +30,8 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     public E_SelectableObjectActionType m_Type;
 
     #region SetActive
-    public bool m_Active;
-    public GameObject m_Object;
+    public List<bool> m_Actives;
+    public List<GameObject> m_Objects;
     #endregion
 
     #region MoveCamera
@@ -75,8 +75,11 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
     public void __Initialize()
     {
-        if (m_Object == null)
-            m_Object = this.gameObject;
+        if (m_Objects.Count == 0)
+            m_Objects.Add(this.gameObject);
+        else if (m_Objects[0] == null)
+            m_Objects[0] = this.gameObject;
+
         if (m_Renderer == null)
             m_Renderer = GetComponent<SpriteRenderer>();
 
@@ -92,7 +95,10 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     // 일반 오브젝트
     private void OnMouseUp()
     {
-        DoAction();
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            DoAction();
+        }
     }
     // UI 오브젝트
     public void OnPointerClick(PointerEventData eventData)
@@ -165,12 +171,13 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
                 {
                     CameraMove();
                 }
-                UpdateActive();
             }
             if (m_Type.HasFlag(E_SelectableObjectActionType.ChangeImage))
             {
                 ChangeImage();
             }
+
+            UpdateActive();
         }
         else if (m_FadeType == E_FadeType.Fade)
         {
@@ -185,7 +192,6 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
                 if (m_Type.HasFlag(E_SelectableObjectActionType.MoveCamera))
                 {
                     TurnOffImage();
-                    Fade.FadeAction += UpdateActive;
                     if (!m_DirectionMove)
                     {
                         Fade.FadeAction += CameraMove;
@@ -195,6 +201,8 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
                 {
                     Fade.FadeAction += ChangeImage;
                 }
+
+                Fade.FadeAction += UpdateActive;
 
                 Fade.DoFade();
             }
@@ -218,17 +226,17 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
     void SetActive()
     {
-        m_Object.SetActive(m_Active);
+        for (int i = 0; i < m_Objects.Count; ++i)
+        {
+            m_Objects[i].SetActive(m_Actives[i]);
+        }
+        //m_Objects.SetActive(m_Active);
     }
     void CameraMove()
     {
         if (m_LastActive)
         {
             m_Pos = m_LastPos;
-        }
-        else if (m_DirectionMove)
-        {
-
         }
         else
         {
@@ -240,5 +248,11 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     void ChangeImage()
     {
         m_Renderer.sprite = m_Image;
+    }
+
+    // 다음 스테이지로 넘어가는 함수
+    public void NextStage()
+    {
+        ++GameManager.Instance.m_CurrentStage;
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public int m_CurrentStage = 0;
+
     protected override void Awake()
     {
         base.Awake();

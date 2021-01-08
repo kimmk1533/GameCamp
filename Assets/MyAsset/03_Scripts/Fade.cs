@@ -32,11 +32,13 @@ public class Fade : MonoBehaviour
     void FadeStart()
     {
         m_IsFade = true;
+        Debug.Log("FadeStart");
     }
     void FadeEnd()
     {
         m_IsFade = false;
         FadeAction = null;
+        Debug.Log("FadeEnd");
     }
 
     void TurnLeft()

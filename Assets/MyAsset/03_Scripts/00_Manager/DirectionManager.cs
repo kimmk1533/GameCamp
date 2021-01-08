@@ -20,6 +20,7 @@ public class DirectionManager : Singleton<DirectionManager>
     public Image m_UpImage;
     public Image m_DownImage;
 
+    public List<Vector3> m_StandardPos;
     public MyDictionary<E_Direction, Vector3> m_Positions;
 
     List<Image> m_DirImages;
@@ -57,7 +58,7 @@ public class DirectionManager : Singleton<DirectionManager>
 
     public void CameraMoveToDir()
     {
-        m_Camera.transform.position = m_Positions[m_CurrentDir] + m_StandardVector;
+        m_Camera.transform.position = m_StandardPos[GameManager.Instance.m_CurrentStage] + m_Positions[m_CurrentDir] + m_StandardVector;
     }
     public void TurnRight()
     {

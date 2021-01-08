@@ -4,9 +4,38 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
+public static class EditorList
+{
+    public static void Show(SerializedProperty list)
+    {
+        ++EditorGUI.indentLevel;
+        if (list.isExpanded)
+        {
+            for (int i = 0; i < list.arraySize; ++i)
+            {
+                EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i));
+            }
+        }
+        --EditorGUI.indentLevel;
+    }
+    public static void Show(int Count, SerializedProperty list1, SerializedProperty list2)
+    {
+        EditorGUILayout.PropertyField(list1);
+        ++EditorGUI.indentLevel;
+        for (int i = 0; i < Count; ++i)
+        {
+            EditorGUILayout.PropertyField(list1.GetArrayElementAtIndex(i));
+            EditorGUILayout.PropertyField(list2.GetArrayElementAtIndex(i));
+        }
+        --EditorGUI.indentLevel;
+    }
+}
+
 [CustomEditor(typeof(SelectableObject))]
 public class SelectableObjectEditor : Editor
 {
+    //public int m_ListCount;
+
     public override void OnInspectorGUI()
     {
         SelectableObject obj = target as SelectableObject;
@@ -22,14 +51,27 @@ public class SelectableObjectEditor : Editor
         obj.m_Type = (E_SelectableObjectActionType)EditorGUILayout.EnumFlagsField("클릭됐을 때 할 행동", obj.m_Type);
 
         GUILayout.Space(5f);
+        GUILayout.Label("======================================");
+        GUILayout.Space(5f);
+
         this.serializedObject.Update();
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_StartEvent"), true);
         GUILayout.Space(5f);
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_EndEvent"), true);
-        this.serializedObject.ApplyModifiedProperties();
 
         if (obj.m_Type == 0)
             return;
+
+        GUILayout.Space(5f);
+        GUILayout.Label("======================================");
+        GUILayout.Space(5f);
+
+        GUILayout.Label("[ 화살표 표시 여부 ]");
+
+        obj.m_LeftActive = EditorGUILayout.Toggle("왼쪽 방향", obj.m_LeftActive);
+        obj.m_RightActive = EditorGUILayout.Toggle("오른쪽 방향", obj.m_RightActive);
+        obj.m_UpActive = EditorGUILayout.Toggle("위쪽 방향", obj.m_UpActive);
+        obj.m_DownActive = EditorGUILayout.Toggle("아래쪽 방향", obj.m_DownActive);
 
         if (obj.m_Type.HasFlag(E_SelectableObjectActionType.SetActive))
         {
@@ -37,25 +79,21 @@ public class SelectableObjectEditor : Editor
             GUILayout.Label("======================================");
             GUILayout.Space(5f);
 
-            obj.m_Active = EditorGUILayout.Toggle("변경 할 상태", obj.m_Active);
+            //m_ListCount = EditorGUILayout.IntField("오브젝트 갯수", m_ListCount);
 
-            GUILayout.Space(5f);
-            GUILayout.Label("[ 아무 값도 안넣을 경우 자기 자신 ]");
-            obj.m_Object = (GameObject)EditorGUILayout.ObjectField("변경 할 오브젝트", obj.m_Object, typeof(GameObject), true);
+            SerializedProperty m_Actives = this.serializedObject.FindProperty("m_Actives");
+            SerializedProperty m_Objects = this.serializedObject.FindProperty("m_Objects");
+
+            EditorGUILayout.PropertyField(m_Actives, true);
+            EditorGUILayout.PropertyField(m_Objects, true);
+
+            //m_Actives.arraySize = m_ListCount;
+            //m_Objects.arraySize = m_ListCount;
+
+            //EditorList.Show(m_ListCount, m_Actives, m_Objects);
         }
         if (obj.m_Type.HasFlag(E_SelectableObjectActionType.MoveCamera))
         {
-            GUILayout.Space(5f);
-            GUILayout.Label("======================================");
-            GUILayout.Space(5f);
-
-            GUILayout.Label("[ 화살표 표시 여부 ]");
-
-            obj.m_LeftActive = EditorGUILayout.Toggle("왼쪽 방향", obj.m_LeftActive);
-            obj.m_RightActive = EditorGUILayout.Toggle("오른쪽 방향", obj.m_RightActive);
-            obj.m_UpActive = EditorGUILayout.Toggle("위쪽 방향", obj.m_UpActive);
-            obj.m_DownActive = EditorGUILayout.Toggle("아래쪽 방향", obj.m_DownActive);
-
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
             GUILayout.Space(5f);
@@ -93,5 +131,7 @@ public class SelectableObjectEditor : Editor
             GUILayout.Label("[ 아무 값도 안넣을 경우 자기 자신 ]");
             obj.m_Renderer = (SpriteRenderer)EditorGUILayout.ObjectField("변경 할 렌더러", obj.m_Renderer, typeof(SpriteRenderer), true);
         }
+
+        this.serializedObject.ApplyModifiedProperties();
     }
 }
