@@ -118,40 +118,80 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
     // =========================================================================
 
-    // 일반 오브젝트가 클릭됐을 때
-    public void OnMouseUp()
+    public void Update()
     {
-        // 마우스 위치에 UI와 오브젝트가 겹쳐있지 않다면
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonUp(0))
         {
-            if (m_ConditionType == 0)
+            RaycastHit2D[] hits = Physics2D.RaycastAll(m_Camera.ScreenToWorldPoint(Input.mousePosition), m_Camera.transform.forward);
+
+            foreach (var item in hits)
             {
-                DoAction();
-                return;
-            }
-
-            if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.DragItem))
-            {
-                GameObject BeingHitUIObj = M_Mouse.GetBeingHitUIObj();
-
-                if (BeingHitUIObj == null)
-                    return;
-
-                ClickNDrag clickNDrag = BeingHitUIObj.GetComponent<ClickNDrag>();
-
-                if (clickNDrag == null)
-                    return;
-
-                int index = clickNDrag.GetThisSlotIndex();
-
-                if (M_Inventory.GetSlotItem(index).m_Type == m_RequireItem)
+                if (item.transform == this.transform)
                 {
-                    // 액션 실행
-                    DoAction();
+                    Debug.Log($"{transform.name}");
+                        
+                    // 마우스 위치에 UI와 오브젝트가 겹쳐있지 않다면
+                    if (!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        if (m_ConditionType == 0)
+                        {
+                            DoAction();
+                            return;
+                        }
+
+                        if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.DragItem))
+                        {
+                            //if (m_TestObj == null)
+                            //    return;
+
+                            //int index = m_TestObj.GetThisSlotIndex();
+
+                            //if (M_Inventory.GetSlotItem(index).m_Type == m_RequireItem)
+                            //{
+                            //    // 액션 실행
+                            //    DoAction();
+                            //}
+                        }
+                    }
                 }
             }
         }
     }
+
+    //// 일반 오브젝트가 클릭됐을 때
+    //public void OnMouseUp()
+    //{
+    //    // 마우스 위치에 UI와 오브젝트가 겹쳐있지 않다면
+    //    if (!EventSystem.current.IsPointerOverGameObject())
+    //    {
+    //        if (m_ConditionType == 0)
+    //        {
+    //            DoAction();
+    //            return;
+    //        }
+
+    //        if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.DragItem))
+    //        {
+    //            GameObject BeingHitUIObj = M_Mouse.GetBeingHitUIObj();
+
+    //            if (BeingHitUIObj == null)
+    //                return;
+
+    //            ClickNDrag clickNDrag = BeingHitUIObj.GetComponent<ClickNDrag>();
+
+    //            if (clickNDrag == null)
+    //                return;
+
+    //            int index = clickNDrag.GetThisSlotIndex();
+
+    //            if (M_Inventory.GetSlotItem(index).m_Type == m_RequireItem)
+    //            {
+    //                // 액션 실행
+    //                DoAction();
+    //            }
+    //        }
+    //    }
+    //}
 
     // UI 오브젝트가 클릭됐을 때
     public void OnPointerClick(PointerEventData eventData)

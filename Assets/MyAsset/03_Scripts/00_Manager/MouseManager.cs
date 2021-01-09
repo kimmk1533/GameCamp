@@ -146,6 +146,8 @@ public class MouseManager : Singleton<MouseManager>
                     ObjectClickUp();
                 }
 
+                beingHit_obj = null;
+                beingHitUI_obj = null;
                 state = Mouse_State.MOUSE_UP;
             }
         }
@@ -155,8 +157,6 @@ public class MouseManager : Singleton<MouseManager>
         //여기서 조진서가 만든 박스콜라이더 2d충돌 이벤트를 체크해 실행할 예정.
 
         Debug.Log("이벤트");
-        beingHit_obj = null;
-        beingHitUI_obj = null;
         state = Mouse_State.NULL;
     }
 
@@ -186,28 +186,28 @@ public class MouseManager : Singleton<MouseManager>
             //    }
             //}
 
-            else if (beingHit_obj.tag == "term sound")
-            {
-                switch (beingHit_obj.name)
-                {
-                    case "Selectable":
-                        beingHit_obj.GetComponent<SelectableObject>().m_Enable = M_Stage.stage_zero.havekey;
+            //else if (beingHit_obj.tag == "term sound")
+            //{
+            //    switch (beingHit_obj.name)
+            //    {
+            //        case "Selectable":
+            //            beingHit_obj.GetComponent<SelectableObject>().m_Enable = M_Stage.stage_zero.havekey;
 
-                        if (beingHit_obj.GetComponent<SelectableObject>().m_Enable == true)
-                        {
-                            M_Inventory.PullSlotItem(3);
-                            AudioSource audio = beingHit_obj.GetComponent<AudioSource>();
-                            audio.Play();
-                            SelectableObject fade = beingHit_obj.GetComponent<SelectableObject>();
-                            fade.DoAction();
-                        }
-                        break;
+            //            if (beingHit_obj.GetComponent<SelectableObject>().m_Enable == true)
+            //            {
+            //                M_Inventory.PullSlotItem(3);
+            //                AudioSource audio = beingHit_obj.GetComponent<AudioSource>();
+            //                audio.Play();
+            //                SelectableObject fade = beingHit_obj.GetComponent<SelectableObject>();
+            //                fade.DoAction();
+            //            }
+            //            break;
 
-                    default:
-                        break;
-                }
+            //        default:
+            //            break;
+            //    }
 
-            }
+            //}
         }
 
         Debug.Log(beingHit_obj.name);
