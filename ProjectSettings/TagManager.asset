@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - InventorySlot
+  - only sound
+  - Item
+  - term
+  - term sound
   layers:
   - Default
   - TransparentFX

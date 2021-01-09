@@ -25,11 +25,19 @@ public class __GameManager : Singleton<__GameManager>
 
         M_Inventory = InventoryManager.Instance;
         M_Inventory.__Initialize();
+
+        M_Stage = StageManager.Instance;
+        M_Stage.__Initialize();
+
+        M_Sound = SoundManager.Instance;
+        M_Sound.__Initialize();
     }
 
     DirectionManager M_Direction;
     MouseManager M_Mouse;
     InventoryManager M_Inventory;
+    StageManager M_Stage;
+    SoundManager M_Sound;
 
     ////접근 가능 매니저 스크립트.
     //public MouseManager mouseM;

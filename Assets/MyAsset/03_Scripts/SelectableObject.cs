@@ -62,6 +62,7 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     public UnityEvent m_StartEvent;
     public UnityEvent m_EndEvent;
 
+    public bool term = false;
     Vector3 m_Pos;
     Camera m_Camera;
 
@@ -82,7 +83,13 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
         if (m_Renderer == null)
             m_Renderer = GetComponent<SpriteRenderer>();
 
-        m_Enable = true;
+       
+        if (this.gameObject.tag == "term")
+            m_Enable = term;
+        else if(this.gameObject.tag == "term sound")
+            m_Enable = term;
+        else
+            m_Enable = true;
 
         m_Camera = Camera.main;
         m_Pos = m_Position;
