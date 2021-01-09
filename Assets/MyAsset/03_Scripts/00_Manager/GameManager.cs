@@ -27,7 +27,7 @@ public class GameManager : Singleton<GameManager>
         M_Stage = StageManager.Instance;
         M_Stage.__Initialize();
 
-        M_Sound = StageManager.Instance;
+        M_Sound = SoundManager.Instance;
         M_Sound.__Initialize();
     }
 
