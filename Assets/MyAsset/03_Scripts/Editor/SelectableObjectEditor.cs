@@ -53,7 +53,7 @@ public class SelectableObjectEditor : Editor
 
         this.serializedObject.Update();
 
-        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.DragItem))
+        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.ActiveItem))
         {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
