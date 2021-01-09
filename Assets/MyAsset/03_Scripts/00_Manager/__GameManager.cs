@@ -17,6 +17,9 @@ public class __GameManager : Singleton<__GameManager>
 
     public override void __Initialize()
     {
+        M_Pause = PauseManager.Instance;
+        M_Pause.__Initialize();
+
         M_Direction = DirectionManager.Instance;
         M_Direction.__Initialize();
 
@@ -42,6 +45,7 @@ public class __GameManager : Singleton<__GameManager>
     InventoryManager M_Inventory;
     StageManager M_Stage;
     SoundManager M_Sound;
+    PauseManager M_Pause;
 
     ////접근 가능 매니저 스크립트.
     //public MouseManager mouseM;

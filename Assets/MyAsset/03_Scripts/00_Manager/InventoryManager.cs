@@ -58,12 +58,12 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void MouseOverSlot(GameObject _hit)
     {
-        int hit_index = _hit.transform.GetChild(0).GetComponent<ClickNDrag>().GetThisSlotIndex();
+        int hit_index = _hit.transform.GetChild(1).GetComponent<ClickNDrag>().GetThisSlotIndex();
         
         if (GetSlotItem(hit_index).m_Type != E_ItemType.None)
         {
             RenewalItemLst();
-            ItemAddWindow.position = _hit.transform.GetChild(0).position;
+            ItemAddWindow.position = _hit.transform.GetChild(1).position;
             TextMeshProUGUI hit_nametmp = Instance.ItemAddWindow.GetChild(0).GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI hit_addtmp = Instance.ItemAddWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
             hit_nametmp.text = GetSlotItem(hit_index).m_Type.ToString();
@@ -116,7 +116,7 @@ public class InventoryManager : Singleton<InventoryManager>
         Slot_item.Clear();
         for (int i = 0; i < InventoryPanal.childCount; i++)
         {
-            ClickNDrag tmp = InventoryPanal.GetChild(i).GetChild(0).GetComponent<ClickNDrag>();
+            ClickNDrag tmp = InventoryPanal.GetChild(i).GetChild(1).GetComponent<ClickNDrag>();
             tmp.SetThisSlotIndex(i);
             Slot_lst.Add(tmp);
             Slot_item.Add(new Item());
