@@ -47,19 +47,39 @@ public class SelectableObjectEditor : Editor
 
         GUILayout.Space(5f);
         obj.m_FadeType = (E_FadeType)EditorGUILayout.EnumPopup("페이드 여부", obj.m_FadeType);
+
         GUILayout.Space(5f);
-        obj.m_Type = (E_SelectableObjectActionType)EditorGUILayout.EnumFlagsField("클릭됐을 때 할 행동", obj.m_Type);
+        obj.m_ConditionType = (E_SelectableObjectConditionType)EditorGUILayout.EnumFlagsField("행동의 조건", obj.m_ConditionType);
+
+        this.serializedObject.Update();
+
+        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.DragItem))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+
+            GUILayout.MaxWidth(5);
+
+            obj.m_RequireItem = (E_ItemType)EditorGUILayout.EnumPopup("필요한 아이템", obj.m_RequireItem);
+            //EditorGUILayout.IntField("필요한 아이템의 인덱스", obj.m_RequireItemIndex);
+
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+        }
+
+        GUILayout.Space(5f);
+        obj.m_ActionType = (E_SelectableObjectActionType)EditorGUILayout.EnumFlagsField("클릭됐을 때 할 행동", obj.m_ActionType);
 
         GUILayout.Space(5f);
         GUILayout.Label("======================================");
         GUILayout.Space(5f);
 
-        this.serializedObject.Update();
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_StartEvent"), true);
         GUILayout.Space(5f);
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_EndEvent"), true);
 
-        if (obj.m_Type == 0)
+        if (obj.m_ActionType == 0)
             return;
 
         GUILayout.Space(5f);
@@ -73,7 +93,7 @@ public class SelectableObjectEditor : Editor
         obj.m_UpActive = EditorGUILayout.Toggle("위쪽 방향", obj.m_UpActive);
         obj.m_DownActive = EditorGUILayout.Toggle("아래쪽 방향", obj.m_DownActive);
 
-        if (obj.m_Type.HasFlag(E_SelectableObjectActionType.SetActive))
+        if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.SetActive))
         {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
@@ -84,10 +104,8 @@ public class SelectableObjectEditor : Editor
             SerializedProperty m_Actives = this.serializedObject.FindProperty("m_Actives");
             SerializedProperty m_Objects = this.serializedObject.FindProperty("m_Objects");
 
-            ++EditorGUI.indentLevel;
             GUILayout.Label("[ m_Actives랑 m_Objects 크기 일치해야함 ]");
             GUILayout.Label("[ 첫 번째 오브젝트는 null값일 시 자기 자신이 됨 ]");
-            --EditorGUI.indentLevel;
 
             EditorGUILayout.PropertyField(m_Actives, true);
             EditorGUILayout.PropertyField(m_Objects, true);
@@ -97,22 +115,22 @@ public class SelectableObjectEditor : Editor
 
             //EditorList.Show(m_ListCount, m_Actives, m_Objects);
         }
-        if (obj.m_Type.HasFlag(E_SelectableObjectActionType.MoveCamera))
+        if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.MoveCamera))
         {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
             GUILayout.Space(5f);
 
-            if (!obj.m_LastActive)
+            if (!obj.m_MoveToPreviousPos)
             {
                 obj.m_DirectionMove = EditorGUILayout.Toggle("현재 방향으로 이동?", obj.m_DirectionMove);
             }
             if (!obj.m_DirectionMove)
             {
-                obj.m_LastActive = EditorGUILayout.Toggle("이전 위치로 이동?", obj.m_LastActive);
+                obj.m_MoveToPreviousPos = EditorGUILayout.Toggle("이전 위치로 이동?", obj.m_MoveToPreviousPos);
             }
 
-            if (!obj.m_DirectionMove && !obj.m_LastActive)
+            if (!obj.m_DirectionMove && !obj.m_MoveToPreviousPos)
             {
                 GUILayout.Space(5f);
                 GUILayout.Label("======================================");
@@ -123,7 +141,7 @@ public class SelectableObjectEditor : Editor
                 //obj.m_Position = EditorGUILayout.Vector3Field("이동할 위치", obj.m_Position);
             }
         }
-        if (obj.m_Type.HasFlag(E_SelectableObjectActionType.ChangeImage))
+        if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.ChangeImage))
         {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");

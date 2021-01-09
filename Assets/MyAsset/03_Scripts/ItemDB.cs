@@ -2,25 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDB : Singleton<__GameManager>
+public class ItemDB : Singleton<ItemDB>
 {
-    public static ItemDB inst;
     public List<Item> itemDB = new List<Item>();
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        __Initialize();
-    }
 
     public override void __Initialize()
     {
-        inst = this;    //싱글톤으로 처리할 필요는 없어서 별도 inst(그래서 GameManager 오브젝트의 자식이 아님).
+
     }
 
-    public Item ReturnItemToIndex(int _index)
+    public Item ReturnItemToIndex(E_ItemType e_type)
     {
-        return itemDB[_index];
+        return itemDB[(int)e_type];
     }
 }

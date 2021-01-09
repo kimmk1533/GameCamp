@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public enum Mouse_State //마우스 동작상태 State.
-{ 
+{
     NULL,
     MOUSE_DOWN,
     MOUSE_DRAG,
@@ -25,40 +25,46 @@ public class MouseManager : Singleton<MouseManager>
     public Color32 defalut_color = new Color32(255, 255, 255, 255);
     public Color32 noAlpha_color = new Color32(255, 255, 255, 0);
 
+    __GameManager M_Game;
+    InventoryManager M_Inventory;
+    StageManager M_Stage;
+
     public override void __Initialize()
     {
-        
+        M_Game = __GameManager.Instance;
+        M_Inventory = InventoryManager.Instance;
+        M_Stage = StageManager.Instance;
     }
 
     //get set
     public Mouse_State GetState()
     {
-        return Instance.state;
+        return state;
     }
     public void SetState(Mouse_State _state)
     {
-        Instance.state = _state;
+        state = _state;
     }
     public GameObject GetBeingHitObj()
     {
-        return Instance.beingHit_obj;
+        return beingHit_obj;
     }
     public void SetBeingHitObj(GameObject _hit)
     {
-        Instance.beingHit_obj = _hit;
+        beingHit_obj = _hit;
     }
     public GameObject GetBeingHitUIObj()
     {
-        return Instance.beingHitUI_obj;
+        return beingHitUI_obj;
     }
     public void SetBeingHitUIObj(GameObject _hit)
     {
-        Instance.beingHitUI_obj = _hit;
+        beingHitUI_obj = _hit;
     }
 
     private void Update()
     {
-        switch(Instance.state)
+        switch (state)
         {
             case Mouse_State.NULL:
                 ISMouseDown();
@@ -77,10 +83,10 @@ public class MouseManager : Singleton<MouseManager>
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-        Vector3 cameraPos = __GameManager.Instance.maincamera.transform.position; //카메라 좌표 변환.
+        Vector3 cameraPos = M_Game.maincamera.transform.position; //카메라 좌표 변환.
         if (hit.collider != null)   //콜라이더 충돌 시.
         {
-            Instance.beingHit_obj = hit.collider.gameObject;
+            beingHit_obj = hit.collider.gameObject;
         }
         return hit;
     }
@@ -90,32 +96,32 @@ public class MouseManager : Singleton<MouseManager>
         //pc 마우스 기준.
         if (Input.GetMouseButtonDown(0))
         {
-            InventoryManager.Instance.MouseExitSlot();
+            M_Inventory.MouseExitSlot();
             if (Raycast2DHitObj().collider != null)
             {
-                Instance.SetState(Mouse_State.MOUSE_DOWN);
-                if (Instance.beingHit_obj.tag == "InventorySlot")
+                SetState(Mouse_State.MOUSE_DOWN);
+                if (beingHit_obj.tag == "InventorySlot")
                 {
-                    ClickNDrag tmp = Instance.beingHit_obj.GetComponent<ClickNDrag>();
-                    if (InventoryManager.Instance.GetSlotItem(tmp.GetThisSlotIndex()).index != 0)
+                    ClickNDrag tmp = beingHit_obj.GetComponent<ClickNDrag>();
+                    if (M_Inventory.GetSlotItem(tmp.GetThisSlotIndex()).m_Type != E_ItemType.None)
                     {
                         //Image 연결.
                         tmp.SetThisImage(tmp.gameObject.GetComponent<Image>());
                         tmp.SetCopyDragSlotImage(Instance.CopyDragSlot_obj.GetComponent<Image>());
                         //스프라이트 값 설정.
                         tmp.GetThisImage().color = noAlpha_color;
-                        tmp.GetThisImage().sprite = InventoryManager.Instance.GetSlotItem(tmp.GetThisSlotIndex()).Image;
+                        tmp.GetThisImage().sprite = M_Inventory.GetSlotItem(tmp.GetThisSlotIndex()).m_Image;
                         tmp.GetCopyDragSlotImage().sprite = tmp.GetThisImage().sprite;
                         tmp.GetCopyDragSlotImage().color = defalut_color;
 
-                        Instance.SetState(Mouse_State.MOUSE_DOWN);
-                        Instance.SetBeingHitUIObj(tmp.gameObject);
-                        Instance.SetBeingHitObj(Instance.CopyDragSlot_obj);
+                        SetState(Mouse_State.MOUSE_DOWN);
+                        SetBeingHitUIObj(tmp.gameObject);
+                        SetBeingHitObj(Instance.CopyDragSlot_obj);
                         tmp.FollowDragSlot();
                     }
                     else
                     {
-                        Instance.SetState(Mouse_State.NULL);
+                        SetState(Mouse_State.NULL);
                     }
                 }
             }
@@ -126,11 +132,11 @@ public class MouseManager : Singleton<MouseManager>
         //pc 마우스 기준.
         if (Input.GetMouseButtonUp(0))
         {
-            if (Instance.beingHit_obj != null)
+            if (beingHit_obj != null)
             {
-                if (Instance.beingHitUI_obj != null)    //UI 클릭.
+                if (beingHitUI_obj != null)    //UI 클릭.
                 {
-                    if (Instance.beingHitUI_obj.tag == "InventorySlot") //인벤토리 아이템 클릭.
+                    if (beingHitUI_obj.tag == "InventorySlot") //인벤토리 아이템 클릭.
                     {
                         UIClickUp();
                     }
@@ -139,9 +145,8 @@ public class MouseManager : Singleton<MouseManager>
                 {
                     ObjectClickUp();
                 }
-                Instance.beingHit_obj = null;
-                Instance.beingHitUI_obj = null;
-                Instance.state = Mouse_State.MOUSE_UP;
+
+                state = Mouse_State.MOUSE_UP;
             }
         }
     }
@@ -149,11 +154,10 @@ public class MouseManager : Singleton<MouseManager>
     {
         //여기서 조진서가 만든 박스콜라이더 2d충돌 이벤트를 체크해 실행할 예정.
 
-       
-
-
         Debug.Log("이벤트");
-        Instance.state = Mouse_State.NULL;
+        beingHit_obj = null;
+        beingHitUI_obj = null;
+        state = Mouse_State.NULL;
     }
 
 
@@ -161,52 +165,52 @@ public class MouseManager : Singleton<MouseManager>
     void ObjectClickUp()  //오브젝트 마우스 업의 경우 실행되는 이벤트 관련은 여기 작성.
     {
 
-        if (Instance.beingHit_obj != null)
+        if (beingHit_obj != null)
         {
-            if (Instance.beingHit_obj.tag == "only sound")
+            if (beingHit_obj.tag == "only sound")
             {
-                AudioSource audio = Instance.beingHit_obj.GetComponent<AudioSource>();
+                AudioSource audio = beingHit_obj.GetComponent<AudioSource>();
                 audio.Play();
             }
 
-            else if (Instance.beingHit_obj.tag == "Item")
-            {
-                if (Instance.beingHit_obj.name == "Selectable(Matches)")
-                {
-                    InventoryManager.Instance.PushSlotItem(2);
-                }
-                else if (Instance.beingHit_obj.name == "Selectable(Key)")
-                {
-                    InventoryManager.Instance.PushSlotItem(3);
-                    StageManager.Instance.stage_zero.havekey = true;
-                  
-                }
-            }
+            //else if (beingHit_obj.tag == "Item")
+            //{
+            //    if (beingHit_obj.name == "Selectable(Matches)")
+            //    {
+            //        M_Inventory.PushSlotItem((int)E_ItemType.열쇠);
+            //    }
+            //    else if (beingHit_obj.name == "Selectable(Key)")
+            //    {
+            //        M_Inventory.PushSlotItem((int)E_ItemType.성냥곽);
+            //        M_Stage.stage_zero.havekey = true;                  
+            //    }
+            //}
 
-            else if (Instance.beingHit_obj.tag == "term sound")
+            else if (beingHit_obj.tag == "term sound")
             {
-                switch(Instance.beingHit_obj.name)
+                switch (beingHit_obj.name)
                 {
                     case "Selectable":
-                        Instance.beingHit_obj.GetComponent<SelectableObject>().m_Enable = StageManager.Instance.stage_zero.havekey;
-                        
-                        if (Instance.beingHit_obj.GetComponent<SelectableObject>().m_Enable == true)
+                        beingHit_obj.GetComponent<SelectableObject>().m_Enable = M_Stage.stage_zero.havekey;
+
+                        if (beingHit_obj.GetComponent<SelectableObject>().m_Enable == true)
                         {
-                            InventoryManager.Instance.PullSlotItem(3);
-                            AudioSource audio = Instance.beingHit_obj.GetComponent<AudioSource>();
+                            M_Inventory.PullSlotItem(3);
+                            AudioSource audio = beingHit_obj.GetComponent<AudioSource>();
                             audio.Play();
-                            SelectableObject fade= Instance.beingHit_obj.GetComponent<SelectableObject>();
+                            SelectableObject fade = beingHit_obj.GetComponent<SelectableObject>();
                             fade.DoAction();
                         }
                         break;
 
                     default:
                         break;
-                }    
-                
+                }
+
             }
         }
-        Debug.Log(Instance.beingHit_obj.name);
+
+        Debug.Log(beingHit_obj.name);
     }
     public void UIClickUp()
     {
@@ -222,14 +226,14 @@ public class MouseManager : Singleton<MouseManager>
 
     void DragSlotItemGoBack()
     {
-        ClickNDrag tmp = Instance.beingHitUI_obj.GetComponent<ClickNDrag>();
+        ClickNDrag tmp = beingHitUI_obj.GetComponent<ClickNDrag>();
         //Image 연결.
         tmp.SetThisImage(tmp.gameObject.GetComponent<Image>());
-        tmp.SetCopyDragSlotImage(Instance.CopyDragSlot_obj.GetComponent<Image>());
+        tmp.SetCopyDragSlotImage(CopyDragSlot_obj.GetComponent<Image>());
         //스프라이트 값 설정.
-        tmp.GetThisImage().color = Instance.defalut_color;
+        tmp.GetThisImage().color = defalut_color;
         tmp.GetCopyDragSlotImage().sprite = null;
-        tmp.GetCopyDragSlotImage().color = Instance.noAlpha_color;
-        Instance.CopyDragSlot_obj.transform.localPosition = Vector3.zero;
+        tmp.GetCopyDragSlotImage().color = noAlpha_color;
+        CopyDragSlot_obj.transform.localPosition = Vector3.zero;
     }
 }

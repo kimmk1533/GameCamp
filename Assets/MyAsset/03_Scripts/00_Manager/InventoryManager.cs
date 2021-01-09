@@ -23,7 +23,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public override void __Initialize()
     {
         InitializeSettingSlot();
-        PushSlotItem(1);
+        PushSlotItem(E_ItemType.편지);
     }
 
     enum Inventory_State
@@ -60,21 +60,21 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         int hit_index = _hit.transform.GetChild(0).GetComponent<ClickNDrag>().GetThisSlotIndex();
         
-        if (GetSlotItem(hit_index).index != 0)
+        if (GetSlotItem(hit_index).m_Type != E_ItemType.None)
         {
             RenewalItemLst();
-            Instance.ItemAddWindow.position = _hit.transform.GetChild(0).position;
+            ItemAddWindow.position = _hit.transform.GetChild(0).position;
             TextMeshProUGUI hit_nametmp = Instance.ItemAddWindow.GetChild(0).GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI hit_addtmp = Instance.ItemAddWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
-            hit_nametmp.text = GetSlotItem(hit_index).name;
-            hit_addtmp.text = GetSlotItem(hit_index).add;
-            Instance.ItemAddWindow.gameObject.SetActive(true);
+            hit_nametmp.text = GetSlotItem(hit_index).m_Type.ToString();
+            hit_addtmp.text = GetSlotItem(hit_index).m_Description;
+            ItemAddWindow.gameObject.SetActive(true);
         }
     }
     public void MouseExitSlot()
     {
-        Instance.ItemAddWindow.position = Vector2.one * -9999;  //TextMeshPro가 Raycast Target 대상이라 마우스 조작에 방해되는데 켜고 끌 수가 없어서 좌표 값을 멀리 보내버림.
-        Instance.ItemAddWindow.gameObject.SetActive(false);
+        ItemAddWindow.position = Vector2.one * -9999;  //TextMeshPro가 Raycast Target 대상이라 마우스 조작에 방해되는데 켜고 끌 수가 없어서 좌표 값을 멀리 보내버림.
+        ItemAddWindow.gameObject.SetActive(false);
     }
 
     public void InventoryOpenButton()   //인벤토리 열기/닫기 버튼 클릭 시.
@@ -103,9 +103,9 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         return Slot_item[_index];
     }
-    public void SetSlotItem(int _slotindex, int _itemindex)
+    public void SetSlotItem(int _slotindex, E_ItemType _ItemType)
     {
-        Slot_item[_slotindex].index = _itemindex;
+        Slot_item[_slotindex].m_Type = _ItemType;
 
         //Slot_item[_slotindex].LoadingItemToIndex();
     }
@@ -124,29 +124,35 @@ public class InventoryManager : Singleton<InventoryManager>
         }
     }
 
-    public void PushSlotItem(int _itemindex)
+    public void PushSlotItem(int _ItemIndex)
+    {
+        PushSlotItem((E_ItemType)_ItemIndex);
+    }
+    void PushSlotItem(E_ItemType _ItemType)
     {
         if (slot_size < slot_max)
         {
-            SetSlotItem(slot_size++, _itemindex);
+            SetSlotItem(slot_size++, _ItemType);
         }
+
         RenewalItemLst();
     }
     public void PullSlotItem(int _slotindex)
     {
-        SetSlotItem(_slotindex, 0);
+        SetSlotItem(_slotindex, E_ItemType.None);
         slot_size--;
+
         RenewalItemLst();
     }
     void SortItemLst()   //인벤토리 아이템 순서 재정렬.
     {
         Slot_item.Sort(delegate (Item a, Item b)
         {
-            int a1 = a.index;
-            int b1 = b.index;
-            if (a.index == 0)
+            int a1 = (int)a.m_Type;
+            int b1 = (int)b.m_Type;
+            if (a1 == 0)
                 a1 = 99999;
-            if (b.index == 0)
+            if (b1 == 0)
                 b1 = 99999;
 
              return a1.CompareTo(b1);
@@ -159,7 +165,7 @@ public class InventoryManager : Singleton<InventoryManager>
         for (int i = 0; i < slot_max; i++)
         {
             Slot_item[i].LoadingItemToIndex();
-            Slot_lst[i].GetComponent<Image>().sprite = Slot_item[i].Image;
+            Slot_lst[i].GetComponent<Image>().sprite = Slot_item[i].m_Image;
         }
     }
 }

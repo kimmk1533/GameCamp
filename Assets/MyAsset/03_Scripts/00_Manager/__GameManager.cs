@@ -23,6 +23,9 @@ public class __GameManager : Singleton<__GameManager>
         M_Mouse = MouseManager.Instance;
         M_Mouse.__Initialize();
 
+        DB_Item = ItemDB.Instance;
+        DB_Item.__Initialize();
+
         M_Inventory = InventoryManager.Instance;
         M_Inventory.__Initialize();
 
@@ -35,6 +38,7 @@ public class __GameManager : Singleton<__GameManager>
 
     DirectionManager M_Direction;
     MouseManager M_Mouse;
+    ItemDB DB_Item;
     InventoryManager M_Inventory;
     StageManager M_Stage;
     SoundManager M_Sound;
