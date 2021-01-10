@@ -19,6 +19,7 @@ public enum E_ItemType
 
     Stage1_포스트잇,
 
+    Stage8_문제종이,
     Max
 }
 
@@ -56,7 +57,7 @@ public class InventoryManager : Singleton<InventoryManager>
         m_InventoryPanal = m_Canvas.transform.FindChildren("Inventory");
         m_RightDirectionUI = m_Canvas.transform.FindChildren("Right");
         m_ItemZoomIn = m_Canvas.transform.FindChildren("ItemZoomIn").gameObject;
-
+        
         m_SlotList = new List<InvenSlot>();
 
         m_InventoryState = E_InventoryState.Close;
