@@ -17,7 +17,7 @@ public enum E_ItemType
     Stage0_성냥,
     Stage0_편지성냥사용,
 
-
+    Stage1_포스트잇,
 
     Max
 }

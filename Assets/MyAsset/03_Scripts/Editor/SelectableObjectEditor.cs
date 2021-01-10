@@ -60,8 +60,6 @@ public class SelectableObjectEditor : Editor
             GUILayout.Label("======================================");
             GUILayout.Space(5f);
 
-            GUILayout.MaxWidth(5);
-
             obj.m_RequireItem = (E_ItemType)EditorGUILayout.EnumPopup("필요한 아이템", obj.m_RequireItem);
             //EditorGUILayout.IntField("필요한 아이템의 인덱스", obj.m_RequireItemIndex);
 
@@ -81,7 +79,10 @@ public class SelectableObjectEditor : Editor
         EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_EndEvent"), true);
 
         if (obj.m_ActionType == 0)
+        {
+            this.serializedObject.ApplyModifiedProperties();
             return;
+        }
 
         GUILayout.Space(5f);
         GUILayout.Label("======================================");
