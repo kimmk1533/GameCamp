@@ -1352,6 +1352,7 @@ MonoBehaviour:
   m_InCorrect:
     m_PersistentCalls:
       m_Calls: []
+  m_AnswerLength: 0
 --- !u!1 &178574794
 GameObject:
   m_ObjectHideFlags: 0
@@ -4352,7 +4353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3beca1a631d408c4f8906e93e7264b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CurrentStage: 1
+  m_CurrentStage: 8
   maincamera: {fileID: 0}
 --- !u!4 &526272214
 Transform:
