@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public enum Mouse_State //마우스 동작상태 State.
@@ -79,15 +80,28 @@ public class MouseManager : Singleton<MouseManager>
     }
 
     //오브젝트 클릭 관련 함수(UI클릭 관련은 ClickNDrag 스크립트 참조.
-    public RaycastHit2D Raycast2DHitObj()  //마우스 충돌 오브젝트 레이캐스트 체크(return RaycastHit2D hit).
+    public Collider2D Raycast2DHitObj()  //마우스 충돌 오브젝트 레이캐스트 체크(return RaycastHit2D hit).
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
-        Vector3 cameraPos = M_Game.maincamera.transform.position; //카메라 좌표 변환.
-        if (hit.collider != null)   //콜라이더 충돌 시.
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit2D[] hit = Physics2D.RaycastAll.GetRayIntersection(ray, Mathf.Infinity);
+        //Vector3 cameraPos = M_Game.maincamera.transform.position; //카메라 좌표 변환.
+        //if (hit.collider != null)   //콜라이더 충돌 시.
+        //    if (hit.collider.tag == "InventorySlot")
+        //    {
+        //        beingHit_obj = hit.collider.gameObject;
+        //    }
+
+        Collider2D[] hits = Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), 1000);
+        Collider2D hit = null;
+        foreach (Collider2D c in hits)
         {
-            beingHit_obj = hit.collider.gameObject;
+            if (c.tag == "InventorySlot")
+            {
+                beingHit_obj = c.gameObject;
+                return c;
+            }
         }
+
         return hit;
     }
 
@@ -95,44 +109,45 @@ public class MouseManager : Singleton<MouseManager>
     {
         //pc 마우스 기준.
         if (Input.GetMouseButtonDown(0))
-        {
-            M_Inventory.MouseExitSlot();
-            if (Raycast2DHitObj().collider != null)
+            if (EventSystem.current.IsPointerOverGameObject())
             {
-                SetState(Mouse_State.MOUSE_DOWN);
-                if (beingHit_obj.tag == "InventorySlot")
+                M_Inventory.MouseExitSlot();
+                if (Raycast2DHitObj() != null)
                 {
-                    ClickNDrag tmp = beingHit_obj.GetComponent<ClickNDrag>();
-                    if (M_Inventory.GetSlotItem(tmp.GetThisSlotIndex()).m_Type != E_ItemType.None)
+                    SetState(Mouse_State.MOUSE_DOWN);
+                    if (beingHit_obj.tag == "InventorySlot")
                     {
-                        //Image 연결.
-                        tmp.SetThisImage(tmp.gameObject.GetComponent<Image>());
-                        tmp.SetCopyDragSlotImage(Instance.CopyDragSlot_obj.GetComponent<Image>());
-                        //스프라이트 값 설정.
-                        tmp.GetThisImage().color = noAlpha_color;
-                        tmp.GetThisImage().sprite = M_Inventory.GetSlotItem(tmp.GetThisSlotIndex()).m_Image;
-                        tmp.GetCopyDragSlotImage().sprite = tmp.GetThisImage().sprite;
-                        tmp.GetCopyDragSlotImage().color = defalut_color;
+                        ClickNDrag tmp = beingHit_obj.GetComponent<ClickNDrag>();
+                        if (M_Inventory.GetSlotItem(tmp.GetThisSlotIndex()).m_Type != E_ItemType.None)
+                        {
+                            //Image 연결.
+                            tmp.SetThisImage(tmp.gameObject.GetComponent<Image>());
+                            tmp.SetCopyDragSlotImage(Instance.CopyDragSlot_obj.GetComponent<Image>());
+                            //스프라이트 값 설정.
+                            tmp.GetThisImage().color = noAlpha_color;
+                            tmp.GetThisImage().sprite = M_Inventory.GetSlotItem(tmp.GetThisSlotIndex()).m_Image;
+                            tmp.GetCopyDragSlotImage().sprite = tmp.GetThisImage().sprite;
+                            tmp.GetCopyDragSlotImage().color = defalut_color;
 
-                        SetState(Mouse_State.MOUSE_DOWN);
-                        SetBeingHitUIObj(tmp.gameObject);
-                        SetBeingHitObj(Instance.CopyDragSlot_obj);
-                        tmp.FollowDragSlot();
-                    }
-                    else
-                    {
-                        SetState(Mouse_State.NULL);
+                            SetState(Mouse_State.MOUSE_DOWN);
+                            SetBeingHitUIObj(tmp.gameObject);
+                            SetBeingHitObj(Instance.CopyDragSlot_obj);
+                            tmp.FollowDragSlot();
+                        }
+                        else
+                        {
+                            SetState(Mouse_State.NULL);
+                        }
                     }
                 }
             }
-        }
     }
     void ISMouseUP()
     {
         //pc 마우스 기준.
         if (Input.GetMouseButtonUp(0))
         {
-            if (beingHit_obj != null)
+            //if (beingHit_obj != null)
             {
                 if (beingHitUI_obj != null)    //UI 클릭.
                 {

@@ -84,7 +84,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void MouseOverSlot(GameObject _hit)
     {
-        int hit_index = _hit.transform.GetChild(0).GetComponent<InvenSlot>().m_SlotIndex;
+        int hit_index = _hit.transform.GetChild(1).GetComponent<ClickNDrag>().GetThisSlotIndex();
         
         if (GetSlotItem(hit_index).m_Type != E_ItemType.None)
         {
@@ -142,9 +142,10 @@ public class InventoryManager : Singleton<InventoryManager>
 
         for (int i = 0; i < InventoryPanal.childCount; i++)
         {
-            InvenSlot temp = InventoryPanal.GetChild(i).GetChild(0).GetComponent<InvenSlot>();
-            temp.m_SlotIndex = i;
-            Slot_lst.Add(temp);
+            ClickNDrag tmp = InventoryPanal.GetChild(i).GetChild(1).GetComponent<ClickNDrag>();
+            tmp.SetThisSlotIndex(i);
+            Slot_lst.Add(tmp);
+            Slot_item.Add(new Item());
             slot_max++;
         }
     }
