@@ -6,23 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// StageN_아이템이름 순서대로 해주세요
-// 언더바는 스테이지와 아이템이름 중간에 하나만 있어야 합니다.
-public enum E_ItemType
-{
-    None,
-
-    Stage0_편지,
-    Stage0_열쇠,
-    Stage0_성냥,
-    Stage0_편지성냥사용,
-
-    Stage1_포스트잇,
-
-    Stage8_문제종이,
-    Max
-}
-
 public class InventoryManager : Singleton<InventoryManager>
 {
     [ReadOnly(true)]
