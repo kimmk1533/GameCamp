@@ -11,6 +11,8 @@ public class Item
     public Sprite m_Image;
     // 아이템 설명
     public string m_Description;
+    // 확대 가능
+    public bool m_CanZoomIn;
 
     public void LoadingItemToIndex()    //아이템DB에서 아이템을 대입 시 사용 함수.
     {

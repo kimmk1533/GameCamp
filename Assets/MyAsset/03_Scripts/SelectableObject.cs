@@ -10,18 +10,21 @@ public enum E_FadeType
     Fade,
 }
 
-[System.Flags]
-public enum E_SelectableObjectActionType
+public enum E_SelectableObjectConditionType
 {
-    SetActive = 1 << 0,
-    MoveCamera = 1 << 1,
-    ChangeImage = 1 << 2,
+    None,
+    HasItem,
+    ActiveItem,
 }
 
 [System.Flags]
-public enum E_SelectableObjectConditionType
+public enum E_SelectableObjectActionType
 {
-    ActiveItem = 1 << 0,
+    SetActive =     1 << 0,
+    MoveCamera =    1 << 1,
+    ChangeImage =   1 << 2,
+    AddItem =       1 << 3,
+    RemoveItem =    1 << 4,
 }
 
 public class SelectableObject : MonoBehaviour, IPointerClickHandler
@@ -41,18 +44,14 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     public E_ItemType m_RequireItem;
     #endregion
 
+    #region Actions
+
     #region SetActive
     public List<bool> m_Actives;
     public List<GameObject> m_Objects;
     #endregion
 
     #region MoveCamera
-    // 화살표 표시 여부
-    public bool m_LeftActive;
-    public bool m_RightActive;
-    public bool m_UpActive;
-    public bool m_DownActive;
-
     // 현재 방향으로 이동
     public bool m_DirectionMove;
     // 이전 위치로 이동
@@ -69,6 +68,25 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     public SpriteRenderer m_Renderer;
     #endregion
 
+    #region AddItem
+    public E_ItemType m_AddItemType;
+    #endregion
+
+    #region RemoveItem
+    public E_ItemType m_RemoveItemType;
+    #endregion
+
+    #endregion
+
+    // 화살표 표시 여부
+    public bool m_DirActive;
+
+    // 4방향 화살표
+    public bool m_LeftActive;
+    public bool m_RightActive;
+    public bool m_UpActive;
+    public bool m_DownActive;
+
     #endregion
 
     // 액션 시작 시 호출할 이벤트
@@ -83,7 +101,6 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
     // 매니져
     DirectionManager M_Direction;
-    MouseManager M_Mouse;
     InventoryManager M_Inventory;
 
     private void Awake()
@@ -112,7 +129,6 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
         // 매니져 가져오기
         M_Direction = DirectionManager.Instance;
-        M_Mouse = MouseManager.Instance;
         M_Inventory = InventoryManager.Instance;
     }
 
@@ -124,29 +140,28 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
         // 마우스 위치에 UI와 오브젝트가 겹쳐있지 않다면
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            bool flag = false;
-
-            if (m_ConditionType == 0)
-            {
-                flag = true;
-            }
-
-            // ActiveItem 조건
-            if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.ActiveItem))
-            {
-                //if (M_Inventory.GetSlotItem(index).m_Type == m_RequireItem)
-                //{
-                //    flag = true;
-                //}
-                //else
-                //{
-                //    flag = false;
-                //}
-            }
-
-            if (flag)
+            // 조건 없음
+            if (m_ConditionType == E_SelectableObjectConditionType.None)
             {
                 DoAction();
+            }
+            // HasItem 조건
+            else if (m_ConditionType == E_SelectableObjectConditionType.HasItem)
+            {
+                if (M_Inventory.HasItem(m_RequireItem))
+                {
+                    DoAction();
+                }
+            }
+            // ActiveItem 조건
+            else if (m_ConditionType == E_SelectableObjectConditionType.ActiveItem)
+            {
+                if (M_Inventory.m_ActivedSlot != null &&
+                    m_RequireItem == M_Inventory.m_ActivedSlot.m_ItemInfo.m_Type)
+                {
+                    M_Inventory.UseItem(m_RequireItem);
+                    DoAction();
+                }
             }
         }
     }
@@ -205,6 +220,16 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
         m_Pos = m_LastPos;
     }
 
+    // 시작 이벤트 실행 함수
+    public void DoStartEvent()
+    {
+        m_StartEvent?.Invoke();
+    }
+    public void DoEndEvent()
+    {
+        m_EndEvent?.Invoke();
+    }
+
     // 액션 실행 함수
     public void DoAction()
     {
@@ -232,8 +257,8 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
             // 페이드가 가능한 경우
             if (Fade.CanFade())
             {
-                // 시작 이벤트 호출
-                m_StartEvent?.Invoke();
+                // 시작 이벤트 추가
+                Fade.FadeStart += DoStartEvent;
 
                 // SetActive
                 if (m_ActionType.HasFlag(E_SelectableObjectActionType.SetActive))
@@ -244,7 +269,10 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
                 if (m_ActionType.HasFlag(E_SelectableObjectActionType.MoveCamera))
                 {
                     // 화살표 끔
-                    DisableDir();
+                    if (m_DirActive)
+                    {
+                        DisableDir();
+                    }
 
                     // '현재 바라보는 방향으로 이동'은 이벤트 사용
                     // 따라서 '현재 바라보는 방향으로 이동'이 아닐 경우 카메라 이동
@@ -258,22 +286,35 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
                 {
                     Fade.FadeAction += ChangeImage;
                 }
+                // AddItem
+                if (m_ActionType.HasFlag(E_SelectableObjectActionType.AddItem))
+                {
+                    Fade.FadeAction += AddItem;
+                }
+                // RemoveItem
+                if (m_ActionType.HasFlag(E_SelectableObjectActionType.RemoveItem))
+                {
+                    Fade.FadeAction += RemoveItem;
+                }
 
                 // 화살표 업데이트
-                Fade.FadeAction += UpdateDirEnabled;
+                if (m_DirActive)
+                {
+                    Fade.FadeAction += UpdateDirEnabled;
+                }
+
+                // 종료 이벤트 추가
+                Fade.FadeEnd += DoEndEvent;
 
                 // 페이드 실행
                 Fade.DoFade();
-
-                // 종료 이벤트 호출 (추후 수정)
-                // m_EndEvent?.Invoke();
             }
         }
         // 페이드가 없을 경우
         else if (m_FadeType == E_FadeType.NoneFade)
         {
             // 시작 이벤트 호출
-            m_StartEvent?.Invoke();
+            DoStartEvent();
 
             // SetActive
             if (m_ActionType.HasFlag(E_SelectableObjectActionType.SetActive))
@@ -295,12 +336,25 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
             {
                 ChangeImage();
             }
+            // AddItem
+            if (m_ActionType.HasFlag(E_SelectableObjectActionType.AddItem))
+            {
+                AddItem();
+            }
+            // RemoveItem
+            if (m_ActionType.HasFlag(E_SelectableObjectActionType.RemoveItem))
+            {
+                RemoveItem();
+            }
 
             // 화살표 업데이트
-            UpdateDirEnabled();
+            if (m_DirActive)
+            {
+                UpdateDirEnabled();
+            }
 
-            // 종료 이벤트 호출 (추후 수정)
-            // m_EndEvent?.Invoke();
+            // 종료 이벤트 호출
+            DoEndEvent();
         }
     }
 
@@ -353,10 +407,21 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     {
         m_Renderer.sprite = m_Image;
     }
+    // 아이템 추가
+    void AddItem()
+    {
+        M_Inventory.PushSlotItem(m_AddItemType);
+    }
+    // 아이템 제거
+    void RemoveItem()
+    {
+        M_Inventory.UseItem(m_RemoveItemType);
+    }
 
     // 다음 스테이지로 넘어가는 함수
     public void NextStage()
     {
         ++__GameManager.Instance.m_CurrentStage;
+        M_Inventory.ClearInventory();
     }
 }

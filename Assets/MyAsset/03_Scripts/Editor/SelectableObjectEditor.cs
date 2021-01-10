@@ -49,11 +49,12 @@ public class SelectableObjectEditor : Editor
         obj.m_FadeType = (E_FadeType)EditorGUILayout.EnumPopup("페이드 여부", obj.m_FadeType);
 
         GUILayout.Space(5f);
-        obj.m_ConditionType = (E_SelectableObjectConditionType)EditorGUILayout.EnumFlagsField("행동의 조건", obj.m_ConditionType);
+        obj.m_ConditionType = (E_SelectableObjectConditionType)EditorGUILayout.EnumPopup("행동의 조건", obj.m_ConditionType);
 
         this.serializedObject.Update();
 
-        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.ActiveItem))
+        if (obj.m_ConditionType == E_SelectableObjectConditionType.HasItem ||
+            obj.m_ConditionType == E_SelectableObjectConditionType.ActiveItem)
         {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
@@ -86,12 +87,15 @@ public class SelectableObjectEditor : Editor
         GUILayout.Label("======================================");
         GUILayout.Space(5f);
 
-        GUILayout.Label("[ 화살표 표시 여부 ]");
+        obj.m_DirActive = EditorGUILayout.Toggle("화살표 변경?", obj.m_DirActive);
 
-        obj.m_LeftActive = EditorGUILayout.Toggle("왼쪽 방향", obj.m_LeftActive);
-        obj.m_RightActive = EditorGUILayout.Toggle("오른쪽 방향", obj.m_RightActive);
-        obj.m_UpActive = EditorGUILayout.Toggle("위쪽 방향", obj.m_UpActive);
-        obj.m_DownActive = EditorGUILayout.Toggle("아래쪽 방향", obj.m_DownActive);
+        if (obj.m_DirActive)
+        {
+            obj.m_LeftActive = EditorGUILayout.Toggle("왼쪽 방향", obj.m_LeftActive);
+            obj.m_RightActive = EditorGUILayout.Toggle("오른쪽 방향", obj.m_RightActive);
+            obj.m_UpActive = EditorGUILayout.Toggle("위쪽 방향", obj.m_UpActive);
+            obj.m_DownActive = EditorGUILayout.Toggle("아래쪽 방향", obj.m_DownActive);
+        }
 
         if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.SetActive))
         {
@@ -155,6 +159,22 @@ public class SelectableObjectEditor : Editor
             GUILayout.Space(5f);
             GUILayout.Label("[ 아무 값도 안넣을 경우 자기 자신 ]");
             obj.m_Renderer = (SpriteRenderer)EditorGUILayout.ObjectField("변경 할 렌더러", obj.m_Renderer, typeof(SpriteRenderer), true);
+        }
+        if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.AddItem))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+
+            obj.m_AddItemType = (E_ItemType)EditorGUILayout.EnumPopup("추가할 아이템", obj.m_AddItemType);
+        }
+        if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.RemoveItem))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+
+            obj.m_RemoveItemType = (E_ItemType)EditorGUILayout.EnumPopup("제거할 아이템", obj.m_RemoveItemType);
         }
 
         this.serializedObject.ApplyModifiedProperties();

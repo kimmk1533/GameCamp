@@ -7,75 +7,59 @@ public class Fade : MonoBehaviour
     static Animator m_Animator;
     static bool m_IsFade;
 
-    DirectionManager M_Direction;
-
     public void Awake()
     {
         __Initialize();
     }
     public void __Initialize()
     {
-        M_Direction = DirectionManager.Instance;
         m_Animator = GetComponent<Animator>();
         m_IsFade = false;
 
-        LeftButtonClick += TurnLeft;
-        RightButtonClick += TurnRight;
+        FadeStart += StartFade;
+        FadeEnd += EndFade;
     }
 
-    public delegate void Default();
-
-    public static Default LeftButtonClick;
-    public static Default RightButtonClick;
-    public static Default FadeAction;
-
-    void FadeStart()
+    static void StartFade()
     {
         m_IsFade = true;
-        Debug.Log("FadeStart");
     }
-    void FadeEnd()
+    static void EndFade()
     {
         m_IsFade = false;
-        FadeAction = null;
-        Debug.Log("FadeEnd");
     }
 
-    void TurnLeft()
-    {
-        M_Direction.TurnLeft();
-        DoFade();
-    }
-    void TurnRight()
-    {
-        M_Direction.TurnRight();
-        DoFade();
-    }
-    void DirectionCameraMove()
-    {
-        M_Direction.CameraMoveToDir();
-    }
+    #region 애니메이션 이벤트
+    public delegate void Default();
 
-    public void DoLeftButtonClick()
+    public static Default FadeStart;
+    public static Default FadeAction;
+    public static Default FadeEnd;
+
+    void DoFadeStart()
     {
-        if (CanFade())
-        {
-            FadeAction += DirectionCameraMove;
-            LeftButtonClick?.Invoke();
-        }
+        FadeStart?.Invoke();
     }
-    public void DoRightButtonClick()
-    {
-        if (CanFade())
-        {
-            FadeAction += DirectionCameraMove;
-            RightButtonClick?.Invoke();
-        }
-    }
-    public void DoCameraMove()
+    void DoFadeAction()
     {
         FadeAction?.Invoke();
     }
+    void DoFadeEnd()
+    {
+        FadeEnd?.Invoke();
+    }
+
+    void ClearEvent()
+    {
+        FadeStart = null;
+        FadeStart += StartFade;
+
+        FadeAction = null;
+
+        FadeEnd = null;
+        FadeEnd += EndFade;
+    }
+    #endregion
 
     public static bool CanFade()
     {
