@@ -52,9 +52,10 @@ public class ClickNDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     public void OnBeginDrag(PointerEventData eventData) //드래그 직전 함수.
     {
         if (MouseManager.Instance.GetState() == Mouse_State.MOUSE_DOWN)
-        {
-            MouseManager.Instance.SetState(Mouse_State.MOUSE_DRAG);
-        }
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                MouseManager.Instance.SetState(Mouse_State.MOUSE_DRAG);
+            }
     }
 
     public void FollowDragSlot()
@@ -78,7 +79,7 @@ public class ClickNDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
             //UI 마우스 드래그 업의 경우 실행되는 이벤트 관련은 여기 작성.
             if (MouseManager.Instance.GetState() == Mouse_State.MOUSE_DRAG)
             {
-                if (MouseManager.Instance.Raycast2DHitObj() == MouseManager.Instance.GetBeingHitUIObj().transform.parent)
+                if (MouseManager.Instance.Raycast2DHitObj() == MouseManager.Instance.GetBeingHitUIObj().transform.parent.parent)
                 {
                     MouseManager.Instance.UIClickUp();
                 }
@@ -87,10 +88,9 @@ public class ClickNDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
                     MouseManager.Instance.UIDragUp();
                 }
             }
-
-            MouseManager.Instance.SetState(Mouse_State.MOUSE_UP);
-            MouseManager.Instance.SetBeingHitObj(null);
-            MouseManager.Instance.SetBeingHitUIObj(null);
         }
+        MouseManager.Instance.SetState(Mouse_State.MOUSE_UP);
+        MouseManager.Instance.SetBeingHitObj(null);
+        MouseManager.Instance.SetBeingHitUIObj(null);
     }
 }

@@ -6,6 +6,29 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum E_ItemType
+{
+    None,
+
+    // Stage 0
+    편지,
+    열쇠,
+    성냥곽,
+
+    // Stage 1
+    // Stage 2
+    // Stage 3
+    // Stage 4
+    // Stage 5
+    // Stage 6
+    // Stage 7
+    // Stage 8
+    // Stage 9
+    // Stage 10
+
+    Max
+}
+
 public class InventoryManager : Singleton<InventoryManager>
 {
     public Transform InventoryPanal;
@@ -13,8 +36,8 @@ public class InventoryManager : Singleton<InventoryManager>
     [SerializeField] Inventory_State inventory_state = Inventory_State.Close;
     [Space(10f)]
     [Tooltip("인벤토리 슬롯")]
-    [SerializeField] List<ClickNDrag> Slot_lst = new List<ClickNDrag>();
-    [SerializeField] List<Item> Slot_item = new List<Item>();
+    [SerializeField] List<InvenSlot> Slot_lst = new List<InvenSlot>();
+    //[SerializeField] List<Item> Slot_item = new List<Item>();
     int slot_max = 0;
     int slot_size = 0;
 
@@ -35,21 +58,24 @@ public class InventoryManager : Singleton<InventoryManager>
 
     IEnumerator InventoryMove() //인벤토리 좌우 이동.
     {
-        Vector3 tmp = InventoryPanal.parent.localPosition;  //인벤토리 UI 이동 용.
-        Vector3 tmp2 = RightDirectionUI.localPosition;   //right 방향 시점 변환 버튼 UI 이동 용.
+        Vector3 InvenPos = InventoryPanal.parent.localPosition;  //인벤토리 UI 이동 용.
+        Vector3 RightPos = RightDirectionUI.localPosition;   //right 방향 시점 변환 버튼 UI 이동 용.
+
         int direction = (inventory_state == Inventory_State.Open ? -1 : 1);  //좌우 이동의 값 음양 변화.
         Inventory_State before_state = inventory_state;
         inventory_state = Inventory_State.Moving;
+
         float moveSize = InventoryPanal.parent.GetComponent<RectTransform>().sizeDelta.x / 2;   //인벤토리 UI 캔버스의 크기.
         float movement = moveSize / 10;
+
         for (int i = 0; i < movement; i++)
         {
             //인벤토리 UI 이동.
-            tmp.x += direction * moveSize / movement;
-            InventoryPanal.parent.localPosition = tmp;
+            InvenPos.x += direction * moveSize / movement;
+            InventoryPanal.parent.localPosition = InvenPos;
             //right 방향 시점 변환 버튼 UI 이동.
-            tmp2.x += direction * moveSize / movement;
-            RightDirectionUI.localPosition = tmp2;
+            RightPos.x += direction * moveSize / movement;
+            RightDirectionUI.localPosition = RightPos;
             yield return null;
         }
 
@@ -58,12 +84,12 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void MouseOverSlot(GameObject _hit)
     {
-        int hit_index = _hit.transform.GetChild(0).GetComponent<ClickNDrag>().GetThisSlotIndex();
+        int hit_index = _hit.transform.GetChild(0).GetComponent<InvenSlot>().m_SlotIndex;
         
         if (GetSlotItem(hit_index).m_Type != E_ItemType.None)
         {
             RenewalItemLst();
-            ItemAddWindow.position = _hit.transform.GetChild(0).position;
+            ItemAddWindow.position = _hit.transform.GetChild(1).position;
             TextMeshProUGUI hit_nametmp = Instance.ItemAddWindow.GetChild(0).GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI hit_addtmp = Instance.ItemAddWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
             hit_nametmp.text = GetSlotItem(hit_index).m_Type.ToString();
@@ -101,11 +127,11 @@ public class InventoryManager : Singleton<InventoryManager>
     //get set
     public Item GetSlotItem(int _index)
     {
-        return Slot_item[_index];
+        return Slot_lst[_index].m_ItemInfo;
     }
     public void SetSlotItem(int _slotindex, E_ItemType _ItemType)
     {
-        Slot_item[_slotindex].m_Type = _ItemType;
+        Slot_lst[_slotindex].m_ItemInfo = ItemDB.Instance.ReturnItemToIndex(_ItemType);
 
         //Slot_item[_slotindex].LoadingItemToIndex();
     }
@@ -113,13 +139,12 @@ public class InventoryManager : Singleton<InventoryManager>
     void InitializeSettingSlot()
     {
         Slot_lst.Clear();
-        Slot_item.Clear();
+
         for (int i = 0; i < InventoryPanal.childCount; i++)
         {
-            ClickNDrag tmp = InventoryPanal.GetChild(i).GetChild(0).GetComponent<ClickNDrag>();
-            tmp.SetThisSlotIndex(i);
-            Slot_lst.Add(tmp);
-            Slot_item.Add(new Item());
+            InvenSlot temp = InventoryPanal.GetChild(i).GetChild(0).GetComponent<InvenSlot>();
+            temp.m_SlotIndex = i;
+            Slot_lst.Add(temp);
             slot_max++;
         }
     }
@@ -146,26 +171,28 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     void SortItemLst()   //인벤토리 아이템 순서 재정렬.
     {
-        Slot_item.Sort(delegate (Item a, Item b)
+        Slot_lst.Sort(delegate (InvenSlot a, InvenSlot b)
         {
-            int a1 = (int)a.m_Type;
-            int b1 = (int)b.m_Type;
+            int a1 = (int)a.m_ItemInfo.m_Type;
+            int b1 = (int)b.m_ItemInfo.m_Type;
+
             if (a1 == 0)
                 a1 = 99999;
             if (b1 == 0)
                 b1 = 99999;
 
-             return a1.CompareTo(b1);
+            return a1.CompareTo(b1);
         });
     }
 
     void RenewalItemLst()   //인벤토리 재정렬 설정.
     {
         SortItemLst();
+
         for (int i = 0; i < slot_max; i++)
         {
-            Slot_item[i].LoadingItemToIndex();
-            Slot_lst[i].GetComponent<Image>().sprite = Slot_item[i].m_Image;
+            Slot_lst[i].m_ItemInfo.LoadingItemToIndex();
+            Slot_lst[i].m_Image.sprite = ItemDB.Instance.ReturnItemToIndex(Slot_lst[i].m_ItemInfo.m_Type).m_Image;
         }
     }
 }

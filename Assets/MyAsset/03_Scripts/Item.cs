@@ -2,16 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum E_ItemType
-{
-    None,
-    편지,
-    열쇠,
-    성냥곽,
-
-    Max
-}
-
 [System.Serializable]
 public class Item
 {
