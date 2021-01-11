@@ -19,6 +19,7 @@ public enum E_ItemType
     Stage1_종이,
 
     Stage8_문제종이,
+    Stage8_간모형,
     Max
 }
 
