@@ -332,12 +332,12 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
             if (flag)
             {
-                Action();
-
                 if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.ActiveItem))
                 {
                     M_Inventory.UseItem(m_RequireItem);
                 }
+
+                Action();
             }
         }
     }
