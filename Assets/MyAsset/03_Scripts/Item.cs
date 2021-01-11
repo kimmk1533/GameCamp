@@ -14,15 +14,15 @@ public class Item
     // 확대 가능
     public bool m_CanZoomIn;
 
-    public void LoadingItemToIndex()    //아이템DB에서 아이템을 대입 시 사용 함수.
-    {
-        if (ItemDB.Instance != null)
-        {
-            Item temp = ItemDB.Instance.ReturnItemToIndex(m_Type);
+    //public void LoadingItemToIndex()    //아이템DB에서 아이템을 대입 시 사용 함수.
+    //{
+    //    if (ItemDB.Instance != null)
+    //    {
+    //        Item temp = ItemDB.Instance.ReturnItemToIndex(m_Type);
 
-            m_Type = temp.m_Type;
-            m_Image = temp.m_Image;
-            m_Description = temp.m_Description;
-        }
-    }
+    //        m_Type = temp.m_Type;
+    //        m_Image = temp.m_Image;
+    //        m_Description = temp.m_Description;
+    //    }
+    //}
 }

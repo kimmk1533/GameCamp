@@ -46,7 +46,11 @@ public class InventoryManager : Singleton<InventoryManager>
         m_InventoryState = E_InventoryState.Close;
 
         InitializeSettingSlot();
-        PushSlotItem(E_ItemType.Stage0_편지);
+
+        if (__GameManager.Instance.m_CurrentStage == 0)
+        {
+            PushSlotItem(E_ItemType.Stage0_편지);
+        }
     }
 
     enum E_InventoryState
@@ -88,7 +92,6 @@ public class InventoryManager : Singleton<InventoryManager>
 
         if (GetSlotItem(hit_index).m_Type != E_ItemType.None)
         {
-            RenewalItemLst();
             m_ItemInfoWindow.position = _hit.transform.position;
             TextMeshProUGUI hit_nametmp = m_ItemInfoWindow.FindChildren("NameText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI hit_addtmp = m_ItemInfoWindow.FindChildren("DescriptText").GetComponent<TextMeshProUGUI>();
@@ -134,9 +137,11 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     public void SetSlotItem(int _slotindex, E_ItemType _ItemType)
     {
-        m_SlotList[_slotindex].m_ItemInfo = ItemDB.Instance.ReturnItemToIndex(_ItemType);
+        Item item = ItemDB.Instance.ReturnItemToIndex(_ItemType);
 
-        //Slot_item[_slotindex].LoadingItemToIndex();
+        m_SlotList[_slotindex].m_ItemInfo = item;
+
+        m_SlotList[_slotindex].m_ItemImage.sprite = item.m_Image;
     }
 
     void InitializeSettingSlot()
@@ -159,21 +164,27 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     public void PushSlotItem(E_ItemType _ItemType)
     {
-        if (m_SlotSize < m_SlotMaxSize)
+        for (int i = 0; i < m_SlotMaxSize; ++i)
         {
-            m_SlotList[m_SlotSize].OnItemImage();
-            SetSlotItem(m_SlotSize++, _ItemType);
-        }
+            if (m_SlotList[i].m_ItemInfo.m_Type == E_ItemType.None)
+            {
+                SetSlotItem(i, _ItemType);
+                m_SlotList[i].OnItemImage();
 
-        RenewalItemLst();
+                break;
+            }
+        }
     }
     public void PullSlotItem(int _slotindex)
     {
-        m_SlotList[_slotindex].OffItemImage();
-        SetSlotItem(_slotindex, E_ItemType.None);
-        --m_SlotSize;
+        //m_SlotList[_slotindex].OffItemImage();
+        //SetSlotItem(_slotindex, E_ItemType.None);
+        //--m_SlotSize;
 
-        RenewalItemLst();
+        m_SlotList[_slotindex].m_BGImage.color = m_DefaultColor;
+        m_SlotList[_slotindex].m_ItemImage.sprite = null;
+        SetSlotItem(_slotindex, E_ItemType.None);
+        m_SlotList[_slotindex].OffItemImage();
     }
     public void UseItem(E_ItemType e_item)
     {
@@ -194,8 +205,6 @@ public class InventoryManager : Singleton<InventoryManager>
                 break;
             }
         }
-
-        RenewalItemLst();
     }
     public bool HasItem(E_ItemType e_Item)
     {
@@ -208,6 +217,17 @@ public class InventoryManager : Singleton<InventoryManager>
         }
 
         return false;
+    }
+
+    public void ClearInventory()
+    {
+        for (int i = 0; i < m_SlotMaxSize; ++i)
+        {
+            m_SlotList[i].m_BGImage.color = m_DefaultColor;
+            m_SlotList[i].m_ItemImage.sprite = null;
+            SetSlotItem(i, E_ItemType.None);
+            m_SlotList[i].OffItemImage();
+        }
     }
 
     void SortItemLst()   //인벤토리 아이템 순서 재정렬.
@@ -224,28 +244,5 @@ public class InventoryManager : Singleton<InventoryManager>
 
             return a1.CompareTo(b1);
         });
-    }
-
-    void RenewalItemLst()   //인벤토리 재정렬 설정.
-    {
-        SortItemLst();
-
-        Debug.Log(m_SlotMaxSize);
-        for (int i = 0; i < m_SlotMaxSize; i++)
-        {
-            m_SlotList[i].m_ItemInfo.LoadingItemToIndex();
-            m_SlotList[i].m_ItemImage.sprite = ItemDB.Instance.ReturnItemToIndex(m_SlotList[i].m_ItemInfo.m_Type).m_Image;
-        }
-    }
-
-    public void ClearInventory()
-    {
-        for (int i = 0; i < m_SlotMaxSize; ++i)
-        {
-            m_SlotList[i].m_BGImage.color = m_DefaultColor;
-            m_SlotList[i].m_ItemImage.sprite = null;
-            SetSlotItem(i, E_ItemType.None);
-            m_SlotList[i].OffItemImage();
-        }
     }
 }
