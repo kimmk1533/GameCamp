@@ -42,6 +42,7 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
     #region Conditions
     public E_ItemType m_RequireItem;
+    public List<E_ItemType> m_RequireItems;
     #endregion
 
     #region Actions
@@ -148,7 +149,18 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
             // HasItem 조건
             else if (m_ConditionType == E_SelectableObjectConditionType.HasItem)
             {
-                if (M_Inventory.HasItem(m_RequireItem))
+                bool flag = true;
+
+                for (int i = 0; i < m_RequireItems.Count; ++i)
+                {
+                    if (!M_Inventory.HasItem(m_RequireItems[i]))
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                if (flag)
                 {
                     DoAction();
                 }
