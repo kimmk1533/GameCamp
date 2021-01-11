@@ -81,7 +81,6 @@ public class MouseManager : Singleton<MouseManager>
             {
                 Debug.Log("인벤 슬롯");
             }
-
             m_State = E_MouseState.MOUSE_DOWN;
         }
     }

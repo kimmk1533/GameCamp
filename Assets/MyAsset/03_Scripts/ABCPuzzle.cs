@@ -9,18 +9,28 @@ public class ABCPuzzle : MonoBehaviour
 
     string[] ABCD = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
     string[] abcd = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+    string[] Pulz_2 = {"A","C","D","E","I","L","N","R","S"};
+
     public TextMeshProUGUI m_Text1;
     public TextMeshProUGUI m_Text2;
+
+    public List<TextMeshProUGUI> m_Text3=new List<TextMeshProUGUI>();
+
 
     // 입력한 문자
     public string m_InputString1;
     public string m_InputString2;
+    public string m_InputString3;
 
+    
+    int[] index3 = { 0, 0, 0, 0, 0, 0, 0 };
     // 정답 숫자
     [ReadOnly(true)]
     public string m_AnswerString1;
     [ReadOnly(true)]
     public string m_AnswerString2;
+    [ReadOnly(true)]
+    public string m_AnswerString3;
 
     int index1=0, index2=0;
 
@@ -79,6 +89,43 @@ public class ABCPuzzle : MonoBehaviour
         }
     }
 
+    public void Pulz_science(int num)
+    {
+        if(num>0)
+        {
+            index3[num - 1] = index3[num - 1] + 1;
+            if (index3[num - 1] > Pulz_2.Length - 1)
+                index3[num - 1] = 0;
+            else if (index3[num - 1] < 0)
+                index3[num - 1] = Pulz_2.Length - 1;
+
+            m_Text3[num - 1].text = Pulz_2[index3[num - 1]];
+        }
+        else
+        {
+            num = num * -1;
+            index3[num - 1] = index3[num - 1] -1;
+            if (index3[num - 1] > Pulz_2.Length - 1)
+                index3[num - 1] = 0;
+            else if (index3[num - 1] < 0)
+                index3[num - 1] = Pulz_2.Length - 1;
+
+            m_Text3[num - 1].text = Pulz_2[index3[num - 1]];
+        }
+        string temp="";
+        foreach (var i in m_Text3)
+        {
+            temp =temp + i.text;
+        }
+        if(temp == m_AnswerString3)
+        {
+            m_Correct?.Invoke();
+            Debug.Log("정답");
+        }
+        m_InputString3 = temp;
+    }
+
+
     void InCorrectProcess()
     {
         //m_InputNum = 0;
@@ -86,42 +133,5 @@ public class ABCPuzzle : MonoBehaviour
         //Debug.Log("오답");
     }
 
-    // 자릿수 변하는 퍼즐에 사용
-    //public void AddNum(int num)
-    //{
-    //    if (m_InputNum == m_AnswerNum)
-    //        return;
-
-    //    // 첫 입력
-    //    if (m_InputNum == 0)
-    //    {
-    //        m_InputNum = num;
-    //        m_Text.text = m_InputNum.ToString();
-    //    }
-    //    else
-    //    {
-    //        string InputString = m_InputNum.ToString();
-    //        string nString = num.ToString();
-
-    //        m_InputNum = int.Parse(InputString + nString);
-    //        m_Text.text = m_InputNum.ToString();
-
-    //        // 정답 확인
-    //        if (m_InputNum.ToString().Length == m_AnswerNum.ToString().Length)
-    //        {
-    //            if (m_InputNum == m_AnswerNum)
-    //            {
-    //                m_Correct?.Invoke();
-    //                Debug.Log("정답");
-    //            }
-    //            else
-    //            {
-    //                m_InCorrect?.Invoke();
-    //            }
-    //        }
-    //    }
-    //}
-
-    // 자릿수 고정 퍼즐에 사용
 
 }
