@@ -16,7 +16,7 @@ public class TimerManager : Singleton<TimerManager>
 
     public override void __Initialize()
     {
-        SetLimitTimer(10, 0);
+        SetLimitTimer(10, 0);   //일단 어디서 설정할 곳이 없으니 생성 시 타이머 10분 설정.
     }
 
     void Update()
@@ -25,7 +25,7 @@ public class TimerManager : Singleton<TimerManager>
         {
             LimitTimer -= Time.deltaTime;
             RenewalMMSS();
-            if (IsOverTime(0, 0))
+            if (IsOverTime(0, 0))   //게임 오버 예시.
             {
                 timerStop = true;
                 Debug.LogError("GameOver");
@@ -33,17 +33,17 @@ public class TimerManager : Singleton<TimerManager>
         }
     }
 
-    void ResetTimer(int _new_mm, int _new_ss)
+    public void ResetTimer(int _new_mm, int _new_ss)
     {
         SetLimitTimer(_new_mm, _new_ss);
     }
-    bool IsOverTime(int _check_mm, int _check_ss)   //시간이 지났는지 체크(원하는 분, 원하는 초 입력), 시간이 지났을 시 true 반환.
+    public bool IsOverTime(int _check_mm, int _check_ss)   //시간이 지났는지 체크(원하는 분, 원하는 초 입력), 시간이 지났을 시 true 반환.
     {
-        if (GetLimitTimerMM() <= _check_mm)
+        if (LimitTimer_mm <= _check_mm)
         {
-            if (GetLimitTimerSS() < _check_ss)  //분과 초 계산을 소수점 내림으로 계산하기 때문에 <= 하면 안됨.
+            if (LimitTimer_ss < _check_ss)  //분과 초 계산을 소수점 내림으로 계산하기 때문에 <= 하면 안됨.
             {
-                Debug.Log(GetLimitTimerMM() + "분 " + GetLimitTimerSS() + 1 + " 초 경과");
+                Debug.Log(LimitTimer_mm + "분 " + LimitTimer_ss + 1 + " 초 경과");
                 return true;
             }
         }
@@ -51,17 +51,17 @@ public class TimerManager : Singleton<TimerManager>
     }
 
     //get set
-    float GetLimitTimer()
+    public float GetLimitTimer()
     {
         return LimitTimer;
     }
-    void SetLimitTimer(int _new_mm, int _new_ss)  //타이머 세팅(분, 초).
+    public void SetLimitTimer(int _new_mm, int _new_ss)  //타이머 세팅(분, 초).
     {
         LimitTimer_mm = _new_mm;
         LimitTimer_ss = _new_ss;
         LimitTimer = (_new_mm * 60) + _new_ss;
     }
-    int GetLimitTimerMM()  //분 단위 get
+    public int GetLimitTimerMM()  //분 단위 get
     {
         SetLimitTimerMM();
         return LimitTimer_mm;
@@ -70,7 +70,7 @@ public class TimerManager : Singleton<TimerManager>
     {
         LimitTimer_mm = Mathf.FloorToInt(GetLimitTimer() / 60);
     }
-    int GetLimitTimerSS()  //초 단위 get
+    public int GetLimitTimerSS()  //초 단위 get
     {
         SetLimitTimerSS();
         return LimitTimer_ss;
@@ -79,16 +79,16 @@ public class TimerManager : Singleton<TimerManager>
     {
         LimitTimer_ss = Mathf.FloorToInt(GetLimitTimer() % 60);
     }
-    bool GetTimerStop()
+    public bool GetTimerStop()
     {
         return timerStop;
     }
-    void SetTimerStop(bool _isstop)
+    public void SetTimerStop(bool _isstop)
     {
         timerStop = _isstop;
     }
 
-    void RenewalMMSS()  //분과 초 단위 갱신.
+    public void RenewalMMSS()  //분과 초 단위 갱신.
     {
         SetLimitTimerMM();
         SetLimitTimerSS();
