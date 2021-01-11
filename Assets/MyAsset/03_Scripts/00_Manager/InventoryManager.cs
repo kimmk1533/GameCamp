@@ -92,7 +92,7 @@ public class InventoryManager : Singleton<InventoryManager>
             m_ItemInfoWindow.position = _hit.transform.position;
             TextMeshProUGUI hit_nametmp = m_ItemInfoWindow.FindChildren("NameText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI hit_addtmp = m_ItemInfoWindow.FindChildren("DescriptText").GetComponent<TextMeshProUGUI>();
-            hit_nametmp.text = GetSlotItem(hit_index).m_Type.ToString().Split('_')[1];
+            hit_nametmp.text = GetSlotItem(hit_index).m_Type.ToString().Replace("__", " ").Split('_')[1];
             hit_addtmp.text = GetSlotItem(hit_index).m_Description;
             m_ItemInfoWindow.gameObject.SetActive(true);
         }

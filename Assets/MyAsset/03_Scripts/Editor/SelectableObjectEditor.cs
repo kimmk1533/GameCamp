@@ -53,8 +53,18 @@ public class SelectableObjectEditor : Editor
 
         this.serializedObject.Update();
 
-        if (obj.m_ConditionType == E_SelectableObjectConditionType.HasItem ||
-            obj.m_ConditionType == E_SelectableObjectConditionType.ActiveItem)
+        if (obj.m_ConditionType == E_SelectableObjectConditionType.HasItem)
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_RequireItems"), new GUIContent("필요한 아이템들"), true);
+
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+        }
+        else if (obj.m_ConditionType == E_SelectableObjectConditionType.ActiveItem)
         {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
