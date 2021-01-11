@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public static class EditorList
 {
@@ -31,7 +31,7 @@ public static class EditorList
     }
 }
 
-[CustomEditor(typeof(SelectableObject))]
+[CustomEditor(typeof(SelectableObject)), CanEditMultipleObjects]
 public class SelectableObjectEditor : Editor
 {
     //public int m_ListCount;
@@ -49,22 +49,19 @@ public class SelectableObjectEditor : Editor
         obj.m_FadeType = (E_FadeType)EditorGUILayout.EnumPopup("페이드 여부", obj.m_FadeType);
 
         GUILayout.Space(5f);
-        obj.m_ConditionType = (E_SelectableObjectConditionType)EditorGUILayout.EnumPopup("행동의 조건", obj.m_ConditionType);
+        obj.m_ConditionType = (E_SelectableObjectConditionType)EditorGUILayout.EnumFlagsField("행동의 조건", obj.m_ConditionType);
 
         this.serializedObject.Update();
 
-        if (obj.m_ConditionType == E_SelectableObjectConditionType.HasItem)
+        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.HasItem))
         {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
             GUILayout.Space(5f);
 
             EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_RequireItems"), new GUIContent("필요한 아이템들"), true);
-
-            GUILayout.Space(5f);
-            GUILayout.Label("======================================");
         }
-        else if (obj.m_ConditionType == E_SelectableObjectConditionType.ActiveItem)
+        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.ActiveItem))
         {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
@@ -72,7 +69,26 @@ public class SelectableObjectEditor : Editor
 
             obj.m_RequireItem = (E_ItemType)EditorGUILayout.EnumPopup("필요한 아이템", obj.m_RequireItem);
             //EditorGUILayout.IntField("필요한 아이템의 인덱스", obj.m_RequireItemIndex);
+        }
+        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.SameImage))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
 
+            if (obj.m_CheckRenderer == null)
+            {
+                obj.m_CheckImage = (Image)EditorGUILayout.ObjectField("원본 이미지", obj.m_CheckImage, typeof(Image), true);
+            }
+            if (obj.m_CheckImage == null)
+            {
+                obj.m_CheckRenderer = (SpriteRenderer)EditorGUILayout.ObjectField("원본 렌더러", obj.m_CheckRenderer, typeof(SpriteRenderer), true);
+            }
+            obj.m_CheckSprite = (Sprite)EditorGUILayout.ObjectField("확인 할 이미지", obj.m_CheckSprite, typeof(Sprite), true);
+        }
+
+        if (obj.m_ConditionType != 0)
+        {
             GUILayout.Space(5f);
             GUILayout.Label("======================================");
         }
