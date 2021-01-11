@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public enum E_FadeType
 {
@@ -10,21 +11,22 @@ public enum E_FadeType
     Fade,
 }
 
+[System.Flags]
 public enum E_SelectableObjectConditionType
 {
-    None,
-    HasItem,
-    ActiveItem,
+    HasItem = 1 << 0,
+    ActiveItem = 1 << 1,
+    SameImage = 1 << 2,
 }
 
 [System.Flags]
 public enum E_SelectableObjectActionType
 {
-    SetActive =     1 << 0,
-    MoveCamera =    1 << 1,
-    ChangeImage =   1 << 2,
-    AddItem =       1 << 3,
-    RemoveItem =    1 << 4,
+    SetActive = 1 << 0,
+    MoveCamera = 1 << 1,
+    ChangeImage = 1 << 2,
+    AddItem = 1 << 3,
+    RemoveItem = 1 << 4,
 }
 
 public class SelectableObject : MonoBehaviour, IPointerClickHandler
@@ -41,8 +43,18 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     #endregion
 
     #region Conditions
-    public E_ItemType m_RequireItem;
+
+    // HasItem
     public List<E_ItemType> m_RequireItems;
+
+    // ActiveItem
+    public E_ItemType m_RequireItem;
+
+    // SameImage
+    public Image m_CheckImage;
+    public SpriteRenderer m_CheckRenderer;
+    public Sprite m_CheckSprite;
+
     #endregion
 
     #region Actions
@@ -141,40 +153,7 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
         // 마우스 위치에 UI와 오브젝트가 겹쳐있지 않다면
         if (!EventSystem.current.IsPointerOverGameObject())
         {
-            // 조건 없음
-            if (m_ConditionType == E_SelectableObjectConditionType.None)
-            {
-                DoAction();
-            }
-            // HasItem 조건
-            else if (m_ConditionType == E_SelectableObjectConditionType.HasItem)
-            {
-                bool flag = true;
-
-                for (int i = 0; i < m_RequireItems.Count; ++i)
-                {
-                    if (!M_Inventory.HasItem(m_RequireItems[i]))
-                    {
-                        flag = false;
-                        break;
-                    }
-                }
-
-                if (flag)
-                {
-                    DoAction();
-                }
-            }
-            // ActiveItem 조건
-            else if (m_ConditionType == E_SelectableObjectConditionType.ActiveItem)
-            {
-                if (M_Inventory.m_ActivedSlot != null &&
-                    m_RequireItem == M_Inventory.m_ActivedSlot.m_ItemInfo.m_Type)
-                {
-                    M_Inventory.UseItem(m_RequireItem);
-                    DoAction();
-                }
-            }
+            DoAction();
         }
     }
 
@@ -237,6 +216,7 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     {
         m_StartEvent?.Invoke();
     }
+    // 끝 이벤트 실행 함수
     public void DoEndEvent()
     {
         m_EndEvent?.Invoke();
@@ -248,21 +228,130 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
         // 스크립트가 활성화 되어있을 때
         if (m_Enable)
         {
-            // 액션 실행
-            Action();
+            //// 조건 없음
+            //if (m_ConditionType == E_SelectableObjectConditionType.None)
+            //{
+            //    // 액션 실행
+            //    Action();
+            //}
+            //// HasItem 조건
+            //else if (m_ConditionType == E_SelectableObjectConditionType.HasItem)
+            //{
+            //    bool flag = true;
 
-            // 한 번만 실행 옵션이 켜져있는 경우
-            if (m_IsOnce)
+            //    for (int i = 0; i < m_RequireItems.Count; ++i)
+            //    {
+            //        if (!M_Inventory.HasItem(m_RequireItems[i]))
+            //        {
+            //            flag = false;
+            //            break;
+            //        }
+            //    }
+
+            //    if (flag)
+            //    {
+            //        // 액션 실행
+            //        Action();
+            //    }
+            //}
+            //// ActiveItem 조건
+            //else if (m_ConditionType == E_SelectableObjectConditionType.ActiveItem)
+            //{
+            //    if (M_Inventory.m_ActivedSlot != null &&
+            //        m_RequireItem == M_Inventory.m_ActivedSlot.m_ItemInfo.m_Type)
+            //    {
+            //        M_Inventory.UseItem(m_RequireItem);
+            //        // 액션 실행
+            //        Action();
+            //    }
+            //}
+            //else if (m_ConditionType == E_SelectableObjectConditionType.SameImage)
+            //{
+            //    if (m_CheckImage.sprite == m_CheckSprite)
+            //    {
+            //        // 액션 실행
+            //        Action();
+            //    }
+            //}
+
+            List<bool> Flags = new List<bool>();
+
+            // 조건 없음
+            if (m_ConditionType == 0)
             {
-                // 스크립트를 끔
-                m_Enable = false;
-                //gameObject.SetActive(false);
+                Flags.Add(true);
+            }
+            else
+            {
+                // HasItem 조건
+                if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.HasItem))
+                {
+                    bool temp = true;
+
+                    for (int i = 0; i < m_RequireItems.Count; ++i)
+                    {
+                        if (!M_Inventory.HasItem(m_RequireItems[i]))
+                        {
+                            temp = false;
+                            break;
+                        }
+                    }
+
+                    Flags.Add(temp);
+                }
+                // ActiveItem 조건
+                if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.ActiveItem))
+                {
+                    Flags.Add(M_Inventory.m_ActivedSlot != null &&
+                              m_RequireItem == M_Inventory.m_ActivedSlot.m_ItemInfo.m_Type);
+                }
+                // SameImage 조건
+                if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.SameImage))
+                {
+                    if (m_CheckImage != null)
+                    {
+                        Flags.Add(m_CheckImage.sprite == m_CheckSprite);
+                    }
+                    if (m_CheckRenderer != null)
+                    {
+                        Flags.Add(m_CheckRenderer.sprite == m_CheckSprite);
+                    }
+                }
+            }
+
+            bool flag = true;
+
+            for (int i = 0; i < Flags.Count; ++i)
+            {
+                if (!Flags[i])
+                {
+                    flag = false;
+                    break;
+                }
+            }
+
+            if (flag)
+            {
+                Action();
+
+                if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.ActiveItem))
+                {
+                    M_Inventory.UseItem(m_RequireItem);
+                }
             }
         }
     }
     // 실제 액션 함수
     void Action()
     {
+        // 한 번만 실행 옵션이 켜져있는 경우
+        if (m_IsOnce)
+        {
+            // 스크립트를 끔
+            m_Enable = false;
+            //gameObject.SetActive(false);
+        }
+
         // 페이드가 있을 경우
         if (m_FadeType == E_FadeType.Fade)
         {

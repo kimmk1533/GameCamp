@@ -6,14 +6,15 @@ using TMPro;
 
 public class InputPuzzle : MonoBehaviour
 {
+    [ReadOnly(true)]
     public TextMeshProUGUI m_Text;
 
-    // 입력한 숫자
+    // 입력한 문자
     [ShowOnly]
-    public int m_InputNum;
-    // 정답 숫자
+    public string m_InputStr;
+    // 정답 문자
     [ReadOnly(true)]
-    public int m_AnswerNum;
+    public string m_AnswerStr;
 
     public UnityEvent m_Correct;
     public UnityEvent m_InCorrect;
@@ -28,35 +29,50 @@ public class InputPuzzle : MonoBehaviour
 
     public void __Initialize()
     {
+        m_InputStr = "";
+
         m_InCorrect.AddListener(new UnityAction(InCorrectProcess));
 
-        m_AnswerLength = m_AnswerNum.ToString().Length;
+        m_AnswerLength = m_AnswerStr.Length;
+    }
+
+    private void OnEnable()
+    {
+        if (m_InputStr == m_AnswerStr)
+        {
+            m_Correct?.Invoke();
+        }
     }
 
     // 자릿수 변하는 퍼즐에 사용
-    public void AddNum(int num)
+    public void AddStr(string str)
     {
-        if (m_InputNum == m_AnswerNum)
+        if (m_InputStr == m_AnswerStr)
             return;
 
         // 첫 입력
-        if (m_InputNum == 0)
+        if (m_InputStr == "")
         {
-            m_InputNum = num;
-            m_Text.text = m_InputNum.ToString();
+            m_InputStr = str;
+
+            if (m_Text != null)
+            {
+                m_Text.text = m_InputStr.ToString();
+            }
         }
         else
         {
-            string InputString = m_InputNum.ToString();
-            string nString = num.ToString();
+            m_InputStr += str;
 
-            m_InputNum = int.Parse(InputString + nString);
-            m_Text.text = m_InputNum.ToString();
+            if (m_Text != null)
+            {
+                m_Text.text = m_InputStr;
+            }
 
             // 정답 확인
-            if (m_InputNum.ToString().Length == m_AnswerNum.ToString().Length)
+            if (m_InputStr.Length == m_AnswerLength)
             {
-                if (m_InputNum == m_AnswerNum)
+                if (m_InputStr == m_AnswerStr)
                 {
                     m_Correct?.Invoke();
                     Debug.Log("정답");
@@ -70,32 +86,45 @@ public class InputPuzzle : MonoBehaviour
     }
 
     // 자릿수 고정 퍼즐에 사용
-    public void ChangeNum(int num)
+    public void ChangeStr(string str)
     {
-        if (m_InputNum == m_AnswerNum)
+        if (m_InputStr == m_AnswerStr)
             return;
 
-        int digit = num.ToString().Replace("-", "").Length;
+        if (m_InputStr == "")
+        {
+            m_InputStr = "0";
+        }
+
+        int digit = str.ToString().Replace("-", "").Length;
         int index = m_AnswerLength - digit;
 
+        int InputNum = int.Parse(m_InputStr);
+        int num = int.Parse(str);
+
         // 숫자를 뺌으로써 자릿수가 변하면
-        if (num < 0 && m_InputNum.ToString($"D{m_AnswerLength}")[index] == '0')
+        if (num < 0 && InputNum.ToString($"D{m_AnswerLength}")[index] == '0')
         {
             // 그 윗자리를 더해줌
-            m_InputNum += (int)Mathf.Pow(10, digit);
+            InputNum += (int)Mathf.Pow(10, digit);
         }
         // 숫자를 더함으로써 자릿수가 변하면
-        else if (num > 0 && m_InputNum.ToString($"D{m_AnswerLength}")[index] == '9')
+        else if (num > 0 && InputNum.ToString($"D{m_AnswerLength}")[index] == '9')
         {
             // 그 윗자리를 빼줌
-            m_InputNum -= (int)Mathf.Pow(10, digit);
+            InputNum -= (int)Mathf.Pow(10, digit);
         }
 
-        m_InputNum += num;
+        InputNum += num;
 
-        m_Text.text = m_InputNum.ToString($"D{m_AnswerLength}");
+        m_InputStr = InputNum.ToString();
 
-        if (m_InputNum == m_AnswerNum)
+        if (m_Text != null)
+        {
+            m_Text.text = InputNum.ToString($"D{m_AnswerLength}");
+        }
+
+        if (m_InputStr == m_AnswerStr)
         {
             m_Correct?.Invoke();
         }
@@ -103,8 +132,8 @@ public class InputPuzzle : MonoBehaviour
 
     void InCorrectProcess()
     {
-        m_InputNum = 0;
-        m_Text.text = "";
+        m_InputStr = "";
+        m_Text.text = m_InputStr;
         Debug.Log("오답");
     }
 }
