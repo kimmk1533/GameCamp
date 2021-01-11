@@ -40,7 +40,8 @@ public class InputPuzzle : MonoBehaviour
     {
         if (m_InputStr == m_AnswerStr)
         {
-            m_Correct?.Invoke();
+            this.gameObject.SetActive(false);
+            //m_Correct?.Invoke();
         }
     }
 

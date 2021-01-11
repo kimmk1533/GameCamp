@@ -5,12 +5,11 @@ using UnityEngine;
 public class __GameManager : Singleton<__GameManager>
 {
     public int m_CurrentStage = 0;
+    public Camera m_Camera;
 
     protected override void Awake()
     {
         base.Awake();
-
-        maincamera = Camera.main;
 
         __Initialize();
     }
@@ -47,9 +46,11 @@ public class __GameManager : Singleton<__GameManager>
     SoundManager M_Sound;
     PauseManager M_Pause;
 
-    ////접근 가능 매니저 스크립트.
-    //public MouseManager mouseM;
-
-    //전역 변수.
-    public Camera maincamera;
+#if UNITY_EDITOR
+    [ContextMenu("[ 현재 스테이지의 초기 위치로 카메라 이동 ]")]
+    public void MoveCamera()
+    {
+        m_Camera.transform.position = DirectionManager.Instance.m_StandardPos[m_CurrentStage] + new Vector3(-30, 0, -50);
+    }
+#endif
 }
