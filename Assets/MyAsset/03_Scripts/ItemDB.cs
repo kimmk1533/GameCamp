@@ -20,7 +20,15 @@ public enum E_ItemType
     Stage1_물__묻은__휴지,
     Stage1_종이,
 
+    Stage6_엑스레이열쇠A,
+    Stage6_엑스레이열쇠B,
+    Stage6_엑스레이열쇠C,
+    Stage6_엑스레이열쇠D,
+    Stage6_지도,
+    Stage6_병원출구열쇠,
+
     Stage8_문제종이,
+    Stage8_간모형,
 
     Max
 }

@@ -230,6 +230,7 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         SortItemLst();
 
+        Debug.Log(m_SlotMaxSize);
         for (int i = 0; i < m_SlotMaxSize; i++)
         {
             m_SlotList[i].m_ItemInfo.LoadingItemToIndex();
