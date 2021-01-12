@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -27,9 +28,11 @@ public class PauseManager : Singleton<PauseManager>
     WindowMode windowMode;  //현재 윈도우 모드.
     public Transform FullScreenButton;
     public Transform WindowScreenButton;
+    TextMeshProUGUI ScrollviewButton_txt;
 
     public override void __Initialize()
     {
+        ScrollviewButton_txt = PausePanal.FindChildren("ScrollviewButton").FindChildren("SizeText").GetComponent<TextMeshProUGUI>();
         SetWindowMode(Screen.fullScreen);
         //UpBar 오브젝트 아래 있는 일시정지 패널의 버튼들 리스트에 삽입.
         UpBar = PausePanal.FindChildren("UpBar");
@@ -85,6 +88,7 @@ public class PauseManager : Singleton<PauseManager>
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 
+    //다운패널 - 디스플레이 관련 함수.
     public void DisplayButton(GameObject _thisButton)   //상단 바(UpBar)에서 버튼을 입력 시.
     {
         for (int i = 0; i < UpBar.childCount; i++)
@@ -109,12 +113,18 @@ public class PauseManager : Singleton<PauseManager>
         }
     }
 
-    public void SetScreenSetting(int width, int height, WindowMode _winMode)    //화면 설정.
+    void SetScreenSetting(int width, int height, WindowMode _winMode)    //화면 설정.
     {
         bool winMode = WindowModeToBool(_winMode);
         Screen.SetResolution(width, height, winMode);
         FullScreenButton.FindChildren("FullScreenCol").gameObject.SetActive(WindowModeToBool(windowMode));
         WindowScreenButton.FindChildren("WindowScreenCol").gameObject.SetActive(!WindowModeToBool(windowMode));
+        ScrollviewButton_txt.text = width + " x " + height;
+        Debug.Log("[해상도] Screen.width: " + Screen.width + ", Screen.height :" + Screen.height + ", Screen.fullScreen: " + Screen.fullScreen);
+    }
+    public void SetScreenWH(int width, int height)
+    {
+        SetScreenSetting(width, height, windowMode);
     }
     public void SetWindowMode(bool _winMode)  //윈도우 모드 설정 함수.
     {
@@ -144,8 +154,19 @@ public class PauseManager : Singleton<PauseManager>
         return tmp;
     }
 
-    public void ScrollbarMouse(Scrollbar _thisScroll)    //마우스로 일시정지 패널의 음향 스크롤바를 조절.
+    public void ScrollObjSetActive (GameObject _scrollObj)
     {
+        _scrollObj.SetActive(!_scrollObj.activeSelf);
+    }
+    public void SetScreenWH_Button(string _str) //버튼을 이용한 해상도 값 변경(매개변수가 1개만 받아와져서 string으로 처리, 예: 1920x1080(띄어쓰기 쓰면 안됨)).
+    {
+        string[] _strsplit = _str.Split('x');
+        if (_strsplit.Length != 2)
+        {
+            Debug.LogError("[_str] 문자열에 문장을 나누는 기준인 x의 개수가 맞지 않음.");
+            return;
+        }
 
+        SetScreenWH(int.Parse(_strsplit[0]), int.Parse(_strsplit[1]));
     }
 }
