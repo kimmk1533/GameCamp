@@ -31,6 +31,9 @@ public class __GameManager : Singleton<__GameManager>
         M_Inventory = InventoryManager.Instance;
         M_Inventory.__Initialize();
 
+        M_Timer = TimerManager.Instance;
+        M_Timer.__Initialize();
+
         M_Stage = StageManager.Instance;
         M_Stage.__Initialize();
 
@@ -45,6 +48,7 @@ public class __GameManager : Singleton<__GameManager>
     StageManager M_Stage;
     SoundManager M_Sound;
     PauseManager M_Pause;
+    TimerManager M_Timer;
 
 #if UNITY_EDITOR
     [ContextMenu("[ 현재 스테이지의 초기 위치로 카메라 이동 ]")]

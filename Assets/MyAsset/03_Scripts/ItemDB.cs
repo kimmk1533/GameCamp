@@ -11,9 +11,9 @@ public enum E_ItemType
     None,
 
     Stage0_편지,
+    Stage0_편지성냥사용,
     Stage0_열쇠,
     Stage0_성냥,
-    Stage0_편지성냥사용,
 
     Stage1_포스트잇,
     Stage1_휴지,
@@ -38,7 +38,8 @@ public enum E_ItemType
 
 public class ItemDB : Singleton<ItemDB>
 {
-    public List<Item> m_DataBase = new List<Item>();
+    public MyDictionary<E_ItemType, Item> m_DataBase = new MyDictionary<E_ItemType, Item>();
+    //public List<Item> m_DataBase = new List<Item>();
 
     public override void __Initialize()
     {
@@ -47,6 +48,6 @@ public class ItemDB : Singleton<ItemDB>
 
     public Item ReturnItemToIndex(E_ItemType e_type)
     {
-        return m_DataBase[(int)e_type];
+        return m_DataBase[e_type];
     }
 }
