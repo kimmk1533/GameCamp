@@ -9,10 +9,9 @@ public enum E_Direction
     East,
     South,
     West,
-
     Max
 }
-
+  
 public class DirectionManager : Singleton<DirectionManager>
 {
     public Image m_LeftImage;
