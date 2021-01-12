@@ -30,7 +30,7 @@ public class PauseManager : Singleton<PauseManager>
 
     public override void __Initialize()
     {
-        SetWindowMode(BoolToWindowMode(Screen.fullScreen));
+        SetWindowMode(Screen.fullScreen);
         //UpBar 오브젝트 아래 있는 일시정지 패널의 버튼들 리스트에 삽입.
         UpBar = PausePanal.FindChildren("UpBar");
         if (UpBar != null)
@@ -39,7 +39,6 @@ public class PauseManager : Singleton<PauseManager>
             {
                 pauseUpButton_img.Add(UpBar.GetChild(i).GetComponent<Image>());
             }
-            SetButtonColor(pauseUpButton_img[0].gameObject);
         }
         else
         {
@@ -49,15 +48,16 @@ public class PauseManager : Singleton<PauseManager>
         DownPanal = PausePanal.FindChildren("DownPanal");
         if (DownPanal != null)
         {
-            for (int i = 0; i < UpBar.childCount; i++)
+            for (int i = 0; i < DownPanal.childCount; i++)
             {
-                pauseDownPanal_obj.Add(UpBar.GetChild(i).gameObject);
+                pauseDownPanal_obj.Add(DownPanal.GetChild(i).gameObject);
             }
         }
         else
         {
             Debug.LogError("[DownPanal] is no [PausePanal]'s child.");
         }
+        DisplayButton(pauseUpButton_img[0].gameObject); //제일 첫번째 버튼(디스플레이 버튼)으로 디폴드 설정.
     }
 
     //get set
@@ -85,23 +85,28 @@ public class PauseManager : Singleton<PauseManager>
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
 
-    void SetButtonColor(GameObject _selectButton)   //상단 바(UpBar) 버튼 색상 재설정.
+    public void DisplayButton(GameObject _thisButton)   //상단 바(UpBar)에서 버튼을 입력 시.
     {
         for (int i = 0; i < UpBar.childCount; i++)
         {
-            if (pauseUpButton_img[i].gameObject == _selectButton)
+            bool downpanal_isactive = false;
+            if (pauseUpButton_img[i].gameObject == _thisButton)
             {
                 pauseUpButton_img[i].color = m_SelectButtonColor;
+                downpanal_isactive = true;
             }
             else
             {
                 pauseUpButton_img[i].color = m_DefaultButtonColor;
             }
+            if (pauseDownPanal_obj.Count > i)
+            {
+                if (pauseDownPanal_obj[i] != null)
+                {
+                    pauseDownPanal_obj[i].SetActive(downpanal_isactive);
+                }
+            }
         }
-    }
-    public void DisplayButton(GameObject _thisButton)   //상단 바(UpBar)에서 버튼을 입력 시.
-    {
-        SetButtonColor(_thisButton);
     }
 
     public void SetScreenSetting(int width, int height, WindowMode _winMode)    //화면 설정.
@@ -111,9 +116,10 @@ public class PauseManager : Singleton<PauseManager>
         FullScreenButton.FindChildren("FullScreenCol").gameObject.SetActive(WindowModeToBool(windowMode));
         WindowScreenButton.FindChildren("WindowScreenCol").gameObject.SetActive(!WindowModeToBool(windowMode));
     }
-    public void SetWindowMode(WindowMode _winMode)  //윈도우 모드 설정 함수.
+    public void SetWindowMode(bool _winMode)  //윈도우 모드 설정 함수.
     {
-        windowMode = _winMode;
+        WindowMode winMode = BoolToWindowMode(_winMode);
+        windowMode = winMode;
         SetScreenSetting(Screen.width, Screen.height, windowMode);
     }
     public WindowMode BoolToWindowMode(bool _winMode)   //bool 변수를 WindowMode로 변환.
@@ -136,5 +142,10 @@ public class PauseManager : Singleton<PauseManager>
             Debug.LogError("[_winMode] value is no in [WindowMode]");
 
         return tmp;
+    }
+
+    public void ScrollbarMouse(Scrollbar _thisScroll)    //마우스로 일시정지 패널의 음향 스크롤바를 조절.
+    {
+
     }
 }
