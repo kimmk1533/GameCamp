@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class TimerManager : Singleton<TimerManager>
 {
-    //ReadOnly로 쓰고싶은데 인스펙터에 안써서 일단 저걸로 썼어요 바꿔주면 감사~.
-    [SerializeField]
+    [ShowOnly, SerializeField]
     int LimitTimer_mm;  //분 단위로 환산 및 저장(초 단위 내림값).
-    [SerializeField]
+    [ShowOnly, SerializeField]
     int LimitTimer_ss;  //초 단위로 환산 및 저장(초 밑 점 단위 내림값).
-    [SerializeField]
+    [ShowOnly, SerializeField]
     float LimitTimer;   //초단위로 저장.
-    [SerializeField]
+    [ShowOnly, SerializeField]
     bool timerStop = false;  //타이머 작동 여부.
 
     public override void __Initialize()

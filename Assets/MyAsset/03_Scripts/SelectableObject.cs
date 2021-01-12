@@ -27,6 +27,7 @@ public enum E_SelectableObjectActionType
     ChangeImage = 1 << 2,
     AddItem = 1 << 3,
     RemoveItem = 1 << 4,
+    PlaySound = 1 << 5,
 }
 
 public class SelectableObject : MonoBehaviour, IPointerClickHandler
@@ -82,11 +83,16 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     #endregion
 
     #region AddItem
-    public E_ItemType m_AddItemType;
+    public List<E_ItemType> m_AddItemTypes;
     #endregion
 
     #region RemoveItem
-    public E_ItemType m_RemoveItemType;
+    public List<E_ItemType> m_RemoveItemTypes;
+    #endregion
+
+    #region PlaySound
+    public List<float> m_AudioStartSeconds;
+    public List<AudioSource> m_Audios;
     #endregion
 
     #endregion
@@ -134,6 +140,13 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
         // 렌더러가 없으면 자기 자신의 렌더러를 가져옴
         if (m_Renderer == null)
             m_Renderer = GetComponent<SpriteRenderer>();
+
+        // PlaySound
+        // 첫 번째 오디오소스가 null값이면 자기 자신을 추가
+        if (m_Audios.Count == 0)
+            m_Audios.Add(this.GetComponent<AudioSource>());
+        else if (m_Audios[0] == null)
+            m_Audios[0] = this.GetComponent<AudioSource>();
 
         // 카메라, 카메라가 이동할 위치 설정
         m_Camera = Camera.main;
@@ -397,6 +410,11 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
                 {
                     Fade.FadeAction += RemoveItem;
                 }
+                // PlaySound
+                if (m_ActionType.HasFlag(E_SelectableObjectActionType.PlaySound))
+                {
+                    Fade.FadeAction += PlaySound;
+                }
 
                 // 화살표 업데이트
                 if (m_DirActive)
@@ -446,6 +464,11 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
             if (m_ActionType.HasFlag(E_SelectableObjectActionType.RemoveItem))
             {
                 RemoveItem();
+            }
+            // PlaySound
+            if (m_ActionType.HasFlag(E_SelectableObjectActionType.PlaySound))
+            {
+                PlaySound();
             }
 
             // 화살표 업데이트
@@ -511,12 +534,34 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     // 아이템 추가
     void AddItem()
     {
-        M_Inventory.PushSlotItem(m_AddItemType);
+        for (int i = 0; i < m_AddItemTypes.Count; ++i)
+        {
+            M_Inventory.PushSlotItem(m_AddItemTypes[i]);
+        }
     }
     // 아이템 제거
     void RemoveItem()
     {
-        M_Inventory.UseItem(m_RemoveItemType);
+        for (int i = 0; i < m_RemoveItemTypes.Count; ++i)
+        {
+            M_Inventory.UseItem(m_RemoveItemTypes[i]);
+        }
+    }
+    // 오디오 재생
+    void PlaySound()
+    {
+        for (int i = 0; i < m_Audios.Count; ++i)
+        {
+            StartCoroutine(Play(i));
+        }
+    }
+    IEnumerator Play(int index)
+    {
+        m_Audios[index].Stop();
+
+        yield return new WaitForSeconds(m_AudioStartSeconds[index]);
+
+        m_Audios[index].Play();
     }
 
     // 다음 스테이지로 넘어가는 함수

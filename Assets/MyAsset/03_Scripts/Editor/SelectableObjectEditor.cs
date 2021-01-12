@@ -193,7 +193,8 @@ public class SelectableObjectEditor : Editor
             GUILayout.Label("======================================");
             GUILayout.Space(5f);
 
-            obj.m_AddItemType = (E_ItemType)EditorGUILayout.EnumPopup("추가할 아이템", obj.m_AddItemType);
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_AddItemTypes"));
+            //obj.m_AddItemTypes = (E_ItemType)EditorGUILayout.EnumPopup("추가할 아이템들", obj.m_AddItemTypes);
         }
         if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.RemoveItem))
         {
@@ -201,7 +202,17 @@ public class SelectableObjectEditor : Editor
             GUILayout.Label("======================================");
             GUILayout.Space(5f);
 
-            obj.m_RemoveItemType = (E_ItemType)EditorGUILayout.EnumPopup("제거할 아이템", obj.m_RemoveItemType);
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_RemoveItemTypes"));
+            //obj.m_RemoveItemTypes = (E_ItemType)EditorGUILayout.EnumPopup("제거할 아이템들", obj.m_RemoveItemTypes);
+        }
+        if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.PlaySound))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_AudioStartSeconds"), new GUIContent("오디오 재생 대기 시간"), true);
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_Audios"), new GUIContent("재생할 오디오"), true);
         }
 
         this.serializedObject.ApplyModifiedProperties();

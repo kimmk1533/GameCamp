@@ -11,7 +11,7 @@ public enum E_ItemType
     None,
 
     Stage0_편지,
-    Stage0_편지성냥사용,
+    Stage0_그을린__편지,
     Stage0_열쇠,
     Stage0_성냥,
 
@@ -20,10 +20,10 @@ public enum E_ItemType
     Stage1_물__묻은__휴지,
     Stage1_종이,
 
-    Stage6_엑스레이열쇠A,
-    Stage6_엑스레이열쇠B,
-    Stage6_엑스레이열쇠C,
-    Stage6_엑스레이열쇠D,
+    Stage6_열쇠__A,
+    Stage6_열쇠__B,
+    Stage6_열쇠__C,
+    Stage6_열쇠__D,
     Stage6_지도,
     Stage6_병원출구열쇠,
 

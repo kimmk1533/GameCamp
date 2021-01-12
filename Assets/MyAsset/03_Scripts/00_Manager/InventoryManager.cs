@@ -9,12 +9,10 @@ using UnityEngine.UI;
 public class InventoryManager : Singleton<InventoryManager>
 {
     [ReadOnly(true)]
-    public Canvas m_Canvas;
-    [ShowOnly]
     public Transform m_InventoryPanal;
-    [ShowOnly]
+    [ReadOnly(true)]
     public Transform m_RightDirectionUI;
-    [ShowOnly]
+    [ReadOnly(true)]
     public GameObject m_ItemZoomIn;
     [SerializeField] E_InventoryState m_InventoryState;
     public Transform m_ItemInfoWindow; //아이템 설명 창.
@@ -36,26 +34,17 @@ public class InventoryManager : Singleton<InventoryManager>
     int m_SlotSize = 0;
 
     public override void __Initialize()
-    {
-        m_InventoryPanal = m_Canvas.transform.FindChildren("Inventory");
-        m_RightDirectionUI = m_Canvas.transform.FindChildren("Right");
-        m_ItemZoomIn = m_Canvas.transform.FindChildren("ItemZoomIn").gameObject;
-        
+    {        
         m_SlotList = new List<InvenSlot>();
 
         m_InventoryState = E_InventoryState.Close;
 
         InitializeSettingSlot();
 
-        PushSlotItem(E_ItemType.Stage0_편지);
-        
-
-
         if (__GameManager.Instance.m_CurrentStage == 0)
         {
             PushSlotItem(E_ItemType.Stage0_편지);
         }
-
     }
 
     enum E_InventoryState
@@ -190,6 +179,23 @@ public class InventoryManager : Singleton<InventoryManager>
         m_SlotList[_slotindex].m_ItemImage.sprite = null;
         SetSlotItem(_slotindex, E_ItemType.None);
         m_SlotList[_slotindex].OffItemImage();
+
+        for (int i = _slotindex; i < m_SlotMaxSize - 1; ++i)
+        {
+            m_SlotList[i].m_BGImage.color = m_DefaultColor;
+            SetSlotItem(i, m_SlotList[i + 1].m_ItemInfo.m_Type);
+
+            if (m_SlotList[i].m_ItemInfo.m_Type == E_ItemType.None)
+            {
+                m_SlotList[i].OffItemImage();
+            }
+        }
+
+        m_SlotList[m_SlotMaxSize - 1].m_BGImage.color = m_DefaultColor;
+        SetSlotItem(m_SlotMaxSize - 1, E_ItemType.None);
+        m_SlotList[m_SlotMaxSize - 1].OffItemImage();
+
+        --m_SlotSize;
     }
     public void UseItem(E_ItemType e_item)
     {
@@ -203,10 +209,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     m_ActivedSlot = null;
                 }
 
-                m_SlotList[i].OffItemImage();
-                m_SlotList[i].m_ItemImage.sprite = null;
-                SetSlotItem(i, E_ItemType.None);
-                --m_SlotSize;
+                PullSlotItem(i);
                 break;
             }
         }
