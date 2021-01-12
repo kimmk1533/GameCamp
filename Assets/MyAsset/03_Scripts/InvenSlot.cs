@@ -71,10 +71,11 @@ public class InvenSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
             if (M_Inventory.m_ActivedSlot != null)
             {
+                M_Inventory.m_ActivedSlot.m_BGImage.color = M_Inventory.m_DefaultColor;
+
                 // 아이템 끼리의 상호작용
                 TestFunc();
 
-                M_Inventory.m_ActivedSlot.m_BGImage.color = M_Inventory.m_DefaultColor;
                 M_Inventory.m_ActivedSlot = null;
             }
 
@@ -90,11 +91,6 @@ public class InvenSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         {
             if (m_ItemInfo.m_CanZoomIn)
             {
-                for (int i = 0; i < M_Inventory.m_Canvas.transform.childCount; ++i)
-                {
-                    M_Inventory.m_Canvas.transform.GetChild(i).gameObject.SetActive(false);
-                }
-
                 m_BGImage.color = M_Inventory.m_DefaultColor;
                 M_Inventory.m_ItemZoomIn.SetActive(true);
 
@@ -121,10 +117,12 @@ public class InvenSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
                 (item1.m_Type == E_ItemType.Stage0_성냥 ||
                 item2.m_Type == E_ItemType.Stage0_성냥))
             {
-                M_Inventory.PullSlotItem(m_SlotIndex);
-                M_Inventory.PullSlotItem(M_Inventory.m_ActivedSlot.m_SlotIndex);
+                M_Inventory.UseItem(E_ItemType.Stage0_성냥);
+                M_Inventory.UseItem(E_ItemType.Stage0_편지);
+                //M_Inventory.PullSlotItem(m_SlotIndex);
+                //M_Inventory.PullSlotItem(M_Inventory.m_ActivedSlot.m_SlotIndex);
 
-                M_Inventory.PushSlotItem(E_ItemType.Stage0_편지성냥사용);
+                M_Inventory.PushSlotItem(E_ItemType.Stage0_그을린__편지);
             }
         }
     }

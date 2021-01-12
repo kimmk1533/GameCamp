@@ -49,6 +49,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
+  - name: Direction
+    uniqueID: 85521595
+    locked: 0
+  - name: GameUI
     uniqueID: 3832152273
+    locked: 0
+  - name: OnUI
+    uniqueID: 1720683127
     locked: 0

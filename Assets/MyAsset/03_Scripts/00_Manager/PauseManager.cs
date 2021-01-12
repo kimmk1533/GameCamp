@@ -30,7 +30,7 @@ public class PauseManager : Singleton<PauseManager>
 
     public override void __Initialize()
     {
-        ScrollviewButton_txt = PausePanal.FindChildren("ScrollviewButton").FindChildren("SizeText").GetComponent<TextMeshProUGUI>();
+        ScrollviewButton_txt = PausePanal.FindChildren("SizeText").GetComponent<TextMeshProUGUI>();
         SetWindowMode(Screen.fullScreen);
         //UpBar 오브젝트 아래 있는 일시정지 패널의 버튼들 리스트에 삽입.
         UpBar = PausePanal.FindChildren("UpBar");

@@ -9,6 +9,10 @@ public class InputPuzzle : MonoBehaviour
     [ReadOnly(true)]
     public TextMeshProUGUI m_Text;
 
+    [Header("원본과 같게 하려면 0으로")]
+    [Header("글자간 간격")]
+    public float m_Distance = 70f;
+
     // 입력한 문자
     [ShowOnly]
     public string m_InputStr;
@@ -22,6 +26,13 @@ public class InputPuzzle : MonoBehaviour
     [ShowOnly, SerializeField]
     int m_AnswerLength;
 
+    const int Ascii_Number_Min = 48;
+    const int Ascii_Number_Max = 57;
+    const int Ascii_Alphabet_Upper_Min = 65;
+    const int Ascii_Alphabet_Upper_Max = 90;
+    const int Ascii_Alphabet_Lower_Min = 97;
+    const int Ascii_Alphabet_Lower_Max = 122;
+
     private void Awake()
     {
         __Initialize();
@@ -29,7 +40,8 @@ public class InputPuzzle : MonoBehaviour
 
     public void __Initialize()
     {
-        m_InputStr = "";
+        m_InputStr = m_Text.text;
+        SetText();
 
         m_InCorrect.AddListener(new UnityAction(InCorrectProcess));
 
@@ -58,7 +70,7 @@ public class InputPuzzle : MonoBehaviour
 
             if (m_Text != null)
             {
-                m_Text.text = m_InputStr.ToString();
+                SetText();
             }
         }
         else
@@ -67,7 +79,7 @@ public class InputPuzzle : MonoBehaviour
 
             if (m_Text != null)
             {
-                m_Text.text = m_InputStr;
+                SetText();
             }
 
             // 정답 확인
@@ -94,35 +106,59 @@ public class InputPuzzle : MonoBehaviour
 
         if (m_InputStr == "")
         {
-            m_InputStr = "0";
+            m_InputStr = m_Text.text;
         }
 
-        int digit = str.ToString().Replace("-", "").Length;
-        int index = m_AnswerLength - digit;
+        int digit = m_InputStr.Length;
 
-        int InputNum = int.Parse(m_InputStr);
-        int num = int.Parse(str);
+        string Ascii = "";
 
-        // 숫자를 뺌으로써 자릿수가 변하면
-        if (num < 0 && InputNum.ToString($"D{m_AnswerLength}")[index] == '0')
+        for (int i = 0; i < digit - 1; ++i)
         {
-            // 그 윗자리를 더해줌
-            InputNum += (int)Mathf.Pow(10, digit);
+            char temp_Char = m_InputStr[i];
+            int temp_Int = System.Convert.ToInt32(temp_Char);
+            string temp_Ascii = temp_Int.ToString();
+
+            Ascii += temp_Ascii;
+            Ascii += '_';
         }
-        // 숫자를 더함으로써 자릿수가 변하면
-        else if (num > 0 && InputNum.ToString($"D{m_AnswerLength}")[index] == '9')
+
+        Ascii += System.Convert.ToInt32(m_InputStr[digit - 1]).ToString();
+
+        string[][] SplitString = new string[2][];
+        SplitString[0] = Ascii.Split('_');
+        SplitString[1] = str.Split(' ');
+
+        int[] SplitInt = new int[digit];
+
+        for (int i = 0; i < digit; ++i)
         {
-            // 그 윗자리를 빼줌
-            InputNum -= (int)Mathf.Pow(10, digit);
+            SplitInt[i] = int.Parse(SplitString[0][i]) + int.Parse(SplitString[1][i]);
+
+            if (SplitInt[i] == Ascii_Number_Min - 1)
+                SplitInt[i] = Ascii_Number_Max;
+            else if (SplitInt[i] == Ascii_Number_Max + 1)
+                SplitInt[i] = Ascii_Number_Min;
+            else if (SplitInt[i] == Ascii_Alphabet_Upper_Min - 1)
+                SplitInt[i] = Ascii_Alphabet_Upper_Max;
+            else if (SplitInt[i] == Ascii_Alphabet_Upper_Max + 1)
+                SplitInt[i] = Ascii_Alphabet_Upper_Min;
+            else if (SplitInt[i] == Ascii_Alphabet_Lower_Min - 1)
+                SplitInt[i] = Ascii_Alphabet_Lower_Max;
+            else if (SplitInt[i] == Ascii_Alphabet_Lower_Max + 1)
+                SplitInt[i] = Ascii_Alphabet_Lower_Min;
         }
 
-        InputNum += num;
+        m_InputStr = "";
 
-        m_InputStr = InputNum.ToString();
+        for (int i = 0; i < digit; ++i)
+        {
+            m_InputStr += System.Convert.ToChar(SplitInt[i]);
+        }
 
         if (m_Text != null)
         {
-            m_Text.text = InputNum.ToString($"D{m_AnswerLength}");
+            SetText();
         }
 
         if (m_InputStr == m_AnswerStr)
@@ -131,10 +167,17 @@ public class InputPuzzle : MonoBehaviour
         }
     }
 
+    void SetText()
+    {
+        string space = $"<mspace={m_Distance}>";
+        space += m_InputStr;
+        space += "</mspace>";
+        m_Text.text = space;
+    }
+
     void InCorrectProcess()
     {
-        m_InputStr = "";
-        m_Text.text = m_InputStr;
+        m_Text.text = m_InputStr = "";
         Debug.Log("오답");
     }
 }
