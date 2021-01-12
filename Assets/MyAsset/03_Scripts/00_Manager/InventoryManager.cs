@@ -47,6 +47,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
         InitializeSettingSlot();
         PushSlotItem(E_ItemType.Stage0_편지);
+        
     }
 
     enum E_InventoryState

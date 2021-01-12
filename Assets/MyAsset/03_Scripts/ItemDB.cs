@@ -30,6 +30,8 @@ public enum E_ItemType
     Stage8_문제종이,
     Stage8_간모형,
     Stage8_심장모형,
+    Stage8_눈모형,
+    Stage8_USB,
 
     Max
 }
