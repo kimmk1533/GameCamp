@@ -13504,7 +13504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3beca1a631d408c4f8906e93e7264b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CurrentStage: 0
+  m_CurrentStage: 10
   m_Camera: {fileID: 519420031}
 --- !u!4 &526272214
 Transform:
@@ -20741,7 +20741,7 @@ MonoBehaviour:
   LimitTimer_mm: 0
   LimitTimer_ss: 0
   LimitTimer: 0
-  timerStop: 0
+  timerOn: 0
 --- !u!4 &816445557
 Transform:
   m_ObjectHideFlags: 0

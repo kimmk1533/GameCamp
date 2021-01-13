@@ -11,24 +11,19 @@ public class TimerManager : Singleton<TimerManager>
     [ShowOnly, SerializeField]
     float LimitTimer;   //초단위로 저장.
     [ShowOnly, SerializeField]
-    bool timerStop = false;  //타이머 작동 여부.
+    bool timerOn = false;  //타이머 작동 여부.
 
     public override void __Initialize()
     {
-        SetLimitTimer(10, 0);   //일단 어디서 설정할 곳이 없으니 생성 시 타이머 10분 설정.
+        
     }
 
     void Update()
     {
-        if (!timerStop)
+        if (timerOn)
         {
             LimitTimer -= Time.deltaTime;
             RenewalMMSS();
-            if (IsOverTime(0, 0))   //게임 오버 예시.
-            {
-                timerStop = true;
-                Debug.LogError("GameOver");
-            }
         }
     }
 
@@ -38,16 +33,28 @@ public class TimerManager : Singleton<TimerManager>
     }
     public bool IsOverTime(int _check_mm, int _check_ss)   //시간이 지났는지 체크(원하는 분, 원하는 초 입력), 시간이 지났을 시 true 반환.
     {
+        bool tmp = false;
         if (LimitTimer_mm <= _check_mm)
         {
-            if (LimitTimer_ss < _check_ss)  //분과 초 계산을 소수점 내림으로 계산하기 때문에 <= 하면 안됨.
+            if (LimitTimer_mm == _check_mm) //분의 값이 같을 경우.
             {
-                Debug.Log(LimitTimer_mm + "분 " + LimitTimer_ss + 1 + " 초 경과");
-                return true;
+                if (LimitTimer_ss < _check_ss)  //분과 초 계산을 소수점 내림으로 계산하기 때문에 <= 하면 안됨.
+                {
+                    tmp = true;
+                }
+            }
+            else    //현재 분 < 체크 분이면 초가 몇이든 true.
+            {
+                tmp = true;
             }
         }
-        return false;
+        if (tmp)
+            Debug.Log(LimitTimer_mm + "분 " + (LimitTimer_ss + 1) + " 초 경과");
+        return tmp;
     }
+
+    //관련 함수.
+    
 
     //get set
     public float GetLimitTimer()
@@ -78,13 +85,13 @@ public class TimerManager : Singleton<TimerManager>
     {
         LimitTimer_ss = Mathf.FloorToInt(GetLimitTimer() % 60);
     }
-    public bool GetTimerStop()
+    public bool GetTimerOn()
     {
-        return timerStop;
+        return timerOn;
     }
-    public void SetTimerStop(bool _isstop)
+    public void SetTimerOn(bool _isstop)
     {
-        timerStop = _isstop;
+        timerOn = _isstop;
     }
 
     public void RenewalMMSS()  //분과 초 단위 갱신.
