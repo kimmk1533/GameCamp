@@ -32,6 +32,8 @@ public enum E_ItemType
     Stage8_심장모형,
     Stage8_눈모형,
     Stage8_USB,
+    
+    Stage10_숫자가__적힌__휴지,
 
     Max
 }
