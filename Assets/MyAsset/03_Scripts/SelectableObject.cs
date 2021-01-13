@@ -78,7 +78,8 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
 
     #region ChangeSprite
     public bool m_IsOnce;
-    public Sprite m_Image;
+    public Sprite m_Sprite;
+    public Image m_Image;
     public SpriteRenderer m_Renderer;
     #endregion
 
@@ -529,7 +530,14 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     // 설정한 렌더러의 이미지를 바꿈
     void ChangeImage()
     {
-        m_Renderer.sprite = m_Image;
+        if (m_Image != null)
+        {
+            m_Image.sprite = m_Sprite;
+        }
+        else if (m_Renderer != null)
+        {
+            m_Renderer.sprite = m_Sprite;
+        }
     }
     // 아이템 추가
     void AddItem()

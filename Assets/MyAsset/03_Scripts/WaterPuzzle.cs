@@ -2,210 +2,150 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
-
-
+using UnityEngine.UI;
 
 public class WaterPuzzle : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [System.Serializable]
+    public class Beaker
+    {
+        public int m_MaxVolume;
+        [ShowOnly]
+        public int m_CurrentVolume;
 
-    public UnityEvent m_StartEvent;
-    // 액션 종료 시 호출할 이벤트
-    public UnityEvent m_EndEvent;
+        public bool m_Actived;
+        public List<Sprite> m_Images;
 
-    public List<Sprite> bk500 = null;
-    public List<Sprite> bk300 = null;
-    public List<GameObject> Effect = null;
+        [ReadOnly(true)]
+        public SpriteRenderer m_Renderer;
+        [ReadOnly(true)]
+        public SpriteRenderer m_OutLine;
 
+        public Beaker()
+        {
+            m_CurrentVolume = 1;
+            m_Actived = false;
 
-    public GameObject beaker300=null;
-    public GameObject beaker500=null;
-    public GameObject water_tap = null;
+            m_Images = new List<Sprite>();
+        }
 
-    public int addwater = 5;
-    public int bk5 = 0;
-    public int bk3 = 0;
+        public void OnBeakerActived()
+        {
+            m_Actived = true;
+
+            m_OutLine.gameObject.SetActive(true);
+        }
+        public void OffBeakerActived()
+        {
+            m_Actived = false;
+
+            m_OutLine.gameObject.SetActive(false);
+        }
+
+        public void AddWater()
+        {
+            m_CurrentVolume = m_MaxVolume;
+            UpdateImage();
+        }
+        public void ClearBeaker()
+        {
+            m_CurrentVolume = 0;
+            UpdateImage();
+        }
+
+        public void UpdateImage()
+        {
+            m_Renderer.sprite = m_Images[m_CurrentVolume];
+            OffBeakerActived();
+        }
+    }
+
+    [ReadOnly(true)]
+    public Beaker m_Beaker300;
+    [ReadOnly(true)]
+    public Beaker m_Beaker500;
 
     public UnityEvent m_Correct;
-    public UnityEvent m_InCorrect;
 
-    public GameObject Selectobj;
-
-    [ShowOnly]
-    public bool Active500 = false;
-    [ShowOnly]
-    public bool Active300 = false;
-    bool swap = false;
-
-
-    private void Awake()
+    public void OnClick300Beaker()
     {
-        __Initialize();
-    }
-
-    public void __Initialize()
-    {
-        m_InCorrect.AddListener(new UnityAction(InCorrectProcess));
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        img_renewal();
-    }
-
-    public void InPutM()
-    {
-        Selectobj = GetObject(0);
-        if (Selectobj != null)
+        if (!m_Beaker300.m_Actived && !m_Beaker500.m_Actived)
         {
-            GameObject tempobj = Selectobj;
-            swap = false;
-            if (tempobj.name== "water tap")
+            m_Beaker300.OnBeakerActived();
+            m_Beaker500.OffBeakerActived();
+        }
+        else if (m_Beaker300.m_Actived)
+        {
+            m_Beaker300.OffBeakerActived();
+        }
+        else if (m_Beaker500.m_Actived)
+        {
+            while (m_Beaker300.m_CurrentVolume < m_Beaker300.m_MaxVolume &&
+                   m_Beaker500.m_CurrentVolume > 0)
             {
-                if (Active500)
-                {
-                    bk5 = 5;
-                    Active500 = false;
-                }
-                else if (Active300)
-                {
-                    bk3 = 3;
-                    Active300 = false;
-                }
-            }
-            else if(tempobj.name == "waterspout")
-            {
-                if (Active500)
-                {
-                    bk5 = 0;
-                    Active500 = false;
-                }
-                else if (Active300)
-                {
-                    bk3 = 0;
-                    Active300 = false;
-                }
+                ++m_Beaker300.m_CurrentVolume;
+                --m_Beaker500.m_CurrentVolume;
             }
 
-            
-            if (Active500)
-            {
-                if (tempobj.name== "300B")
-                {
-
-                    while(bk5 > 0)
-                    {
-                        if (bk3 >= 3)
-                        {
-                            bk3 = 3;
-                            break;
-                        }
-                        bk5--;
-                        bk3++;
-                        
-                    }
-
-                    swap = true;
-                    Active500 = false;
-                    Active300 = false;
-                    effect_renewal();
-                }
-            }
-
-            else if (Active300)
-            {
-                if (tempobj.name == "500B")
-                {
-                    while (bk3 > 0)
-                    {
-                        if (bk5 >= 5)
-                        {
-                            bk5 = 5;
-                            break;
-                        }
-                        bk3--;
-                        bk5++;
-                        
-                    }
-                    swap = true;
-                    Active500 = false;
-                    Active300 = false;
-                    effect_renewal();
-                }
-            }
-
-            if (!swap)
-            {
-                if (tempobj.name == "500B")
-                {
-                    Active500 = true;
-                }
-                else
-                {
-                    Active500 = false;
-                }
-                if (tempobj.name == "300B")
-                {
-                    Active300 = true;
-                }
-                else
-                {
-                    Active300 = false;
-                }
-            }
-
-            if (bk5 == 4)
-            {
-                m_Correct?.Invoke();
-            }
-
+            m_Beaker300.UpdateImage();
+            m_Beaker500.UpdateImage();
         }
 
-    }
-
-    void img_renewal()
-    {
-        if (Active500)
-            Effect[0].SetActive(true);
-        else if(Active300)
-            Effect[1].SetActive(true);
-        beaker500.GetComponent<SpriteRenderer>().sprite = bk500[bk5];
-        beaker300.GetComponent<SpriteRenderer>().sprite = bk300[bk3];
-    }
-
-    void effect_renewal()
-    {
-        foreach (var item in Effect)
+        if (m_Beaker500.m_CurrentVolume == 4)
         {
-            item.SetActive(false);
+            m_Correct?.Invoke();
+        }
+    }
+    public void OnClick500Beaker()
+    {
+        if (!m_Beaker300.m_Actived && !m_Beaker500.m_Actived)
+        {
+            m_Beaker300.OffBeakerActived();
+            m_Beaker500.OnBeakerActived();
+        }
+        else if (m_Beaker300.m_Actived)
+        {
+            while (m_Beaker500.m_CurrentVolume < m_Beaker500.m_MaxVolume &&
+                   m_Beaker300.m_CurrentVolume > 0)
+            {
+                --m_Beaker300.m_CurrentVolume;
+                ++m_Beaker500.m_CurrentVolume;
+            }
+
+            m_Beaker300.UpdateImage();
+            m_Beaker500.UpdateImage();
+        }
+        else if (m_Beaker500.m_Actived)
+        {
+            m_Beaker500.OffBeakerActived();
+        }
+
+        if (m_Beaker500.m_CurrentVolume == 4)
+        {
+            m_Correct?.Invoke();
         }
     }
 
-
-    public GameObject GetObject(int layer = -1)
+    public void OnClickWaterTap()
     {
-        GameObject target = null;
-
-        int mask = 1 << layer;
-
-        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Ray2D ray = new Ray2D(pos, Vector2.zero);
-        RaycastHit2D hit;
-        hit = layer == -1 ? Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity) : Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, mask);
-
-        if(hit)
+        if (m_Beaker300.m_Actived)
         {
-            target = hit.collider.gameObject;
+            m_Beaker300.AddWater();
         }
-        return target;
+        else if (m_Beaker500.m_Actived)
+        {
+            m_Beaker500.AddWater();
+        }
     }
-
-    void InCorrectProcess()
+    public void OnClickWaterSpout()
     {
-
+        if (m_Beaker300.m_Actived)
+        {
+            m_Beaker300.ClearBeaker();
+        }
+        else if (m_Beaker500.m_Actived)
+        {
+            m_Beaker500.ClearBeaker();
+        }
     }
-
 }
