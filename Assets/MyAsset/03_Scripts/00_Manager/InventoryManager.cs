@@ -190,6 +190,10 @@ public class InventoryManager : Singleton<InventoryManager>
             {
                 m_SlotList[i].OffItemImage();
             }
+            else
+            {
+                m_SlotList[i].OnItemImage();
+            }
         }
 
         m_SlotList[m_SlotMaxSize - 1].m_BGImage.color = m_DefaultColor;

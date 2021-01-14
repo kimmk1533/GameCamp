@@ -181,11 +181,19 @@ public class SelectableObjectEditor : Editor
             obj.m_IsOnce = EditorGUILayout.Toggle("한 번만 실행?", obj.m_IsOnce);
 
             GUILayout.Space(5f);
-            obj.m_Image = (Sprite)EditorGUILayout.ObjectField("변경 될 이미지", obj.m_Image, typeof(Sprite), true);
+            obj.m_Sprite = (Sprite)EditorGUILayout.ObjectField("변경 될 이미지", obj.m_Sprite, typeof(Sprite), true);
 
             GUILayout.Space(5f);
             GUILayout.Label("[ 아무 값도 안넣을 경우 자기 자신 ]");
-            obj.m_Renderer = (SpriteRenderer)EditorGUILayout.ObjectField("변경 할 렌더러", obj.m_Renderer, typeof(SpriteRenderer), true);
+
+            if (obj.m_Renderer == null)
+            {
+                obj.m_Image = (Image)EditorGUILayout.ObjectField("변경 할 이미지", obj.m_Image, typeof(Image), true);
+            }
+            if (obj.m_Image == null)
+            {
+                obj.m_Renderer = (SpriteRenderer)EditorGUILayout.ObjectField("변경 할 렌더러", obj.m_Renderer, typeof(SpriteRenderer), true);
+            }
         }
         if (obj.m_ActionType.HasFlag(E_SelectableObjectActionType.AddItem))
         {

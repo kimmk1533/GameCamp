@@ -167,4 +167,11 @@ public class PauseManager : Singleton<PauseManager>
 
         SetScreenWH(int.Parse(_strsplit[0]), int.Parse(_strsplit[1]));
     }
+
+    //기타 함수.
+    public void GameOver()  //게임 오버 체크.
+    {
+        TimerManager.Instance.SetTimerOn(false);
+        MouseManager.Instance.m_State = E_MouseState.NONE;
+    }
 }
