@@ -27,11 +27,20 @@ public enum E_ItemType
     Stage6_지도,
     Stage6_병원출구열쇠,
 
+    
+
     Stage8_문제종이,
     Stage8_간모형,
     Stage8_심장모형,
     Stage8_눈모형,
     Stage8_USB,
+
+    Stage7_곡괭이,
+    Stage7_초록보석,
+    Stage7_노란보석,
+    Stage7_파란보석,
+    Stage7_빨간보석,
+    Stage7_열쇠,
 
     Max
 }
