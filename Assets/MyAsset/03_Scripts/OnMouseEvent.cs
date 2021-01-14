@@ -5,15 +5,23 @@ using UnityEngine.Events;
 
 public class OnMouseEvent : MonoBehaviour
 {
+    public E_ItemType m_RequireItem;
+
     public UnityEvent m_OnMouseEnterEvent;
-    public UnityEvent m_OnMouseExitEvent;
+
+    InventoryManager M_Inven;
+
+    private void Awake()
+    {
+        M_Inven = InventoryManager.Instance;
+    }
 
     private void OnMouseEnter()
     {
-        m_OnMouseEnterEvent?.Invoke();
-    }
-    private void OnMouseExit()
-    {
-        m_OnMouseExitEvent?.Invoke();
+        if (M_Inven.m_ActivedSlot != null &&
+            M_Inven.m_ActivedSlot.m_ItemInfo.m_Type == m_RequireItem)
+        {
+            m_OnMouseEnterEvent?.Invoke();
+        }
     }
 }
