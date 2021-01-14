@@ -581,7 +581,10 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     {
         m_Audios[index].Stop();
 
-        yield return new WaitForSeconds(m_AudioStartSeconds[index]);
+        if (m_AudioStartSeconds[index] > 0f)
+        {
+            yield return new WaitForSeconds(m_AudioStartSeconds[index]);
+        }
 
         m_Audios[index].Play();
     }
