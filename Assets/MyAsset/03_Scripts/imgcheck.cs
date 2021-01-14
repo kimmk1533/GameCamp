@@ -1,43 +1,64 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 
 public class imgcheck : MonoBehaviour
 {
 
     public SpriteRenderer img = null;
-    public Sprite sprite = null;
     public Sprite nul = null;
+    public Sprite change = null;
 
-    public UnityEvent m_StartEvent;
 
-    float settime = 6f;
+    public float settime ;
     float start_time;
+    public float del_time;
+
+    bool flag = true;
     // Start is called before the first frame update
     void Start()
     {
         start_time = 0;
-        m_StartEvent?.Invoke();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (flag)
+        {
+            if (img.sprite == nul)
+                change_img();
+        }
+
+        else
+        {
+            
+            start_time += Time.deltaTime;
+            if (start_time > del_time)
+            {
+                img.sprite = nul;
+                img.gameObject.SetActive(false);
+            }
+        }
+
+        Debug.Log(start_time);
 
 
+    }
+
+    void change_img()
+    {
 
         start_time += Time.deltaTime;
 
         if (start_time > settime)
         {
-            if (img.sprite == sprite)
-            {
-                img.sprite = nul;
-            }
+            img.sprite = change;
+            flag = false;
+            start_time = 0;
         }
+
     }
 }
