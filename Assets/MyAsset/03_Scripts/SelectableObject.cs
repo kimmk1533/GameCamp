@@ -17,6 +17,8 @@ public enum E_SelectableObjectConditionType
     HasItem = 1 << 0,
     ActiveItem = 1 << 1,
     SameImage = 1 << 2,
+    CheckActive = 1 << 3,
+    CheckPosition = 1 << 4,
 }
 
 [System.Flags]
@@ -55,6 +57,14 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     public Image m_CheckImage;
     public SpriteRenderer m_CheckRenderer;
     public Sprite m_CheckSprite;
+
+    // CheckActive
+    public bool m_CheckActive;
+    public GameObject m_ActiveObject;
+
+    // CheckPosition
+    public Vector3 m_CheckPosition;
+    public GameObject m_PositionObject;
 
     #endregion
 
@@ -331,18 +341,22 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
                         Flags.Add(m_CheckRenderer.sprite == m_CheckSprite);
                     }
                 }
+                // CheckActive 조건
+                if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.CheckActive))
+                {
+                    Flags.Add(m_ActiveObject.activeSelf == m_CheckActive);
+                }
+                // CheckPosition 조건
+                if (m_ConditionType.HasFlag(E_SelectableObjectConditionType.CheckPosition))
+                {
+                    Flags.Add(m_PositionObject.transform.position == m_CheckPosition);
+                }
             }
 
             bool flag = true;
 
-            for (int i = 0; i < Flags.Count; ++i)
-            {
-                if (!Flags[i])
-                {
-                    flag = false;
-                    break;
-                }
-            }
+            if (Flags.Contains(false))
+                flag = false;
 
             if (flag)
             {
@@ -567,15 +581,31 @@ public class SelectableObject : MonoBehaviour, IPointerClickHandler
     {
         m_Audios[index].Stop();
 
-        yield return new WaitForSeconds(m_AudioStartSeconds[index]);
+        if (m_AudioStartSeconds[index] > 0f)
+        {
+            yield return new WaitForSeconds(m_AudioStartSeconds[index]);
+        }
 
         m_Audios[index].Play();
     }
+
+    // =========================================================================
 
     // 다음 스테이지로 넘어가는 함수
     public void NextStage()
     {
         ++__GameManager.Instance.m_CurrentStage;
         M_Inventory.ClearInventory();
+    }
+    // 몇초 후에 실행하는 함수
+    public void DoActionAfterSecond(int second)
+    {
+        StartCoroutine(WaitForSecond(second));
+    }
+    IEnumerator WaitForSecond(float second)
+    {
+        yield return new WaitForSeconds(second);
+
+        DoAction();
     }
 }

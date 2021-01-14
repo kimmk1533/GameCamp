@@ -20,21 +20,65 @@ public enum E_ItemType
     Stage1_물__묻은__휴지,
     Stage1_종이,
 
+    Stage2_붓,
+    Stage2_빨간__물감이__묻은__붓,
+    Stage2_노란__물감이__묻은__붓,
+    Stage2_파란__물감이__묻은__붓,
+    Stage2_조각용__칼,
+    Stage2_종이컵,
+    Stage2_물이__담긴__컵,
+    Stage2_부러진__열쇠,
+    Stage2_쪽지,
+    Stage2_석고__반죽,
+    Stage2_석고__열쇠,
+
+    Stage3_열쇠,
+    Stage3_숫자가__적힌__종이,
+
+    Stage4_쪽가위,
+    Stage4_단추,
+    Stage4_열쇠,
+    Stage4_인형의__팔,
+    Stage4_식칼,
+    Stage4_도끼,
+
+    Stage5_장난감__삽,
+    Stage5_식칼,
+    Stage5_쪽지,
+    Stage5_건전지,
+    Stage5_금속탐지기,
+    Stage5_열쇠,
+
     Stage6_열쇠__A,
     Stage6_열쇠__B,
     Stage6_열쇠__C,
     Stage6_열쇠__D,
     Stage6_지도,
-    Stage6_병원출구열쇠,
+    Stage6_출구__열쇠,
+
+    Stage7_곡괭이,
+    Stage7_초록보석,
+    Stage7_노란보석,
+    Stage7_파란보석,
+    Stage7_빨간보석,
+    Stage7_열쇠,
+    Stage7_손전등,
+
 
     Stage8_문제종이,
-    Stage8_간모형,
-    Stage8_심장모형,
-    Stage8_눈모형,
-    Stage8_USB,
+    Stage8_간__모형,
+    Stage8_심장__모형,
+    Stage8_눈__모형,
+    Stage8_U__S__B,
+
+    Stage9_영어종이,
+    Stage9_마른손수건,
+    Stage9_젖은손수건,
+    Stage9_라이터,
+    Stage9_칠판지우개,
     
     Stage10_숫자가__적힌__휴지,
-
+    Stage5_숫자가_적힌_종이,
     Max
 }
 

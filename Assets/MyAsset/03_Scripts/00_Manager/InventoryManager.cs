@@ -45,6 +45,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             PushSlotItem(E_ItemType.Stage0_편지);
         }
+        PushSlotItem(E_ItemType.Stage9_라이터);
     }
 
     enum E_InventoryState
