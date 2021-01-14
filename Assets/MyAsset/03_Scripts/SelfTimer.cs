@@ -25,8 +25,7 @@ public class SelfTimer : MonoBehaviour
     private void Update()
     {
         if (isOn)
-            if (TimerManager.Instance.IsOverTime(sum_mm, sum_ss))
-                EndSelfTimer();
+            EndSelfTimer();
     }
 
     public void EndSelfTimer()  //타이머 종료 함수.
