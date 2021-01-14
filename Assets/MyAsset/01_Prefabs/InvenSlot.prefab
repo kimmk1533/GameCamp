@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 7633332587152465679}
   - component: {fileID: 5900354209301301630}
   - component: {fileID: 5900354209301301624}
+  - component: {fileID: 4585572284678942715}
   m_Layer: 5
   m_Name: InvenSlot
   m_TagString: InventorySlot
@@ -248,6 +249,7 @@ MonoBehaviour:
     m_Type: 0
     m_Image: {fileID: 0}
     m_Description: 
+    m_CanZoomIn: 0
   m_BGImage: {fileID: 0}
   m_ItemImage: {fileID: 0}
 --- !u!114 &5900354209301301630
@@ -295,3 +297,66 @@ MonoBehaviour:
   m_EffectColor: {r: 0.1981132, g: 0.106431544, b: 0.08503916, a: 1}
   m_EffectDistance: {x: 5, y: 5}
   m_UseGraphicAlpha: 1
+--- !u!114 &4585572284678942715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5900354209301301603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a56dfcaf22a6d47498b1e5ad0232432a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Enable: 1
+  m_ConditionType: 0
+  m_FadeType: 0
+  m_ActionType: 0
+  m_RequireItems: 
+  m_RequireItem: 0
+  m_CheckImage: {fileID: 0}
+  m_CheckRenderer: {fileID: 0}
+  m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
+  m_Actives: 
+  m_Objects: []
+  m_DirectionMove: 0
+  m_MoveToPreviousPos: 0
+  m_Position: {x: 0, y: 0, z: 0}
+  m_IsOnce: 0
+  m_Sprite: {fileID: 0}
+  m_Image: {fileID: 0}
+  m_Renderer: {fileID: 0}
+  m_AddItemTypes: 
+  m_RemoveItemTypes: 
+  m_AudioStartSeconds:
+  - 0
+  m_Audios:
+  - {fileID: 0}
+  m_DirActive: 0
+  m_LeftActive: 0
+  m_RightActive: 0
+  m_UpActive: 0
+  m_DownActive: 0
+  m_StartEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: SelectableObject, Assembly-CSharp
+        m_MethodName: DoAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_EndEvent:
+    m_PersistentCalls:
+      m_Calls: []
