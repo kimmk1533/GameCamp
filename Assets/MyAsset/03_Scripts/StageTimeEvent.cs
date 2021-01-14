@@ -19,6 +19,10 @@ public class StageTimeEvent : MonoBehaviour
     public bool isTimerInOp = true;    //스테이지 실행 시 타이머 온 오프 여부.
     bool timerStart = false;    //스테이지 내 타이머 시작 여부.
 
+    public Color globalLight_color = Color.black;
+    public Color pointLight_color = Color.black;
+    bool lightchange = false;
+
     public List<TimeEvent> timeEvent_lst = new List<TimeEvent>(); //실행할 이벤트 스크립트.
 
     private void Awake()
@@ -32,9 +36,18 @@ public class StageTimeEvent : MonoBehaviour
 
     private void Update()
     {
-        if (TimerManager.Instance.GetTimerOn())
+        //if (TimerManager.Instance.GetTimerOn())
             if (stage_id == __GameManager.Instance.m_CurrentStage)
             {
+                if (!lightchange)
+                {
+                    LightManager.Instance.SetTmpLight(0);
+                    LightManager.Instance.ChangeLightColor(globalLight_color);
+                    LightManager.Instance.SetTmpLight(1);
+                    LightManager.Instance.ChangeLightColor(pointLight_color);
+                    LightManager.Instance.StartUpdateSetting(3f);
+                    lightchange = true;
+                }
                 if (timerStart)
                 {
                     if (timeEvent_lst.Count > 0)

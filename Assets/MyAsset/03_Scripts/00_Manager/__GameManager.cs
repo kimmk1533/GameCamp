@@ -6,6 +6,7 @@ public class __GameManager : Singleton<__GameManager>
 {
     public int m_CurrentStage = 0;
     public Camera m_Camera;
+    public string scene_name;
 
     protected override void Awake()
     {
@@ -31,9 +32,14 @@ public class __GameManager : Singleton<__GameManager>
         M_Inventory = InventoryManager.Instance;
         M_Inventory.__Initialize();
 
+        M_Light = LightManager.Instance;
+        M_Light.__Initialize();
+
         M_Timer = TimerManager.Instance;
         M_Timer.__Initialize();
 
+        M_Stage = StageManager.Instance;
+        M_Stage.__Initialize();
 
         M_Sound = SoundManager.Instance;
         M_Sound.__Initialize();
@@ -43,6 +49,8 @@ public class __GameManager : Singleton<__GameManager>
     MouseManager M_Mouse;
     ItemDB DB_Item;
     InventoryManager M_Inventory;
+    LightManager M_Light;
+    StageManager M_Stage;
     SoundManager M_Sound;
     PauseManager M_Pause;
     TimerManager M_Timer;
