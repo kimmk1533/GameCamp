@@ -31,7 +31,7 @@ public static class EditorList
     }
 }
 
-[CustomEditor(typeof(SelectableObject)), CanEditMultipleObjects]
+[CustomEditor(typeof(SelectableObject))]
 public class SelectableObjectEditor : Editor
 {
     //public int m_ListCount;
@@ -85,6 +85,26 @@ public class SelectableObjectEditor : Editor
                 obj.m_CheckRenderer = (SpriteRenderer)EditorGUILayout.ObjectField("원본 렌더러", obj.m_CheckRenderer, typeof(SpriteRenderer), true);
             }
             obj.m_CheckSprite = (Sprite)EditorGUILayout.ObjectField("확인 할 이미지", obj.m_CheckSprite, typeof(Sprite), true);
+        }
+        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.CheckActive))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+
+            GUILayout.Label("현재 이 상태일 경우 조건 충족");
+            obj.m_CheckActive = EditorGUILayout.Toggle("상태", obj.m_CheckActive);
+            obj.m_ActiveObject = (GameObject)EditorGUILayout.ObjectField("확인 할 오브젝트", obj.m_ActiveObject, typeof(GameObject), true);
+        }
+        if (obj.m_ConditionType.HasFlag(E_SelectableObjectConditionType.CheckPosition))
+        {
+            GUILayout.Space(5f);
+            GUILayout.Label("======================================");
+            GUILayout.Space(5f);
+
+            GUILayout.Label("현재 이 위치일 경우 조건 충족");
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("m_CheckPosition"), new GUIContent("위치"), true);
+            obj.m_PositionObject = (GameObject)EditorGUILayout.ObjectField("확인 할 오브젝트", obj.m_PositionObject, typeof(GameObject), true);
         }
 
         if (obj.m_ConditionType != 0)

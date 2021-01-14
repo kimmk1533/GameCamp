@@ -26,12 +26,12 @@ public enum E_ItemType
     Stage2_파란__물감이__묻은__붓,
     Stage2_조각용__칼,
     Stage2_종이컵,
-    Stage2_부러진__열쇠,
     Stage2_물이__담긴__컵,
+    Stage2_부러진__열쇠,
+    Stage2_쪽지,
     Stage2_석고__반죽,
     Stage2_석고__열쇠,
 
-    Stage3_쇠톱날,
     Stage3_열쇠,
     Stage3_숫자가__적힌__종이,
 
