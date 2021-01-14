@@ -42,10 +42,6 @@ public class __GameManager : Singleton<__GameManager>
     MouseManager M_Mouse;
     ItemDB DB_Item;
     InventoryManager M_Inventory;
-<<<<<<< HEAD
-=======
-    StageManager M_Stage;
->>>>>>> parent of 8d2f1a9... 20210115_backup_commit
     SoundManager M_Sound;
     PauseManager M_Pause;
     TimerManager M_Timer;
