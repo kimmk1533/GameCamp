@@ -78,7 +78,7 @@ public enum E_ItemType
     Stage9_칠판지우개,
     
     Stage10_숫자가__적힌__휴지,
-
+    Stage5_숫자가_적힌_종이,
     Max
 }
 
