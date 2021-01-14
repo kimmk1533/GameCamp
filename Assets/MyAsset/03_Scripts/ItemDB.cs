@@ -64,6 +64,7 @@ public enum E_ItemType
     Stage7_열쇠,
     Stage7_손전등,
 
+
     Stage8_문제종이,
     Stage8_간__모형,
     Stage8_심장__모형,

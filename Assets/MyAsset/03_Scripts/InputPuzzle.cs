@@ -40,8 +40,11 @@ public class InputPuzzle : MonoBehaviour
 
     public void __Initialize()
     {
-        m_InputStr = m_Text.text;
-        SetText();
+        if (m_Text != null)
+        {
+            m_InputStr = m_Text.text;
+            SetText();
+        }
 
         m_InCorrect.AddListener(new UnityAction(InCorrectProcess));
 
