@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MyAsset/99_Scenes/JeongJiWon/GameMain_JJW.unity
     guid: a533c4e6952895e4fb03e962d3dfb079
+  - enabled: 1
+    path: Assets/MyAsset/99_Scenes/JeongJiWon/MainScene_JJW.unity
+    guid: 0d632026597c0564fa679e8ef3fb6114
   m_configObjects: {}

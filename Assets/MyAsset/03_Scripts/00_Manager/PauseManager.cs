@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum WindowMode
@@ -26,11 +27,11 @@ public class PauseManager : Singleton<PauseManager>
     WindowMode windowMode;  //현재 윈도우 모드.
     public Transform FullScreenButton;
     public Transform WindowScreenButton;
-    TextMeshProUGUI ScrollviewButton_txt;
+    public TextMeshProUGUI ScrollviewButton_txt;
 
     public override void __Initialize()
     {
-        ScrollviewButton_txt = PausePanal.FindChildren("SizeText").GetComponent<TextMeshProUGUI>();
+        //ScrollviewButton_txt = PausePanal.FindChildren("SizeText").GetComponent<TextMeshProUGUI>();
         SetWindowMode(Screen.fullScreen);
         //UpBar 오브젝트 아래 있는 일시정지 패널의 버튼들 리스트에 삽입.
         UpBar = PausePanal.FindChildren("UpBar");
