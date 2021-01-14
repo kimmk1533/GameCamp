@@ -42,6 +42,7 @@ public class __GameManager : Singleton<__GameManager>
     MouseManager M_Mouse;
     ItemDB DB_Item;
     InventoryManager M_Inventory;
+
     SoundManager M_Sound;
     PauseManager M_Pause;
     TimerManager M_Timer;
