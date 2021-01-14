@@ -56,13 +56,13 @@ public enum E_ItemType
     Stage6_지도,
     Stage6_출구__열쇠,
 
-    Stage7_Item01,
-    Stage7_Item02,
-    Stage7_Item03,
-    Stage7_Item04,
-    Stage7_Item05,
-
-    
+    Stage7_곡괭이,
+    Stage7_초록보석,
+    Stage7_노란보석,
+    Stage7_파란보석,
+    Stage7_빨간보석,
+    Stage7_열쇠,
+    Stage7_손전등,
 
     Stage8_문제종이,
     Stage8_간__모형,
@@ -70,20 +70,13 @@ public enum E_ItemType
     Stage8_눈__모형,
     Stage8_U__S__B,
 
-    Stage9_Item01,
-    Stage9_Item02,
-    Stage9_Item03,
-    Stage9_Item04,
-    Stage9_Item05,
+    Stage9_영어종이,
+    Stage9_마른손수건,
+    Stage9_젖은손수건,
+    Stage9_라이터,
+    Stage9_칠판지우개,
     
     Stage10_숫자가__적힌__휴지,
-
-    Stage7_곡괭이,
-    Stage7_초록보석,
-    Stage7_노란보석,
-    Stage7_파란보석,
-    Stage7_빨간보석,
-    Stage7_열쇠,
 
     Max
 }
