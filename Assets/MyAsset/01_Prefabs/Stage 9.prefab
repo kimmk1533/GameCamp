@@ -131,6 +131,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298171967053470}
@@ -349,6 +353,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 0000
   m_Objects:
   - {fileID: 0}
@@ -740,6 +748,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 
   m_Objects: []
   m_DirectionMove: 0
@@ -843,6 +855,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298172231971692}
@@ -1054,6 +1070,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 8451298172049364520}
   m_CheckSprite: {fileID: 21300000, guid: 1e73425bf65b5be48b142f8306e08abf, type: 3}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000001
   m_Objects:
   - {fileID: 8451298171942120803}
@@ -1178,6 +1198,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 8451298173259348386}
@@ -1365,6 +1389,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298173668054774}
@@ -1847,6 +1875,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 8451298172947716127}
@@ -2201,6 +2233,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101
   m_Objects:
   - {fileID: 8451298172815560484}
@@ -2337,6 +2373,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298172947716127}
@@ -2545,6 +2585,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 8451298172049364520}
   m_CheckSprite: {fileID: 21300000, guid: 7d22f3c925ca6ea4a9fe634f44963930, type: 3}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000001
   m_Objects:
   - {fileID: 8451298171942120803}
@@ -2651,6 +2695,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 
   m_Objects: []
   m_DirectionMove: 0
@@ -3099,6 +3147,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 0001
   m_Objects:
   - {fileID: 0}
@@ -3305,6 +3357,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 0101
   m_Objects:
   - {fileID: 8451298172735847876}
@@ -4035,6 +4091,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298172815560484}
@@ -4841,6 +4901,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298173641737243}
@@ -4918,6 +4982,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 8451298172049364520}
   m_CheckSprite: {fileID: 21300000, guid: 7d22f3c925ca6ea4a9fe634f44963930, type: 3}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000001
   m_Objects:
   - {fileID: 8451298172266585614}
@@ -5698,6 +5766,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101
   m_Objects:
   - {fileID: 8451298173668054774}
@@ -5856,6 +5928,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 0000
   m_Objects:
   - {fileID: 0}
@@ -6060,6 +6136,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298173209443578}
@@ -6400,6 +6480,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 8451298172435075970}
@@ -6604,6 +6688,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 0}
@@ -7405,6 +7493,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 8451298172128187490}
   m_CheckSprite: {fileID: 21300000, guid: 7b2368d354914254594112f5ca88914f, type: 3}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000001
   m_Objects:
   - {fileID: 8451298172883716375}
@@ -7630,6 +7722,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101
   m_Objects:
   - {fileID: 8451298172603762123}
@@ -7819,6 +7915,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101
   m_Objects:
   - {fileID: 8451298173668054774}
@@ -7943,6 +8043,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 8451298172188779573}
@@ -8025,6 +8129,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 0001
   m_Objects:
   - {fileID: 8451298172603762123}
@@ -8272,6 +8380,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 0001
   m_Objects:
   - {fileID: 8451298173107723701}
@@ -8429,6 +8541,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 
   m_Objects: []
   m_DirectionMove: 0
@@ -8667,6 +8783,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 0}
@@ -9359,6 +9479,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 8451298172128187490}
   m_CheckSprite: {fileID: 21300000, guid: 23c0ed5bb8a12204d82852a2272cce77, type: 3}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000001
   m_Objects:
   - {fileID: 8451298172883716375}
@@ -9465,6 +9589,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101010101
   m_Objects:
   - {fileID: 0}
@@ -9516,7 +9644,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8451298172933522337}
-  - component: {fileID: 8451298172933522338}
   m_Layer: 0
   m_Name: Stage 9
   m_TagString: Untagged
@@ -9544,22 +9671,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8451298172933522338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8451298172933522336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19601e0865903894580ad40bca7cfd02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LimitTimer_mm: 0
-  LimitTimer_ss: 0
-  LimitTimer: 0
-  timerOn: 0
 --- !u!1 &8451298172947716127
 GameObject:
   m_ObjectHideFlags: 0
@@ -9900,6 +10011,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298172603762123}
@@ -10092,6 +10207,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 0100
   m_Objects:
   - {fileID: 0}
@@ -10215,6 +10334,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298172862943705}
@@ -10895,6 +11018,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298172188779573}
@@ -11049,6 +11176,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101
   m_Objects:
   - {fileID: 8451298173107723701}
@@ -11733,6 +11864,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 0}
@@ -12244,6 +12379,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 8451298173209443578}
@@ -12366,6 +12505,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 8451298171967053470}
@@ -13281,6 +13424,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101
   m_Objects:
   - {fileID: 8451298173668054774}
@@ -13435,6 +13582,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 8451298173641737243}
@@ -13648,6 +13799,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 
   m_Objects: []
   m_DirectionMove: 0
@@ -13719,6 +13874,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298173107723701}
@@ -14208,6 +14367,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 
   m_Objects: []
   m_DirectionMove: 0
@@ -14289,6 +14452,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101
   m_Objects:
   - {fileID: 8451298172815560484}
@@ -14504,6 +14671,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000101
   m_Objects:
   - {fileID: 8451298172815560484}
@@ -15279,6 +15450,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 01
   m_Objects:
   - {fileID: 8451298173259348386}
@@ -15651,6 +15826,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 8451298172049364520}
   m_CheckSprite: {fileID: 21300000, guid: 1e73425bf65b5be48b142f8306e08abf, type: 3}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 000001
   m_Objects:
   - {fileID: 8451298172266585614}
@@ -16200,6 +16379,10 @@ MonoBehaviour:
   m_CheckImage: {fileID: 0}
   m_CheckRenderer: {fileID: 0}
   m_CheckSprite: {fileID: 0}
+  m_CheckActive: 0
+  m_ActiveObject: {fileID: 0}
+  m_CheckPosition: {x: 0, y: 0, z: 0}
+  m_PositionObject: {fileID: 0}
   m_Actives: 00
   m_Objects:
   - {fileID: 8451298172231971692}

@@ -63,7 +63,9 @@ public class Fade : MonoBehaviour
 
     public static bool CanFade()
     {
-        return !m_IsFade;
+        //return !m_IsFade;
+
+        return true;
     }
     public static void DoFade()
     {
