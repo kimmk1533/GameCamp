@@ -24,22 +24,28 @@ public class StageTimeEvent : MonoBehaviour
     private void Awake()
     {
         if (timeEvent_lst.Count > 0)
+        {
             for (int i = 0; i < timeEvent_lst.Count; i++)
             {
                 timeEvent_lst[i].doAction_isplay = false;
             }
+        }
     }
 
     private void Update()
     {
         if (TimerManager.Instance.GetTimerOn())
+        {
             if (stage_id == __GameManager.Instance.m_CurrentStage)
             {
                 if (timerStart)
                 {
                     if (timeEvent_lst.Count > 0)
+                    {
                         for (int i = 0; i < timeEvent_lst.Count; i++)
+                        {
                             if (!timeEvent_lst[i].doAction_isplay)
+                            {
                                 if (TimerManager.Instance.IsOverTime(timeEvent_lst[i].doAction_mm, timeEvent_lst[i].doAction_ss))
                                 {
                                     if (timeEvent_lst[i].event_lst.Count > 0)
@@ -51,6 +57,9 @@ public class StageTimeEvent : MonoBehaviour
                                         timeEvent_lst[i].doAction_isplay = true;
                                     }
                                 }
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -60,6 +69,7 @@ public class StageTimeEvent : MonoBehaviour
                     }
                 }
             }
+        }
     }
 
 
