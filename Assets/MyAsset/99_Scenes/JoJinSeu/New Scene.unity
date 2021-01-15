@@ -18098,7 +18098,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.35
+  m_fontSize: 35.5
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -23268,11 +23268,9 @@ MonoBehaviour:
   m_ActiveObject: {fileID: 0}
   m_CheckPosition: {x: 0, y: 0, z: 0}
   m_PositionObject: {fileID: 0}
-  m_Actives: 000101
+  m_Actives: 00
   m_Objects:
   - {fileID: 1089855480}
-  - {fileID: 0}
-  - {fileID: 0}
   m_DirectionMove: 0
   m_MoveToPreviousPos: 0
   m_Position: {x: 0, y: 0, z: 0}
@@ -27207,7 +27205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3beca1a631d408c4f8906e93e7264b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CurrentStage: 7
+  m_CurrentStage: 9
   m_Camera: {fileID: 519420031}
 --- !u!4 &526272214
 Transform:
@@ -44197,7 +44195,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1720683127
   m_SortingOrder: 1
   m_TargetDisplay: 0
@@ -107298,7 +107296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2062695721
 RectTransform:
   m_ObjectHideFlags: 0
@@ -108824,7 +108822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2112655432
 RectTransform:
   m_ObjectHideFlags: 0
