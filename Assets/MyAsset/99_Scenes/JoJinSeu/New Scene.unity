@@ -27207,7 +27207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3beca1a631d408c4f8906e93e7264b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CurrentStage: 10
+  m_CurrentStage: 7
   m_Camera: {fileID: 519420031}
 --- !u!4 &526272214
 Transform:
@@ -70479,7 +70479,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2371ef9aec3633c438fffab9ea0921d2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.887
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -84374,7 +84374,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7a8d6dc5b0d8b5f479757ebc22bf60be, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
