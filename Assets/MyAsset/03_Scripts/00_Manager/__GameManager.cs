@@ -54,4 +54,9 @@ public class __GameManager : Singleton<__GameManager>
         m_Camera.transform.position = DirectionManager.Instance.m_StandardPos[m_CurrentStage] + new Vector3(-30, 0, -50);
     }
 #endif
+
+    public void GameExit()
+    {
+        Application.Quit();
+    }
 }
